@@ -1,4 +1,7 @@
 apply plugin: "java"
+apply plugin: 'maven'
+
+group='com.github.laoduandian'
 
 sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'

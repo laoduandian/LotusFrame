@@ -10,6 +10,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
+
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5' // Add this line
         
 
     }
@@ -19,6 +21,11 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
+    }
+
     version = '1.0'
     ext {
         appName = "LotusFrame"
@@ -27,7 +34,6 @@ allprojects {
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
-        var3d = "0.98"
     }
 
     repositories {
@@ -41,14 +47,15 @@ allprojects {
 
 project(":desktop") {
     apply plugin: "java"
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
 
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "com.github.Var3D.var3dframe:desktop:$var3d"
-        
+
     }
 }
 
@@ -65,14 +72,15 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-        compile "com.github.Var3D.var3dframe:android:$var3d"
-        
+
     }
 }
 
 project(":ios") {
     apply plugin: "java"
     apply plugin: "robovm"
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
 
     dependencies {
@@ -81,22 +89,70 @@ project(":ios") {
         compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        compile "com.github.Var3D.var3dframe:ios:$var3d"
-        
+
     }
 }
 
 project(":core") {
     apply plugin: "java"
-
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.github.Var3D.var3dframe:core:$var3d"
-        
+
     }
 }
 
 tasks.eclipse.doLast {
     delete ".project"
+}
+
+subprojects {
+
+    task packJar(type: Jar) {
+
+        doFirst {
+            if(project.name == "android"){
+                from fileTree(dir: "build/intermediates/classes/core/release/", includes: ["**/VAndroidLauncher.class"], exclude: "**/demo")
+            }else{
+                from sourceSets.core.output.classesDir
+            }
+        }
+    }
+
+
+
+    def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses", ":android:compileCoreReleaseJavaWithJavac"];
+
+    packJar.dependsOn preCompile
+
+    task packDoc(dependsOn: ":core:javadoc", type: Jar) {
+        classifier = "javadoc"
+        if (project.name == "core"){
+            from project(":core").tasks["javadoc"].destinationDir
+        }
+
+    }
+
+    task packSources(type: Jar) {
+        classifier = "sources"
+        doFirst {
+            if(project.name == "android"){
+                from files("src/core/java")
+            }else {
+                from sourceSets.core.allJava
+            }
+
+        }
+    }
+
+
+    task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
+
+    artifacts {
+        archives packJar
+        archives packDoc
+        archives packSources
+    }
 }
