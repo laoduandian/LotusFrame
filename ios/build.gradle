@@ -1,10 +1,22 @@
-sourceSets.main.java.srcDirs = [ "src/" ]
+apply plugin: 'maven'
+group='com.github.laoduandian'
+sourceSets {
+    main {
+        java.srcDirs = ["src/main/java", "src/core/java"]
+    }
+    core {
+        java.srcDirs = ["src/core/java"]
+        compileClasspath += sourceSets.main.runtimeClasspath;
+    }
+}
 
-sourceCompatibility = '1.7'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
-	mainClassName = "com.lotus.game.IOSLauncher"
+    mainClassName = "var3d.net.demo.IOSLauncher"
 }
 
 launchIPhoneSimulator.dependsOn build
@@ -12,9 +24,6 @@ launchIPadSimulator.dependsOn build
 launchIOSDevice.dependsOn build
 createIPA.dependsOn build
 
-robovm {
-	archs = "thumbv7:arm64"
-}
 
 eclipse.project {
     name = appName + "-ios"
