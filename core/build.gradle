@@ -1,12 +1,25 @@
 apply plugin: "java"
 apply plugin: 'maven'
-
 group='com.github.laoduandian'
-
-sourceCompatibility = 1.6
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets {
+    main {
+        java.srcDirs = ["src/core/java", "src/main/java"]
+    }
+    core {
+        java.srcDirs = ["src/core/java"]
+        compileClasspath += sourceSets.main.runtimeClasspath;
+    }
+}
+
+javadoc {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
 
 
 eclipse.project {
