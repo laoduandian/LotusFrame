@@ -1,4 +1,4 @@
-package lotus.net.center;
+package lotus.net.center.desktop;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

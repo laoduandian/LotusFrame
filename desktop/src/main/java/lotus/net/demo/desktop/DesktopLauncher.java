@@ -2,7 +2,7 @@ package lotus.net.demo.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import lotus.net.center.VDesktopLauncher;
+import lotus.net.center.desktop.VDesktopLauncher;
 import lotus.net.demo.MyGame;
 
 
