@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Pools;
 
 import lotus.net.center.myclass.LGame;
-import lotus.net.center.myclass.MyGroup;
+import lotus.net.center.myclass.LGroup;
 import lotus.net.center.myclass.helper.GrayscaleShader;
 
-public class ButtonGroup extends MyGroup {
+public class ButtonGroup extends LGroup {
 	private boolean isChecked; 
 	private ClickListener clickListener;
 	private ShaderProgram shaderProgram;

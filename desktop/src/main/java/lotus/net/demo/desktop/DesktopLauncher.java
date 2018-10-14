@@ -9,88 +9,17 @@ import lotus.net.demo.MyGame;
 public class DesktopLauncher extends VDesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new MyGame(new DesktopLauncher()), config);
+		DesktopLauncher launcher = new DesktopLauncher();
+		MyGame game = new MyGame(launcher);
+		launcher.setGame(game);
+		config.width = game.info.GAME_WIDTH;
+		config.height = game.info.GAME_HEIGHT;
+		game.info.is_Add_New = true;
+		game.info.game_Address = "1175680497";
+
+		new LwjglApplication(game, config);
 	}
 
-	@Override
-	public void outGame() {
-
-	}
-
-	@Override
-	public void pinfen() {
-
-	}
-
-	@Override
-	public void showSomething(String a) {
-
-	}
-
-	@Override
-	public void paihang() {
-
-	}
-
-	@Override
-	public void shangchuan(String name, int a) {
-
-	}
-
-	@Override
-	public void shangchuan(String name, float a) {
-
-	}
-
-	@Override
-	public void addBanners() {
-
-	}
-
-	@Override
-	public void removeRanners() {
-
-	}
-
-	@Override
-	public void moreGame() {
-
-	}
-
-	@Override
-	public void showInterstitialAd() {
-
-	}
-
-	@Override
-	public void share() {
-
-	}
-
-	@Override
-	public void loadInsertscreen() {
-
-	}
-
-	@Override
-	public void showMovie() {
-
-	}
-
-	@Override
-	public void showMovie(int id) {
-
-	}
-
-	@Override
-	public void newgame() {
-
-	}
-
-	@Override
-	public void initializeAD() {
-
-	}
 }
 
 

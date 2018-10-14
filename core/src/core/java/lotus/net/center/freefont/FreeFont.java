@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
-import lotus.net.center.myclass.M;
 import lotus.net.center.myclass.LGame;
 
 public class FreeFont {
@@ -65,11 +64,11 @@ public class FreeFont {
 	 * font
 	 */
 	public FreeBitmapFont getFont(int fontSize) {
-		FreeBitmapFont font = fonts.get(String.format(M.F_FONT_, fontSize));
+		FreeBitmapFont font = fonts.get(String.format(game.info.F_FONT_, fontSize));
 		if (font == null) {
 			font = new FreeBitmapFont(this.game, new FreePaint(fontSize));
 //			font.appendText("01234567890LoadingC" + getHeap());
-			fonts.put(String.format(M.F_FONT_, fontSize), font);
+			fonts.put(String.format(game.info.F_FONT_, fontSize), font);
 			
 		}
 		return font;

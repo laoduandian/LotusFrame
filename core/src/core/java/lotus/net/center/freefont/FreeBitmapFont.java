@@ -3,6 +3,8 @@ package lotus.net.center.freefont;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Filter;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.PixmapPacker.Page;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+
 import lotus.net.center.myclass.LGame;
 
 /**
@@ -53,8 +56,7 @@ public class FreeBitmapFont extends BitmapFont {
 
     private void setIsEmoji(boolean isEmoji) {
         this.isEmoji = isEmoji;
-        if (isEmoji)
-            getData().markupEnabled = true;// 如果支持emoji,就需要支持字体多色
+        if (isEmoji) data.markupEnabled = true;// 如果支持emoji,就需要支持字体多色
     }
 
     public class Emoji {
@@ -68,6 +70,7 @@ public class FreeBitmapFont extends BitmapFont {
 
     public FreeBitmapFont(LGame game, FreePaint paint) {
         super(new BitmapFontData(), new TextureRegion(), false);
+        pageWidth=paint.getPageWidth();
         updataSize(paint.getTextSize());
         this.game = game;
         this.listener = game.app;
@@ -101,7 +104,6 @@ public class FreeBitmapFont extends BitmapFont {
 
     public FreeBitmapFont setSize(int size) {
         paint.setTextSize(size);
-        updataSize(size);
         return this;
     }
 
@@ -229,12 +231,10 @@ public class FreeBitmapFont extends BitmapFont {
             }
             // 根据字符参数和字符数量计算一个最小尺寸
             if (haveMinPageSize) {
-                pageWidth = (paint.getTextSize() + 2)
-                        * (int) (Math.sqrt(cs.size) + 1);
+                pageWidth = (paint.getTextSize() + 2) * (int) (Math.sqrt(cs.size) + 1);
             }
             if (packer == null) {
-                packer = new PixmapPacker(pageWidth, pageWidth,
-                        Format.RGBA8888, 4, false);
+                packer = new PixmapPacker(pageWidth, pageWidth, Format.RGBA8888, 4, false);
             }
             for (int i = 0; i < cs.size; i++) {
                 String txt = cs.get(i);
@@ -282,12 +282,10 @@ public class FreeBitmapFont extends BitmapFont {
         }
         // 根据字符参数和字符数量计算一个最小尺寸
         if (haveMinPageSize) {
-            pageWidth = (paint.getTextSize() + 2)
-                    * (int) (Math.sqrt(cs.size) + 1);
+            pageWidth = (paint.getTextSize() + 2) * (int) (Math.sqrt(cs.size) + 1);
         }
         if (packer == null) {
-            packer = new PixmapPacker(pageWidth, pageWidth, Format.RGBA8888, 4,
-                    false);
+            packer = new PixmapPacker(pageWidth, pageWidth, Format.RGBA8888, 4, false);
         }
         for (int i = 0; i < cs.size; i++) {
             String txt = cs.get(i);
@@ -302,10 +300,8 @@ public class FreeBitmapFont extends BitmapFont {
                 } else {
                     // 如果是key库的一员,那么给它映射一下
                     boolean isCreated = isCreatedEmoji2(txt);
-                    if (isCreated)
-                        continue;// 如果创建过的,就跳过
-                    if (ekid > emojiKey.length() - 1)
-                        continue;
+                    if (isCreated) continue;// 如果创建过的,就跳过
+                    if (ekid > emojiKey.length() - 1) continue;
                     String key = emojiKey.substring(ekid++, ekid);// 如果没有创建过,就取一个key来用
                     c = key.charAt(0);
                     Emoji emoj = new Emoji();
@@ -317,10 +313,8 @@ public class FreeBitmapFont extends BitmapFont {
             } else {
                 // 说明是emoji
                 boolean isCreated = isCreatedEmoji4(txt);
-                if (isCreated)
-                    continue;// 如果创建过的,就跳过
-                if (ekid > emojiKey.length() - 1)
-                    continue;
+                if (isCreated) continue;// 如果创建过的,就跳过
+                if (ekid > emojiKey.length() - 1) continue;
                 String key = emojiKey.substring(ekid++, ekid);// 如果没有创建过,就取一个key来用
                 c = key.charAt(0);
                 Emoji emoj = new Emoji();
@@ -328,8 +322,7 @@ public class FreeBitmapFont extends BitmapFont {
                 emoj.key = key;
                 emojis4.add(emoj);
             }
-            if (data.getGlyph(c) != null)
-                continue;
+            if (data.getGlyph(c) != null) continue;
             Pixmap pixmap = listener.getFontPixmap(txt, paint);
             putGlyph(c, pixmap);
         }
@@ -343,8 +336,27 @@ public class FreeBitmapFont extends BitmapFont {
     }
 
     // 是否为创建过的emoji
-    private boolean isCreatedEmoji4(String emoji) {
+    public boolean isCreatedEmoji4(String emoji) {
         for (Emoji emj : emojis4) {
+            if (emj.text.equals(emoji)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // 是否为创建过的emoji
+    public boolean isCreatedEmoji4WithKey(String key) {
+        for (Emoji emj : emojis4) {
+            if (emj.key.equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 是否为创建过的双字节符号
+    public boolean isCreatedEmoji2(String emoji) {
+        for (Emoji emj : emojis2) {
             if (emj.text.equals(emoji)) {
                 return true;
             }
@@ -353,9 +365,9 @@ public class FreeBitmapFont extends BitmapFont {
     }
 
     // 是否为创建过的双字节符号
-    private boolean isCreatedEmoji2(String emoji) {
+    public boolean isCreatedEmoji2WithKey(String key) {
         for (Emoji emj : emojis2) {
-            if (emj.text.equals(emoji)) {
+            if (emj.key.equals(key)) {
                 return true;
             }
         }
@@ -366,7 +378,8 @@ public class FreeBitmapFont extends BitmapFont {
         return !((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA)
                 || (codePoint == 0xD)
                 || ((codePoint >= 0x20) && (codePoint <= 0xD7FF))
-                || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF)));
+                || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000)
+                && (codePoint <= 0x10FFFF)));
     }
 
     private void putGlyph(int id, Pixmap pixmap) {

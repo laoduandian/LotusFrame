@@ -1,55 +1,59 @@
 package lotus.net.center.android;
 
+import android.app.ActivityManager;
+import android.content.DialogInterface.OnCancelListener;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidGraphics;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.google.android.gms.games.Games;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
-
+import java.util.List;
+import lotus.net.center.android.ad.AdCentre;
+import lotus.net.center.android.google.BaseGameActivity;
 import lotus.net.center.freefont.FreePaint;
 import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.LGame;
 
-public abstract class VAndroidLauncher extends AndroidApplication implements
-        App {
-    @SuppressWarnings("unused")
-    private LGame game = null;
 
+public abstract class VAndroidLauncher extends BaseGameActivity implements App {
+    public LGame game = null;
+    public Handler handler;
+    public RelativeLayout relativeLayout;
+    public AdCentre adCentre;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
-        }
     }
-
-    protected void onResume() {
-        super.onResume();
-        AndroidGraphics graphics = (AndroidGraphics) getGraphics();
-        graphics.getView().requestFocus();
-    }
-
-    public void setGame(LGame game) {
+    protected void init(LGame game){
         this.game = game;
+        handler = new Handler();
+        relativeLayout = new RelativeLayout(this);
+        adCentre = new AdCentre(this);
+        AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
+        View gameView = initializeForView(game, cfg);
+        relativeLayout.addView(gameView);
+        setContentView(relativeLayout);
     }
-
     private int getAnroidColor(Color color) {
         return ((int) (255 * color.a) << 24) | ((int) (255 * color.r) << 16)
                 | ((int) (255 * color.g) << 8) | ((int) (255 * color.b));
@@ -143,7 +147,7 @@ public abstract class VAndroidLauncher extends AndroidApplication implements
                                 });
                             }
                         });
-                alert.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                alert.setOnCancelListener(new OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface arg0) {
                         Gdx.app.postRunnable(new Runnable() {
@@ -158,6 +162,146 @@ public abstract class VAndroidLauncher extends AndroidApplication implements
             }
         });
     }
+    @Override
+    public void newgame(final String address) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s%s","market://details?id=",address)));
+                VAndroidLauncher.this.startActivity(it);
+            }
+        });
+    }
 
+    @Override
+    public void moreGame() {
+        Gdx.net.openURI("http://www.lotusstudio.top");
+    }
+    /**
+     * 获取当前应用程序的包名
+     * @param context 上下文对象
+     * @return 返回包名
+     */
+    public static String getAppProcessName(Context context) {
+        //当前应用pid
+        int pid = android.os.Process.myPid();
+        //任务管理类
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        //遍历所有应用
+        List<ActivityManager.RunningAppProcessInfo> infos = manager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo info : infos) {
+            if (info.pid == pid)//得到当前应用
+                return info.processName;//返回包名
+        }
+        return "";
+    }
 
+    @Override
+    public void showMovie(final int id) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre.showMovie(id);
+            }
+        });
+    }
+
+    @Override
+    public void addBanners() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre.addBanners();
+            }
+        });
+    }
+
+    @Override
+    public void loadInsertscreen() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre.loadInsertscreen();
+            }
+        });
+    }
+
+    @Override
+    public void showInterstitialAd() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+               adCentre.showInsertscreen();
+            }
+        });
+    }
+    @Override
+    public void onSignInFailed() {
+
+    }
+
+    @Override
+    public void onSignInSucceeded() {
+
+    }
+    @Override
+    public void showSomething(final String a) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(VAndroidLauncher.this,  a,Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    @Override
+    public void pinfen() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+  game.info.game_Address));
+                VAndroidLauncher.this.startActivity(it);
+            }
+        });
+    }
+    @Override
+    public void share() {
+
+    }
+    @Override
+    public void removeRanners() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre.removeRanners();
+            }
+        });
+    }
+    @Override
+    public void shangchuan(String name, float a) {
+        if (VAndroidLauncher.this.getApiClient() != null
+                && VAndroidLauncher.this.getApiClient().isConnected()) {
+            Games.Leaderboards.submitScore(getApiClient(), name,(int) (a * 1000));
+        }
+    }
+    @Override
+    public void shangchuan(String name, int a) {
+        if (VAndroidLauncher.this.getApiClient() != null
+                && VAndroidLauncher.this.getApiClient().isConnected()) {
+            Games.Leaderboards.submitScore(getApiClient(), name, a);
+        }
+    }
+    @Override
+    public void paihang() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (VAndroidLauncher.this.getApiClient() != null
+                        && VAndroidLauncher.this.getApiClient().isConnected()) {
+                    startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(getApiClient()),5001);
+                } else {
+                    VAndroidLauncher.this.beginUserInitiatedSignIn();
+                }
+            }
+        });
+    }
 }

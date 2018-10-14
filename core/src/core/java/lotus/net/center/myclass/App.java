@@ -16,9 +16,7 @@ public interface App extends FreeListener {
 	public void showInterstitialAd();
 	public void share();
 	public void loadInsertscreen();
-	public void showMovie();
 	public void showMovie(int id);
-	public void newgame();
-	public void initializeAD();
+	public void newgame(String address);
 }
  

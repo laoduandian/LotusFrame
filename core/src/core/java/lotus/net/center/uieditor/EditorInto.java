@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Align;
 
 import lotus.net.center.freefont.VLabel;
 import lotus.net.center.myclass.LGame;
-import lotus.net.center.myclass.MyGroup;
+import lotus.net.center.myclass.LGroup;
 import lotus.net.center.myclass.data.UIString;
 import lotus.net.center.uieditor.project.model.ObjectData;
 import lotus.net.center.uieditor.project.widget.AnchorType;
@@ -93,7 +93,7 @@ public class EditorInto {
 				childGroup.setSize(data.getSize().getWidth(), data.getSize().getHeight());
 				actor = childGroup;
 			}else {
-				childGroup = new MyGroup(this.game);
+				childGroup = new LGroup(this.game);
 				childGroup.setSize(data.getSize().getWidth(), data.getSize().getHeight());
 				actor = childGroup;
 			}

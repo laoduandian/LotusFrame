@@ -34,8 +34,8 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "lotus.net.demo"
-        minSdkVersion 9
+        applicationId "lotus.net.demo.android"
+        minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"

@@ -23,8 +23,11 @@ import javax.imageio.ImageIO;
 import lotus.net.center.freefont.FreePaint;
 
 import lotus.net.center.myclass.App;
+import lotus.net.center.myclass.LGame;
 
 public abstract class VDesktopLauncher implements App {
+    LGame game;
+
     public Pixmap getFontPixmap(String txt, FreePaint vpaint) {
         Font font = getFont(vpaint);
         FontMetrics fm = metrics.get(vpaint.getName());
@@ -36,8 +39,7 @@ public abstract class VDesktopLauncher implements App {
         BufferedImage bi = new BufferedImage(strWidth, strHeight,
                 BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g = bi.createGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setFont(font);
         if (vpaint.getStrokeColor() != null) {
             // 描边
@@ -113,8 +115,7 @@ public abstract class VDesktopLauncher implements App {
 
             }
             fonts.put(vpaint.getName(), font);
-            BufferedImage bi = new BufferedImage(1, 1,
-                    BufferedImage.TYPE_4BYTE_ABGR);
+            BufferedImage bi = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
             Graphics2D g = bi.createGraphics();
             g.setFont(font);
             FontMetrics fm = g.getFontMetrics();
@@ -122,8 +123,86 @@ public abstract class VDesktopLauncher implements App {
         }
         return font;
     }
+
+    public void setGame(LGame game) {
+        this.game = game;
+    }
+
     private java.awt.Color getColor(Color libColor) {
-        return new java.awt.Color(libColor.r, libColor.g, libColor.b,
-                libColor.a);
+        return new java.awt.Color(libColor.r, libColor.g, libColor.b, libColor.a);
+    }
+
+    @Override
+    public void newgame(String address) {
+        Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",address));
+    }
+
+    @Override
+    public void moreGame() {
+        Gdx.net.openURI("http://www.lotusstudio.top");
+    }
+
+    @Override
+    public void pinfen() {
+        Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",game.info.game_Address));
+    }
+    @Override
+    public void paihang() {
+        Gdx.app.log(getClass().getName(),"排行榜");
+    }
+
+    @Override
+    public void addBanners() {
+        Gdx.app.log(getClass().getName(),String.format("%s_%s_%s","显示广告条",this.game.info.app_ad_id,this.game.info.banner_ad_id));
+    }
+
+    @Override
+    public void removeRanners() {
+        Gdx.app.log(getClass().getName(),String.format("%s_%s_%s","移除广告条",this.game.info.app_ad_id,this.game.info.banner_ad_id));
+    }
+
+    @Override
+    public void outGame() {
+        Gdx.app.log(getClass().getName(),"outGame");
+    }
+
+
+    @Override
+    public void showSomething(String a) {
+        Gdx.app.log(getClass().getName(),String.format("%s_%s","显示信息",a));
+    }
+
+
+
+    @Override
+    public void shangchuan(String name, int a) {
+        Gdx.app.log(getClass().getName(),String.format("%s_%d","shangchuan_int",a));
+    }
+
+    @Override
+    public void shangchuan(String name, float a) {
+        Gdx.app.log(getClass().getName(),String.format("%s_%f","shangchuan_int",a));
+    }
+
+
+    @Override
+    public void showInterstitialAd() {
+        Gdx.app.log(getClass().getName(), String.format("%s_%s_%s_显示间隔_%d","显示插屏",this.game.info.app_ad_id,this.game.info.interstitial_ad_id,this.game.info.interstitial_ad_condition_num));
+    }
+
+    @Override
+    public void share() {
+        Gdx.app.log(getClass().getName(),"share");
+    }
+
+    @Override
+    public void loadInsertscreen() {
+        Gdx.app.log(getClass().getName(),String.format("%s_%s_%s_显示间隔_%d","加载插屏",this.game.info.app_ad_id,this.game.info.interstitial_ad_id,this.game.info.interstitial_ad_condition_num));
+    }
+
+
+    @Override
+    public void showMovie(int id) {
+        Gdx.app.log(getClass().getName(),String.format("%s_%s_%s_标记_%d","显示视频",this.game.info.app_ad_id,this.game.info.rewardedVideo_ad_id,id));
     }
 }

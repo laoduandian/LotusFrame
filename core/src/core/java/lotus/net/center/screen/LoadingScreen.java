@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import lotus.net.center.myclass.LGame;
-import lotus.net.center.myclass.M;
 
 public class LoadingScreen implements Screen{
 	private Stage stage;
@@ -25,14 +24,14 @@ public class LoadingScreen implements Screen{
 	@Override
 	public void show() {
 		stage = new Stage();
-		stage.setViewport(new StretchViewport(M.GAME_WIDTH, M.GAME_HEIGHT));
+		stage.setViewport(new StretchViewport(game.info.GAME_WIDTH, game.info.GAME_HEIGHT));
 		if(texture!=null){
 			final int w = Gdx.graphics.getWidth();
 			final int h = Gdx.graphics.getHeight();
 			TextureRegion textureRegion = new TextureRegion(texture, 0, h, w, -h);
 			Image image = new Image(textureRegion);
 			image.setName("image");
-			image.setSize(M.GAME_WIDTH,M.GAME_HEIGHT);
+			image.setSize(game.info.GAME_WIDTH,game.info.GAME_HEIGHT);
 			image.addAction(Actions.sequence(Actions.fadeOut(0.5f),Actions.removeActor()));
 			stage.addActor(image);
 		}

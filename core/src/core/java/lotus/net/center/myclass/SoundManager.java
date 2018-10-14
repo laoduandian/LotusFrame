@@ -6,8 +6,6 @@ import java.util.Map;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
-import lotus.net.center.myclass.data.Record;
-
 public class SoundManager {
 	private LGame game;
 	public Music music;
@@ -33,10 +31,10 @@ public class SoundManager {
 			}
 		}
 		music.setVolume(volume);
-		setMusicOnOrOff(Record.MUSIC_ON_OFF);
+		setMusicOnOrOff(game.info.MUSIC_ON_OFF);
 	}
 	public void getAndPlaySound(String soundName){
-		if(!Record.SOUND_ON_OFF)
+		if(!game.info.SOUND_ON_OFF)
 			return;
 		getSound(soundName).play();
 	}
@@ -45,12 +43,12 @@ public class SoundManager {
 	 * @param soundName
 	 */
 	public void getAndPlaySound_All(String soundName){
-		if(!Record.SOUND_ON_OFF)
+		if(!game.info.SOUND_ON_OFF)
 			return;
 		game.assetManager.get(soundName, Sound.class).play();
 	}
 	public void getAndPlaySound(String soundName,float volume){
-		if(!Record.SOUND_ON_OFF)
+		if(!game.info.SOUND_ON_OFF)
 			return;
 		Sound sound = getSound(soundName);
 		sound.play(volume);
@@ -65,7 +63,7 @@ public class SoundManager {
 //		}
 	}
 	public long getAndPlaySound(String soundName,boolean isLoop){
-		if(!Record.SOUND_ON_OFF)
+		if(!game.info.SOUND_ON_OFF)
 			return 0;
 		Sound sound = getSound(soundName);
 		long a = sound.loop();
@@ -77,10 +75,10 @@ public class SoundManager {
 		return sound;
 	}
 	public void setMusicOnOrOff(boolean on){
-		Record.MUSIC_ON_OFF = on;
+		game.info.MUSIC_ON_OFF = on;
 		if(music == null)
 			return;
-		if(Record.MUSIC_ON_OFF){
+		if(game.info.MUSIC_ON_OFF){
 			if(!music.isPlaying())
 				music.play();
 		}else{
@@ -88,6 +86,6 @@ public class SoundManager {
 		}
 	}
 	public void setSoundOnOrOff(boolean on){
-		Record.SOUND_ON_OFF = on;
+		game.info.SOUND_ON_OFF = on;
 	}
 }

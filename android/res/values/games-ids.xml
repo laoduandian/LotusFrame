@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- app_id -->
+    <string name="app_id" translatable="false">429279026536</string>
+    <!-- leaderboard 1-01 -->
+    <string name="leaderboard_101" translatable="false">CgkI6LqYmL8MEAIQAA</string>
+    <!-- leaderboard 1-02 -->
+    <string name="leaderboard_102" translatable="false">CgkI6LqYmL8MEAIQAQ</string>
+    <!-- leaderboard 1-03 -->
+    <string name="leaderboard_103" translatable="false">CgkI6LqYmL8MEAIQAg</string>
+    <!-- leaderboard 1-04 -->
+    <string name="leaderboard_104" translatable="false">CgkI6LqYmL8MEAIQAw</string>
+    <!-- leaderboard 1-05 -->
+    <string name="leaderboard_105" translatable="false">CgkI6LqYmL8MEAIQBA</string>
+    <!-- leaderboard 1-06 -->
+    <string name="leaderboard_106" translatable="false">CgkI6LqYmL8MEAIQBQ</string>
+    <!-- leaderboard 1-07 -->
+    <string name="leaderboard_107" translatable="false">CgkI6LqYmL8MEAIQBg</string>
+    <!-- leaderboard 1-08 -->
+    <string name="leaderboard_108" translatable="false">CgkI6LqYmL8MEAIQBw</string>
+    <!-- leaderboard 1-09 -->
+    <string name="leaderboard_109" translatable="false">CgkI6LqYmL8MEAIQCA</string>
+    <!-- leaderboard 1-10 -->
+    <string name="leaderboard_110" translatable="false">CgkI6LqYmL8MEAIQCQ</string>
+    <!-- leaderboard 2-01 -->
+    <string name="leaderboard_201" translatable="false">CgkI6LqYmL8MEAIQCg</string>
+    <!-- leaderboard 2-02 -->
+    <string name="leaderboard_202" translatable="false">CgkI6LqYmL8MEAIQCw</string>
+    <!-- leaderboard 2-03 -->
+    <string name="leaderboard_203" translatable="false">CgkI6LqYmL8MEAIQDA</string>
+    <!-- leaderboard 2-04 -->
+    <string name="leaderboard_204" translatable="false">CgkI6LqYmL8MEAIQDQ</string>
+    <!-- leaderboard 2-05 -->
+    <string name="leaderboard_205" translatable="false">CgkI6LqYmL8MEAIQDg</string>
+    <!-- leaderboard 2-06 -->
+    <string name="leaderboard_206" translatable="false">CgkI6LqYmL8MEAIQDw</string>
+    <!-- leaderboard 2-07 -->
+    <string name="leaderboard_207" translatable="false">CgkI6LqYmL8MEAIQEA</string>
+    <!-- leaderboard 2-08 -->
+    <string name="leaderboard_208" translatable="false">CgkI6LqYmL8MEAIQEQ</string>
+    <!-- leaderboard 2-09 -->
+    <string name="leaderboard_209" translatable="false">CgkI6LqYmL8MEAIQEg</string>
+    <!-- leaderboard 2-10 -->
+    <string name="leaderboard_210" translatable="false">CgkI6LqYmL8MEAIQEw</string>
+    <!-- leaderboard 3-01 -->
+    <string name="leaderboard_301" translatable="false">CgkI6LqYmL8MEAIQFA</string>
+    <!-- leaderboard 3-02 -->
+    <string name="leaderboard_302" translatable="false">CgkI6LqYmL8MEAIQFQ</string>
+    <!-- leaderboard 3-03 -->
+    <string name="leaderboard_303" translatable="false">CgkI6LqYmL8MEAIQFg</string>
+    <!-- leaderboard 3-04 -->
+    <string name="leaderboard_304" translatable="false">CgkI6LqYmL8MEAIQFw</string>
+    <!-- leaderboard 3-05 -->
+    <string name="leaderboard_305" translatable="false">CgkI6LqYmL8MEAIQGA</string>
+    <!-- leaderboard 3-06 -->
+    <string name="leaderboard_306" translatable="false">CgkI6LqYmL8MEAIQGQ</string>
+    <!-- leaderboard 3-07 -->
+    <string name="leaderboard_307" translatable="false">CgkI6LqYmL8MEAIQGg</string>
+    <!-- leaderboard 3-08 -->
+    <string name="leaderboard_308" translatable="false">CgkI6LqYmL8MEAIQGw</string>
+    <!-- leaderboard 3-09 -->
+    <string name="leaderboard_309" translatable="false">CgkI6LqYmL8MEAIQHA</string>
+    <!-- leaderboard 3-10 -->
+    <string name="leaderboard_310" translatable="false">CgkI6LqYmL8MEAIQHQ</string>
+    <!-- leaderboard 4-01 -->
+    <string name="leaderboard_401" translatable="false">CgkI6LqYmL8MEAIQHg</string>
+    <!-- leaderboard 4-02 -->
+    <string name="leaderboard_402" translatable="false">CgkI6LqYmL8MEAIQHw</string>
+    <!-- leaderboard 4-03 -->
+    <string name="leaderboard_403" translatable="false">CgkI6LqYmL8MEAIQIA</string>
+    <!-- leaderboard 4-04 -->
+    <string name="leaderboard_404" translatable="false">CgkI6LqYmL8MEAIQIQ</string>
+    <!-- leaderboard 4-05 -->
+    <string name="leaderboard_405" translatable="false">CgkI6LqYmL8MEAIQIg</string>
+    <!-- leaderboard 4-06 -->
+    <string name="leaderboard_406" translatable="false">CgkI6LqYmL8MEAIQIw</string>
+    <!-- leaderboard 4-07 -->
+    <string name="leaderboard_407" translatable="false">CgkI6LqYmL8MEAIQJA</string>
+    <!-- leaderboard 4-08 -->
+    <string name="leaderboard_408" translatable="false">CgkI6LqYmL8MEAIQJQ</string>
+    <!-- leaderboard 4-09 -->
+    <string name="leaderboard_409" translatable="false">CgkI6LqYmL8MEAIQJg</string>
+    <!-- leaderboard 4-10 -->
+    <string name="leaderboard_410" translatable="false">CgkI6LqYmL8MEAIQJw</string>
+    <!-- leaderboard 5-01 -->
+    <string name="leaderboard_501" translatable="false">CgkI6LqYmL8MEAIQKA</string>
+    <!-- leaderboard 5-02 -->
+    <string name="leaderboard_502" translatable="false">CgkI6LqYmL8MEAIQKQ</string>
+    <!-- leaderboard 5-03 -->
+    <string name="leaderboard_503" translatable="false">CgkI6LqYmL8MEAIQKg</string>
+    <!-- leaderboard 5-04 -->
+    <string name="leaderboard_504" translatable="false">CgkI6LqYmL8MEAIQKw</string>
+    <!-- leaderboard 5-05 -->
+    <string name="leaderboard_505" translatable="false">CgkI6LqYmL8MEAIQLA</string>
+    <!-- leaderboard 5-06 -->
+    <string name="leaderboard_506" translatable="false">CgkI6LqYmL8MEAIQLQ</string>
+    <!-- leaderboard 5-07 -->
+    <string name="leaderboard_507" translatable="false">CgkI6LqYmL8MEAIQLg</string>
+    <!-- leaderboard 5-08 -->
+    <string name="leaderboard_508" translatable="false">CgkI6LqYmL8MEAIQLw</string>
+    <!-- leaderboard 5-09 -->
+    <string name="leaderboard_509" translatable="false">CgkI6LqYmL8MEAIQMA</string>
+    <!-- leaderboard 5-10 -->
+    <string name="leaderboard_510" translatable="false">CgkI6LqYmL8MEAIQMQ</string>
+    <!-- leaderboard 6-01 -->
+    <string name="leaderboard_601" translatable="false">CgkI6LqYmL8MEAIQMg</string>
+    <!-- leaderboard 6-02 -->
+    <string name="leaderboard_602" translatable="false">CgkI6LqYmL8MEAIQMw</string>
+    <!-- leaderboard 6-03 -->
+    <string name="leaderboard_603" translatable="false">CgkI6LqYmL8MEAIQNA</string>
+    <!-- leaderboard 6-04 -->
+    <string name="leaderboard_604" translatable="false">CgkI6LqYmL8MEAIQNQ</string>
+    <!-- leaderboard 6-05 -->
+    <string name="leaderboard_605" translatable="false">CgkI6LqYmL8MEAIQNg</string>
+    <!-- leaderboard 6-06 -->
+    <string name="leaderboard_606" translatable="false">CgkI6LqYmL8MEAIQNw</string>
+    <!-- leaderboard 6-07 -->
+    <string name="leaderboard_607" translatable="false">CgkI6LqYmL8MEAIQOQ</string>
+    <!-- leaderboard 6-08 -->
+    <string name="leaderboard_608" translatable="false">CgkI6LqYmL8MEAIQOg</string>
+    <!-- leaderboard 6-09 -->
+    <string name="leaderboard_609" translatable="false">CgkI6LqYmL8MEAIQOw</string>
+    <!-- leaderboard 6-10 -->
+    <string name="leaderboard_610" translatable="false">CgkI6LqYmL8MEAIQPA</string>
+</resources>

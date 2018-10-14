@@ -3,6 +3,10 @@ apply plugin: 'maven'
 group='com.github.laoduandian'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
+
+
+
 sourceSets {
     main {
         java.srcDirs = ["src/main/java", "src/core/java"]
