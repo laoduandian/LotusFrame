@@ -16,8 +16,8 @@ import lotus.net.center.myclass.LGame;
 public class LoadingScreen implements Screen{
 	private Stage stage;
 	private Texture texture;
-	private FrameBuffer frameBuffer;
 	private LGame game;
+	private boolean isOverSkip;
 	public LoadingScreen(LGame game) {
 		this.game = game;
 	}
@@ -32,13 +32,17 @@ public class LoadingScreen implements Screen{
 			Image image = new Image(textureRegion);
 			image.setName("image");
 			image.setSize(game.info.GAME_WIDTH,game.info.GAME_HEIGHT);
-			image.addAction(Actions.sequence(Actions.fadeOut(0.5f),Actions.removeActor()));
+			image.addAction(Actions.sequence(Actions.fadeOut(0.5f),Actions.run(new Runnable() {
+				@Override
+				public void run() {
+					isOverSkip = true;
+				}
+			})));
 			stage.addActor(image);
+		}else{
+			isOverSkip = true;
 		}
 		
-	}
-	public boolean haveImage() {
-		return getStage().getRoot().getChildren().size==0;
 	}
 	@Override
 	public void render(float delta) {
@@ -46,6 +50,9 @@ public class LoadingScreen implements Screen{
 		Gdx.gl.glClearColor(1,1,1, 1);
 		stage.act(delta);
 		stage.draw();
+		if(isOverSkip&&game.assetManager.update()){
+			game.over_Skip();
+		}
 	}
 	@Override
 	public void resize(int width, int height) {
@@ -59,19 +66,14 @@ public class LoadingScreen implements Screen{
 	public void dispose() {
 		if(this.texture!=null)
 			this.texture.dispose();
-		if(this.frameBuffer!=null)
-			this.frameBuffer.dispose();
 		this.texture = null;
-		this.frameBuffer= null;
 	}
 	public void setTexture(FrameBuffer frameBuffer) {
+		isOverSkip = false;
 		if(frameBuffer == null)
 			return;
 		if(this.texture!=null)
 			this.texture.dispose();
-		if(this.frameBuffer!=null)
-			this.frameBuffer.dispose();
-		this.frameBuffer = frameBuffer;
 		this.texture = frameBuffer.getColorBufferTexture();
 	}
 

@@ -29,7 +29,6 @@ import lotus.net.center.net.LotusStudio;
 public abstract class LScreen implements Screen{
 	public LGame game;
 	private Stage stage;
-	private FrameBuffer frameBuffer;
 	private TextureAtlas modeAtlas;
 	private TextureAtlas publicAtlas;
 	public LScreen(LGame game) {
@@ -42,7 +41,6 @@ public abstract class LScreen implements Screen{
         game.multiplexer.addProcessor(stage);
         Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(game.multiplexer);
-        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),false);
 	}
 
 	@Override
@@ -52,12 +50,12 @@ public abstract class LScreen implements Screen{
 		stage.draw();
 		stage.act(delta);
 		if(game.isScreenshots()){
-			frameBuffer.begin();
+			game.frameBuffer.begin();
 			Gdx.gl.glClearColor(1, 1, 1, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			stage.draw();
-			frameBuffer.end();
-			game.doSkip(frameBuffer);
+			game.frameBuffer.end();
+			game.doSkip(game.frameBuffer);
 		}
 	}
 

@@ -39,7 +39,7 @@ public class LGame extends Game {
 	public LoadingScreen loadingScreen;
 	public LotusStudio lotusStudioApp;
 	public HashMap<String,LScreen> screenPool = new HashMap<>();
-
+	public FrameBuffer frameBuffer;
 	public LGame(App lhandler) {
 		this.app = lhandler;
 	}
@@ -47,6 +47,7 @@ public class LGame extends Game {
 	@Override
 	public void create() {
 		json = new Json();
+		frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),false);
 		setGameInfo();
 		per = Gdx.app.getPreferences(info.game_name);
 		lotusStudioApp = json.fromJson(LotusStudio.class,per.getString("lotusStudioApp"));
@@ -71,16 +72,16 @@ public class LGame extends Game {
 	@Override
 	public void render() {
 		super.render();
-		if (isSkip && assetManager.update() && loadingScreen.getStage() != null && loadingScreen.haveImage()) {
-			setScreen(nextScreen);
-			isSkip = false;
-			loadingScreen.dispose();
-		}
 	}
+	public void over_Skip(){
+        setScreen(nextScreen);
+        isSkip = false;
+        loadingScreen.dispose();
+    }
 
 	public void doSkip(FrameBuffer frameBuffer) {
-		nextScreen.resume();
 		getScreen().dispose();
+		nextScreen.resume();
 		loadingScreen.setTexture(frameBuffer);
 		setScreen(loadingScreen);
 		isSkip = true;
