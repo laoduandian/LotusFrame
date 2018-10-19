@@ -10,15 +10,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 
+import lotus.net.center.myclass.LGame;
 import lotus.net.center.myclass.LScreen;
 import lotus.net.center.myclass.Tools;
 import lotus.net.center.net.AppRestricted;
 import lotus.net.center.net.LotusStudio;
-import lotus.net.demo.MyGame;
 
 
-public class LogonScreen extends LScreen {
-	public LogonScreen(MyGame game) {
+public class LLogonScreen extends LScreen {
+	public LLogonScreen(LGame game) {
 		super(game);
 	}
 	@Override
@@ -116,6 +116,7 @@ public class LogonScreen extends LScreen {
 	}
 	@Override
 	public void resume() {
+		this.game.assetManager.load("data/logobg.jpg", Texture.class);
 	}
 	boolean isTiaozhuan = false;
 	@Override

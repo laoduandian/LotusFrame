@@ -2,6 +2,7 @@ package lotus.net.demo;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -117,6 +118,7 @@ public class MenuScreen extends LScreen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 MenuScreen.this.game.app.paihang();
+                MenuScreen menuScreen = (MenuScreen) game.getScreen(MenuScreen.class);
             }
         });
 

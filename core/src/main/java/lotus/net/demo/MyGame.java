@@ -1,18 +1,16 @@
 package lotus.net.demo;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Texture;
 
 import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.GameInfo;
 import lotus.net.center.myclass.LGame;
 import lotus.net.center.myclass.LAssetManager;
-import lotus.net.center.screen.LogonScreen;
+import lotus.net.center.screen.LLogonScreen;
 
 public class MyGame extends LGame{
-
+    LLogonScreen logonScreen;
     public MyGame(App lhandler) {
         super(lhandler);
         setGameInfo();
@@ -37,12 +35,9 @@ public class MyGame extends LGame{
                 return super.keyUp(keycode);
             }
         };
-        MenuScreen menuScreen = new MenuScreen(this);
-        LogonScreen logonScreen = new LogonScreen(this);
-        logonScreen.setNextScreen(menuScreen);
-        menuScreen.resume();
+        logonScreen = new LLogonScreen(this);
+        logonScreen.setNextScreen(getScreen(MenuScreen.class));
         assetManager = new LAssetManager(this);
-        assetManager.load("data/logobg.jpg", Texture.class);
         setScreenshots(logonScreen);
         doSkip(null);
     }

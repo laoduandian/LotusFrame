@@ -12,6 +12,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Logger;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+
 import lotus.net.center.freefont.FreeFont;
 import lotus.net.center.net.LotusStudio;
 import lotus.net.center.screen.LoadingScreen;
@@ -23,7 +27,7 @@ public class LGame extends Game {
 	public InputMultiplexer multiplexer;
 	public boolean isSkip = false;
 	public LAssetManager assetManager;
-	public static SoundManager soundManager;
+	public SoundManager soundManager;
 	private boolean isScreenshots;// 截图
 	public App app;
 	public FreeFont font;
@@ -34,6 +38,7 @@ public class LGame extends Game {
 	public Json json;
 	public LoadingScreen loadingScreen;
 	public LotusStudio lotusStudioApp;
+	public HashMap<String,LScreen> screenPool = new HashMap<>();
 
 	public LGame(App lhandler) {
 		this.app = lhandler;
@@ -50,10 +55,8 @@ public class LGame extends Game {
 		creatTexture();
 		isScreenshots = false;
 		font = new FreeFont(this);
-		assetManager = new LAssetManager(this);
 		soundManager = new SoundManager(this);
 		loadingScreen = new LoadingScreen(this);
-
 		setScreen(loadingScreen);
 	}
 	private void setGameInfo(){
@@ -116,5 +119,43 @@ public class LGame extends Game {
 	public Pixmap getPixmap(String name) {
 		return new Pixmap(Gdx.files.internal(name));
 	}
+
+	public <T> LScreen getScreen(Class<T> type){
+		LScreen screen = screenPool.get(type.getName());
+		if(screen != null){
+			return screen;
+		}
+		try {
+			screen = (LScreen)type.getConstructor(LGame.class).newInstance(this);
+			screenPool.put(type.getName(),screen);
+			Gdx.app.log("a",type.getName());
+			return screen;
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 
 }
