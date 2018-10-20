@@ -106,6 +106,9 @@ public class FreeFont {
 	public VLabel getLabel(String text, int fontSize) {
 		return getLabel(text, getLabelStyle(getFont(fontSize)));
 	}
+	public VLabel getLabel(String text, int fontSize,Color color) {
+		return getLabel(text, getLabelStyle(getFont(fontSize),color));
+	}
 
 	/**
 	 * 创建Label

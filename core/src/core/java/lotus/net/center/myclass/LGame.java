@@ -25,7 +25,6 @@ import lotus.net.center.uieditor.EditorInto;
 public class LGame extends Game {
 	public Screen nextScreen;
 	public InputMultiplexer multiplexer;
-	public boolean isSkip = false;
 	public LAssetManager assetManager;
 	public SoundManager soundManager;
 	private boolean isScreenshots;// 截图
@@ -75,7 +74,6 @@ public class LGame extends Game {
 	}
 	public void over_Skip(){
         setScreen(nextScreen);
-        isSkip = false;
         loadingScreen.dispose();
     }
 
@@ -84,7 +82,6 @@ public class LGame extends Game {
 		nextScreen.resume();
 		loadingScreen.setTexture(frameBuffer);
 		setScreen(loadingScreen);
-		isSkip = true;
 		multiplexer.clear();
 		isScreenshots = false;
 	}
