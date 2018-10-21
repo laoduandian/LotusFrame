@@ -21,7 +21,6 @@ public class AndroidLauncher extends VAndroidLauncher{
         game.info.rewardedVideo_ad_id = "ca-app-pub-2887861689802805/3587152459";
         game.info.interstitial_ad_condition_num = 4;
 
-
         init(game);
     }
 

@@ -15,7 +15,7 @@ import lotus.net.center.myclass.LGame;
 
 public class LoadingScreen implements Screen{
 	private Stage stage;
-	private Texture texture;
+	private TextureRegion texture;
 	private LGame game;
 	private boolean isOverSkip;
 	public LoadingScreen(LGame game) {
@@ -28,14 +28,14 @@ public class LoadingScreen implements Screen{
 		if(texture!=null){
 			final int w = Gdx.graphics.getWidth();
 			final int h = Gdx.graphics.getHeight();
-			TextureRegion textureRegion = new TextureRegion(texture, 0, h, w, -h);
-			Image image = new Image(textureRegion);
+			Image image = new Image(texture);
 			image.setName("image");
 			image.setSize(game.info.GAME_WIDTH,game.info.GAME_HEIGHT);
 			image.addAction(Actions.sequence(Actions.fadeOut(0.5f),Actions.run(new Runnable() {
 				@Override
 				public void run() {
 					isOverSkip = true;
+					texture = null;
 				}
 			})));
 			stage.addActor(image);
@@ -64,17 +64,10 @@ public class LoadingScreen implements Screen{
 	}
 	@Override
 	public void dispose() {
-		if(this.texture!=null)
-			this.texture.dispose();
-		this.texture = null;
 	}
-	public void setTexture(FrameBuffer frameBuffer) {
+	public void setFullTextrueRegion(TextureRegion fullTextrueRegion) {
 		isOverSkip = false;
-		if(frameBuffer == null)
-			return;
-		if(this.texture!=null)
-			this.texture.dispose();
-		this.texture = frameBuffer.getColorBufferTexture();
+		texture = fullTextrueRegion;
 	}
 
 	public Stage getStage() {

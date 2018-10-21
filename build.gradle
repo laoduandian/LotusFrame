@@ -37,7 +37,7 @@ allprojects {
         //add
         appcompat_library_version = '27.0.2'
         support_library_version = '27.0.2'
-        gms_library_version = '11.0.4'
+        gms_library_version = '11.6.2'
         robopodsVersion = '2.2.3-SNAPSHOT';
     }
 
@@ -83,12 +83,6 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
         //add
-        compile "com.android.support:appcompat-v7:${appcompat_library_version}"
-        compile "com.android.support:support-v4:${support_library_version}"
-        compile "com.google.android.gms:play-services-ads:${gms_library_version}"
-        compile "com.google.android.gms:play-services-games:${gms_library_version}"
-        compile "com.google.android.gms:play-services-auth:${gms_library_version}"
-        compile 'com.android.support:multidex:1.0.1'//添加这行
     }
 }
 

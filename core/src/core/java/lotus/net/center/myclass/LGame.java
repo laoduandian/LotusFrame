@@ -9,9 +9,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -38,7 +40,6 @@ public class LGame extends Game {
 	public LoadingScreen loadingScreen;
 	public LotusStudio lotusStudioApp;
 	public HashMap<String,LScreen> screenPool = new HashMap<>();
-	public FrameBuffer frameBuffer;
 	public LGame(App lhandler) {
 		this.app = lhandler;
 	}
@@ -46,7 +47,6 @@ public class LGame extends Game {
 	@Override
 	public void create() {
 		json = new Json();
-		frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),false);
 		setGameInfo();
 		per = Gdx.app.getPreferences(info.game_name);
 		lotusStudioApp = json.fromJson(LotusStudio.class,per.getString("lotusStudioApp"));
@@ -77,10 +77,10 @@ public class LGame extends Game {
         loadingScreen.dispose();
     }
 
-	public void doSkip(FrameBuffer frameBuffer) {
+	public void doSkip(TextureRegion fullTextrueRegion) {
 		getScreen().dispose();
 		nextScreen.resume();
-		loadingScreen.setTexture(frameBuffer);
+		loadingScreen.setFullTextrueRegion(fullTextrueRegion);
 		setScreen(loadingScreen);
 		multiplexer.clear();
 		isScreenshots = false;
@@ -126,7 +126,6 @@ public class LGame extends Game {
 		try {
 			screen = (LScreen)type.getConstructor(LGame.class).newInstance(this);
 			screenPool.put(type.getName(),screen);
-			Gdx.app.log("a",type.getName());
 			return screen;
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
@@ -155,5 +154,22 @@ public class LGame extends Game {
 		}
 	}
 
+	private Texture fullTextrue;
+	/**
+	 * 截图
+	 */
+	public TextureRegion getFullTextrueRegion() {
+		Pixmap pixmap = ScreenUtils.getFrameBufferPixmap(0, 0,
+				Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		if(fullTextrue !=null){
+			fullTextrue.dispose();
+			fullTextrue = null;
+		}
+		fullTextrue = new Texture(pixmap);
+		TextureRegion region = new TextureRegion(fullTextrue);
+		region.flip(false, true);
+		pixmap.dispose();
+		return region;
+	}
 
 }

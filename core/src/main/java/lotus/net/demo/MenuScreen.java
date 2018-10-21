@@ -118,9 +118,22 @@ public class MenuScreen extends LScreen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 MenuScreen.this.game.app.paihang();
-                MenuScreen menuScreen = (MenuScreen) game.getScreen(MenuScreen.class);
             }
         });
+
+        TextButtonActor gameScreen = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
+        gameScreen.setColor(Color.PINK);
+        gameScreen.setPosition(200,1100);
+        gameScreen.setSize(200,50);
+        gameScreen.add(game.font.getLabel("游戏界面"));
+        this.getStage().addActor(gameScreen);
+        gameScreen.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreenshots(game.getScreen(GameScreen.class));
+            }
+        });
+
 
     }
 

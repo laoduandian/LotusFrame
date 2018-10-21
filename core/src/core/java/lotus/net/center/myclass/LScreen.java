@@ -50,12 +50,7 @@ public abstract class LScreen implements Screen{
 		stage.draw();
 		stage.act(delta);
 		if(game.isScreenshots()){
-			game.frameBuffer.begin();
-			Gdx.gl.glClearColor(1, 1, 1, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			stage.draw();
-			game.frameBuffer.end();
-			game.doSkip(game.frameBuffer);
+			game.doSkip(game.getFullTextrueRegion());
 		}
 	}
 
@@ -143,7 +138,6 @@ public abstract class LScreen implements Screen{
 		this.appItem = appItem;
 		adsGroup = new Group();
 		FileHandle png = Gdx.files.absolute(Gdx.files.getExternalStoragePath()+"data/"+appItem.getAppAdImageName());
-		Gdx.app.log(Gdx.files.getExternalStoragePath(),Gdx.files.getExternalStoragePath());
 		if(png.exists()){
 			texture = new Texture(png);
 			addAdsGroup(texture);

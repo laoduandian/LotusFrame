@@ -11,36 +11,30 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.google.android.gms.games.Games;
-
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
-import lotus.net.center.android.ad.AdCentre;
-import lotus.net.center.android.google.BaseGameActivity;
 import lotus.net.center.freefont.FreePaint;
 import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.LGame;
 
 
-public abstract class VAndroidLauncher extends BaseGameActivity implements App {
+public abstract class VAndroidLauncher extends AndroidApplication implements App {
     public LGame game = null;
     public Handler handler;
     public RelativeLayout relativeLayout;
-    public AdCentre adCentre;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -48,7 +42,6 @@ public abstract class VAndroidLauncher extends BaseGameActivity implements App {
         this.game = game;
         handler = new Handler();
         relativeLayout = new RelativeLayout(this);
-        adCentre = new AdCentre(this);
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         View gameView = initializeForView(game, cfg);
         relativeLayout.addView(gameView);
@@ -198,51 +191,18 @@ public abstract class VAndroidLauncher extends BaseGameActivity implements App {
 
     @Override
     public void showMovie(final int id) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                adCentre.showMovie(id);
-            }
-        });
     }
 
     @Override
     public void addBanners() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                adCentre.addBanners();
-            }
-        });
     }
 
     @Override
     public void loadInsertscreen() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                adCentre.loadInsertscreen();
-            }
-        });
     }
 
     @Override
     public void showInterstitialAd() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-               adCentre.showInsertscreen();
-            }
-        });
-    }
-    @Override
-    public void onSignInFailed() {
-
-    }
-
-    @Override
-    public void onSignInSucceeded() {
-
     }
     @Override
     public void showSomething(final String a) {
@@ -269,39 +229,15 @@ public abstract class VAndroidLauncher extends BaseGameActivity implements App {
     }
     @Override
     public void removeRanners() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                adCentre.removeRanners();
-            }
-        });
     }
     @Override
     public void shangchuan(String name, float a) {
-        if (VAndroidLauncher.this.getApiClient() != null
-                && VAndroidLauncher.this.getApiClient().isConnected()) {
-            Games.Leaderboards.submitScore(getApiClient(), name,(int) (a * 1000));
-        }
     }
     @Override
     public void shangchuan(String name, int a) {
-        if (VAndroidLauncher.this.getApiClient() != null
-                && VAndroidLauncher.this.getApiClient().isConnected()) {
-            Games.Leaderboards.submitScore(getApiClient(), name, a);
-        }
     }
     @Override
     public void paihang() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (VAndroidLauncher.this.getApiClient() != null
-                        && VAndroidLauncher.this.getApiClient().isConnected()) {
-                    startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(getApiClient()),5001);
-                } else {
-                    VAndroidLauncher.this.beginUserInitiatedSignIn();
-                }
-            }
-        });
     }
+
 }

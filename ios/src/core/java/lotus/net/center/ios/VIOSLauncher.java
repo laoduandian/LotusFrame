@@ -44,24 +44,21 @@ import org.robovm.pods.google.mobileads.GADRequest;
 import org.robovm.pods.google.mobileads.GADRequestError;
 import org.robovm.pods.google.mobileads.GADRewardBasedVideoAd;
 import org.robovm.pods.google.mobileads.GADRewardBasedVideoAdDelegate;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import lotus.net.center.freefont.FreePaint;
 import lotus.net.center.freefont.TTFParser;
 import lotus.net.center.ios.gamecenter.GameCenterListener;
 import lotus.net.center.ios.gamecenter.GameCenterManager;
 import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.LGame;
-import lotus.net.demo.IOSLauncher;
 
 public abstract class VIOSLauncher extends IOSApplication.Delegate implements
         App ,GADRewardBasedVideoAdDelegate,GADInterstitialDelegate {
     private GameCenterManager gcManager;
     private LGame game;
-    public final Logger log = new Logger(IOSLauncher.class.getName(), Application.LOG_DEBUG);
+    public final Logger log = new Logger(VIOSLauncher.class.getName(), Application.LOG_DEBUG);
 
 
     private UIColor getColor(Color color) {
