@@ -26,6 +26,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
+
+import lotus.net.center.android.ad.AdCentre;
 import lotus.net.center.freefont.FreePaint;
 import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.LGame;
@@ -35,6 +37,7 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
     public LGame game = null;
     public Handler handler;
     public RelativeLayout relativeLayout;
+    public AdCentre adCentre;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -45,6 +48,7 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         View gameView = initializeForView(game, cfg);
         relativeLayout.addView(gameView);
+        adCentre = new AdCentre(this);
         setContentView(relativeLayout);
     }
     private int getAnroidColor(Color color) {
@@ -191,18 +195,42 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
 
     @Override
     public void showMovie(final int id) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre.showMovie(id);
+            }
+        });
     }
 
     @Override
     public void addBanners() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre.addBanners();
+            }
+        });
     }
 
     @Override
     public void loadInsertscreen() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre.loadInsertscreen();
+            }
+        });
     }
 
     @Override
     public void showInterstitialAd() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre.showInsertscreen();
+            }
+        });
     }
     @Override
     public void showSomething(final String a) {
@@ -229,6 +257,12 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
     }
     @Override
     public void removeRanners() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre.removeRanners();
+            }
+        });
     }
     @Override
     public void shangchuan(String name, float a) {
