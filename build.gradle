@@ -1,6 +1,4 @@
 buildscript {
-    
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -132,7 +130,7 @@ subprojects {
 
         doFirst {
             if(project.name == "android"){
-                from fileTree(dir: "build/intermediates/classes/core/release/", includes: ["**/VAndroidLauncher.class"], exclude: "**/demo")
+                from fileTree(dir: "build/intermediates/classes/core/release/", includes: ["**/center"], exclude: "**/demo")
             }else{
                 from sourceSets.core.output.classesDir
             }
@@ -164,7 +162,6 @@ subprojects {
 
         }
     }
-
 
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
 
