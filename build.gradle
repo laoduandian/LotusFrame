@@ -129,17 +129,17 @@ subprojects {
     task packJar(type: Jar) {
 
         doFirst {
-            if(project.name == "android"){
-                from fileTree(dir: "build/intermediates/classes/core/release/", includes: ["**/center"], exclude: "**/demo")
-            }else{
+//            if(project.name == "android"){
+//                from fileTree(dir: "build/intermediates/classes/core/release/", includes: ["**/center"], exclude: "**/demo")
+//            }else{
                 from sourceSets.core.output.classesDir
-            }
+//            }
         }
     }
 
 
-
-    def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses", ":android:compileCoreReleaseJavaWithJavac"];
+//    compileCoreReleaseJavaWithJavac
+    def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses", ":android:coreClasses"];
 
     packJar.dependsOn preCompile
 
@@ -154,11 +154,11 @@ subprojects {
     task packSources(type: Jar) {
         classifier = "sources"
         doFirst {
-            if(project.name == "android"){
-                from files("src/core/java")
-            }else {
+//            if(project.name == "android"){
+//                from files("src/core/java")
+//            }else {
                 from sourceSets.core.allJava
-            }
+//            }
 
         }
     }
