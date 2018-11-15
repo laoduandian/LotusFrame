@@ -38,7 +38,7 @@ public class LParticleEffect extends Actor{
 	/**
 	 *  获取粒子的缓冲区
 	 * @param name 粒子名称
-	 * @return
+	 * @return ParticleEffectPool
 	 */
 	public ParticleEffectPool getParticleEffectPool(String name) {
 		ParticleEffectPool pool = particleEffectPoolMap.get(name);
