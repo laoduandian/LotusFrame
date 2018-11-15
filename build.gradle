@@ -130,7 +130,7 @@ subprojects {
 
         doFirst {
             if(project.name == "android"){
-                from fileTree(dir: "build/intermediates/classes/core/release/")
+                from fileTree(dir: "build/intermediates/classes/core/release/", includes: ["**/center"], exclude: "**/demo")
             }else{
                 from sourceSets.core.output.classesDir
             }
