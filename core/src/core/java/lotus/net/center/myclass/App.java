@@ -18,5 +18,6 @@ public interface App extends FreeListener {
 	public void loadInsertscreen();
 	public void showMovie(int id);
 	public void newgame(String address);
+	public void initAD();
 }
  

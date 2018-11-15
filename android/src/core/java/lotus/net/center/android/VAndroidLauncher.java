@@ -274,4 +274,8 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
     public void paihang() {
     }
 
+    @Override
+    public void initAD() {
+
+    }
 }

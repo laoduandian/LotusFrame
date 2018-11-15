@@ -205,4 +205,9 @@ public abstract class VDesktopLauncher implements App {
     public void showMovie(int id) {
         Gdx.app.log(getClass().getName(),String.format("%s_%s_%s_标记_%d","显示视频",this.game.info.app_ad_id,this.game.info.rewardedVideo_ad_id,id));
     }
+
+    @Override
+    public void initAD() {
+        Gdx.app.log(getClass().getName(),"initAd");
+    }
 }

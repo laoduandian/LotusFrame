@@ -6,7 +6,6 @@ import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Logger;
-
 import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.coregraphics.CGSize;
 import org.robovm.apple.foundation.NSBundle;
@@ -305,7 +304,6 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
     public void willLeaveApplication(GADInterstitial ad) {
         log.debug("GADInterstitial: willLeaveApplication");
     }
-
     @Override
     public boolean shouldChangeAudioSessionToCategory(NSObject ad, String audioSessionCategory) {
         return false;
@@ -411,8 +409,6 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
         String url =  String.format("https://itunes.apple.com/cn/app/duel-of-clans/id%s?mt=8", this.getGame().info.game_Address);
         Gdx.net.openURI(url);
     }
-
-
     @Override
     public void addBanners() {
         final CGSize screenSize = UIScreen.getMainScreen().getBounds().getSize();
@@ -463,7 +459,8 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
         }
         return super.didFinishLaunching(application, launchOptions);
     }
-    public void initializeAD() {
+    @Override
+    public void initAD() {
         rootViewController = new UIViewController();
         window = new UIWindow(UIScreen.getMainScreen().getBounds());
         window.setRootViewController(rootViewController);
