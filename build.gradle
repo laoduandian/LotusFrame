@@ -129,17 +129,17 @@ subprojects {
     task packJar(type: Jar) {
 
         doFirst {
-//            if(project.name == "android"){
-//                from fileTree(dir: "build/intermediates/classes/core/release/", includes: ["**/center"], exclude: "**/demo")
-//            }else{
+            if(project.name == "android"){
+                from fileTree(dir: "build/intermediates/classes/core/release/")
+            }else{
                 from sourceSets.core.output.classesDir
-//            }
+            }
         }
     }
 
 
-//    compileCoreReleaseJavaWithJavac
-    def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses", ":android:coreClasses"];
+
+    def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses", ":android:compileCoreReleaseJavaWithJavac"];
 
     packJar.dependsOn preCompile
 
@@ -154,18 +154,17 @@ subprojects {
     task packSources(type: Jar) {
         classifier = "sources"
         doFirst {
-//            if(project.name == "android"){
-//                from files("src/core/java")
-//            }else {
+            if(project.name == "android"){
+                from files("src/core/java")
+            }else {
                 from sourceSets.core.allJava
-//            }
-
+            }
         }
     }
 
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
 
-    artifacts {
+    artifacts {//人工产品
         archives packJar
         archives packDoc
         archives packSources
