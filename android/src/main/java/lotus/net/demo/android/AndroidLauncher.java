@@ -3,10 +3,11 @@ package lotus.net.demo.android;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
 import lotus.net.center.android.VAndroidLauncher;
 import lotus.net.demo.MyGame;
 
-public class AndroidLauncher extends VAndroidLauncher{
+public class AndroidLauncher extends VAndroidLauncher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

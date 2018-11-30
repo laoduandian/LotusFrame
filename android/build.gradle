@@ -34,8 +34,9 @@ android {
     }
     defaultConfig {
         applicationId "lotus.net.demo.android"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 27
+        flavorDimensions "versionCode"
     }
     buildTypes {
         release {

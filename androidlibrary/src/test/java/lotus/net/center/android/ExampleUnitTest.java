@@ -1,4 +1,4 @@
-package com.example.library;
+package lotus.net.center.android;
 
 import org.junit.Test;
 

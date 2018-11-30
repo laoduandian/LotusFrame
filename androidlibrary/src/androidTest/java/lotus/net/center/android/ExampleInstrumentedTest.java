@@ -1,4 +1,4 @@
-package com.example.library;
+package lotus.net.center.android;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.library.test", appContext.getPackageName());
+        assertEquals("lotus.net.center.android.test", appContext.getPackageName());
     }
 }
