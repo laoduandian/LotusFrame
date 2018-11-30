@@ -3,6 +3,7 @@ package lotus.net.demo;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import org.robovm.apple.foundation.NSAutoreleasePool;
+import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.uikit.UIApplication;
 import lotus.net.center.ios.VIOSLauncher;
 
@@ -30,4 +31,6 @@ public class IOSLauncher extends VIOSLauncher {
         UIApplication.main(argv, null, IOSLauncher.class);
         pool.close();
     }
+
+
 }

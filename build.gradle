@@ -69,7 +69,6 @@ project(":desktop") {
 
 project(":android") {
     apply plugin: "android"
-
     configurations { natives }
 
     dependencies {
@@ -164,9 +163,12 @@ subprojects {
 
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
 
-    artifacts {//人工产品
-        archives packJar
-        archives packDoc
-        archives packSources
+    if(project.name != "library"){
+        artifacts {//人工产品
+            archives packJar
+            archives packDoc
+            archives packSources
+        }
     }
+
 }

@@ -14,7 +14,6 @@ import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.foundation.NSErrorException;
 import org.robovm.apple.foundation.NSMutableAttributedString;
 import org.robovm.apple.foundation.NSNumber;
-import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.foundation.NSRange;
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.gamekit.GKAchievement;
@@ -53,10 +52,16 @@ import lotus.net.center.ios.gamecenter.GameCenterManager;
 import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.LGame;
 
-public abstract class VIOSLauncher extends IOSApplication.Delegate implements
+/**
+ * The type Vios launcher.
+ */
+public class VIOSLauncher extends IOSApplication.Delegate implements
         App ,GADRewardBasedVideoAdDelegate,GADInterstitialDelegate {
     private GameCenterManager gcManager;
     private LGame game;
+    /**
+     * The Log.
+     */
     public final Logger log = new Logger(VIOSLauncher.class.getName(), Application.LOG_DEBUG);
 
 
@@ -169,8 +174,11 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
     public void moreGame() {
         Gdx.net.openURI("http://www.lotusstudio.top");
     }
+
     /**
      * Initialise gamecenter manager.
+     *
+     * @return the gc manager
      */
     public GameCenterManager getGcManager() {
         if (null == gcManager) {
@@ -304,10 +312,6 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
     public void willLeaveApplication(GADInterstitial ad) {
         log.debug("GADInterstitial: willLeaveApplication");
     }
-    @Override
-    public boolean shouldChangeAudioSessionToCategory(NSObject ad, String audioSessionCategory) {
-        return false;
-    }
 
     @Override
     public void didReceiveAd(GADRewardBasedVideoAd rewardBasedVideoAd) {
@@ -323,6 +327,13 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
     public void didStartPlaying(GADRewardBasedVideoAd rewardBasedVideoAd) {
         log.debug("GADRewardBasedVideoAd: didStartPlaying");
     }
+
+    @Override
+    public void rewardBasedVideoAdDidCompletePlaying(GADRewardBasedVideoAd rewardBasedVideoAd) {
+        log.debug("GADRewardBasedVideoAd: rewardBasedVideoAdDidCompletePlaying");
+
+    }
+
     @Override
     public void showSomething(String a) {
 
@@ -353,23 +364,42 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
 
     }
 
+    /**
+     * Sets game.
+     *
+     * @param game the game
+     */
     public void setGame(LGame game) {
         this.game = game;
     }
 
+    /**
+     * Gets game.
+     *
+     * @return the game
+     */
     public LGame getGame() {
         return game;
     }
     private GADBannerView bannerView;
 
+    /**
+     * The Gad reward based video ad.
+     */
     GADRewardBasedVideoAd gadRewardBasedVideoAd;
     private UIWindow window;
     private UIViewController rootViewController;
+    /**
+     * The Request.
+     */
     GADRequest request = new GADRequest();
 
 
     private GADInterstitial interstitial;
 
+    /**
+     * Initialize banner.
+     */
     public void initializeBanner() {
         log.debug("Initalizing ads...");
         bannerView = new GADBannerView(GADAdSize.Banner());
@@ -393,11 +423,19 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
         bannerView.loadRequest(request);
         log.debug("Initalizing ads complete.");
     }
+
+    /**
+     * Initialize reward video ad.
+     */
     public void initializeRewardVideoAd() {
         gadRewardBasedVideoAd = GADRewardBasedVideoAd.getSharedInstance();
         gadRewardBasedVideoAd.loadRequest(request, this.getGame().info.rewardedVideo_ad_id);
         gadRewardBasedVideoAd.setDelegate(this);
     }
+
+    /**
+     * Intialize interstitial.
+     */
     public void intializeInterstitial() {
         interstitial = new GADInterstitial(this.getGame().info.interstitial_ad_id);
         interstitial.setDelegate(this);
@@ -451,6 +489,11 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
     }
 
     @Override
+    protected IOSApplication createApplication() {
+        return null;
+    }
+
+    @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
         try {
             GGLContext.getSharedInstance().configure();
@@ -470,6 +513,7 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
         intializeInterstitial();
     }
     private int movie_index = 0;
+
     @Override
     public void showMovie(int id) {
         movie_index = id;
@@ -509,5 +553,6 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements
         getGame().resume();
         getGame().showMovie_return(movie_index);
     }
+
 }
 
