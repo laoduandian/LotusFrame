@@ -160,6 +160,8 @@ subprojects {
 
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
     if(project.name == "androidlibrary") {
+    }else if(project.name == "android"){
+
     }else {
 
         artifacts {//人工产品
