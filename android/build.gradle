@@ -1,3 +1,6 @@
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.laoduandian'
+
 android {
     buildToolsVersion "27.0.3"
     compileSdkVersion 27

@@ -80,6 +80,14 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
+
+        //add
+        implementation "com.android.support:appcompat-v7:${appcompat_library_version}"
+        implementation "com.android.support:support-v4:${support_library_version}"
+        implementation "com.google.android.gms:play-services-ads:${gms_library_version}"
+        implementation "com.google.android.gms:play-services-games:${gms_library_version}"
+        implementation "com.google.android.gms:play-services-auth:${gms_library_version}"
+        implementation 'com.android.support:multidex:1.0.1'//添加这行
         implementation project(":androidlibrary")
     }
 }
@@ -159,11 +167,7 @@ subprojects {
     }
 
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
-    if(project.name == "androidlibrary") {
-    }else if(project.name == "android"){
-
-    }else {
-
+    if(project.name != "androidlibrary") {
         artifacts {//人工产品
             archives packJar
             archives packDoc
