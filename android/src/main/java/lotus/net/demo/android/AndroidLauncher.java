@@ -25,36 +25,4 @@ public class AndroidLauncher extends VAndroidLauncher {
         init(game);
     }
 
-
-    @Override
-    public void outGame() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                showOutGameTips();
-            }
-        });
-    }
-
-    public void showOutGameTips() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.are)
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .setIcon(R.drawable.ic_launcher)
-                .setPositiveButton(R.string.yes,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                AndroidLauncher.this.finish();
-                                System.exit(0);
-                            }
-                        })
-                .setNegativeButton(R.string.no,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,int which) {
-                            }
-                        }).show();
-    }
 }

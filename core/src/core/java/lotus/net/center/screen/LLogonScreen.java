@@ -25,6 +25,7 @@ public class LLogonScreen extends LScreen {
 	public void show() {
 		super.show();
         init();
+        game.app.initAD();
 	}
 	private void init() {
 		time = 0;

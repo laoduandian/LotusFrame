@@ -7,6 +7,7 @@ import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.GameInfo;
 import lotus.net.center.myclass.LGame;
 import lotus.net.center.myclass.LAssetManager;
+import lotus.net.center.myclass.LScreen;
 import lotus.net.center.screen.LLogonScreen;
 
 public class MyGame extends LGame{
@@ -24,6 +25,7 @@ public class MyGame extends LGame{
             public boolean keyUp(int keycode) {
                 switch (keycode) {
                     case Input.Keys.BACK:
+                        doBackjob();
                         break;
                     case Input.Keys.HOME:
                         break;
@@ -55,6 +57,12 @@ public class MyGame extends LGame{
                 break;
             case 1:
                 break;
+        }
+    }
+    private void doBackjob(){
+        if (getScreen() instanceof LScreen) {
+            LScreen screen = (LScreen) getScreen();
+            screen.dobackJob();
         }
     }
 }

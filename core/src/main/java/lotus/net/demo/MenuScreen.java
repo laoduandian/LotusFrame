@@ -30,6 +30,7 @@ public class MenuScreen extends LScreen{
             add();
     }
     private  void init(){
+
         TextButtonActor addBanner = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
         addBanner.setColor(Color.PINK);
         addBanner.setPosition(200,400);
@@ -150,6 +151,6 @@ public class MenuScreen extends LScreen{
 
     @Override
     public void dobackJob() {
-
+        this.game.app.outGame();
     }
 }

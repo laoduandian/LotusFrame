@@ -30,6 +30,6 @@ public class GameScreen extends LScreen{
 
     @Override
     public void dobackJob() {
-
+        game.setScreenshots(game.getScreen(MenuScreen.class));
     }
 }

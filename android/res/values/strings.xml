@@ -2,8 +2,5 @@
 <resources>
 
     <string name="app_name">LotusFrame</string>
-    <string name="are">are</string>
-    <string name="yes">yes</string>
-    <string name="no">no</string>
-
+    <string name="Lotus_out">quit?</string>
 </resources>
