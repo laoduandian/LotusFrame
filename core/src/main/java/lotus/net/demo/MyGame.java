@@ -32,6 +32,7 @@ public class MyGame extends LGame{
                     case Input.Keys.SPACE:
                         break;
                     case Input.Keys.DPAD_LEFT:
+                        doBackjob();
                         break;
                 }
                 return super.keyUp(keycode);

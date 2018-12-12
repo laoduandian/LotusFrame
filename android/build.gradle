@@ -36,7 +36,6 @@ android {
         applicationId "lotus.net.demo.android"
         minSdkVersion 15
         targetSdkVersion 27
-        flavorDimensions "versionCode"
     }
     buildTypes {
         release {
