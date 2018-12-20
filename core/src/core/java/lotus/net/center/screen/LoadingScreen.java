@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -31,7 +32,7 @@ public class LoadingScreen implements Screen{
 			Image image = new Image(texture);
 			image.setName("image");
 			image.setSize(game.info.GAME_WIDTH,game.info.GAME_HEIGHT);
-			image.addAction(Actions.sequence(Actions.fadeOut(0.5f),Actions.run(new Runnable() {
+			image.addAction(Actions.sequence(Actions.alpha(0.2f,0.65f),Actions.run(new Runnable() {
 				@Override
 				public void run() {
 					isOverSkip = true;

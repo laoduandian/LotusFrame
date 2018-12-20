@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -54,7 +53,6 @@ public class ButtonActor extends Actor{
 		if(isPressed()) {
 			ShaderProgram shader = batch.getShader();
 	        batch.setShader(shaderProgram);
-	        shaderProgram.setUniformf("u_lightPosition",new Vector2(0.5f,0.5f));
 	        shaderProgram.setUniformf("u_lightColor", .0f,.0f,.0f,1.0f);
 	        shaderProgram.setUniformf("u_lightRange",time);
 			batch.setColor(getColor());

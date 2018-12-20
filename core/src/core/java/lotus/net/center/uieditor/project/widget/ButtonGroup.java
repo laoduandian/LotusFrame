@@ -2,7 +2,6 @@ package lotus.net.center.uieditor.project.widget;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -65,7 +64,6 @@ public class ButtonGroup extends LGroup {
 		if(isPressed()) {
 			ShaderProgram shader = batch.getShader();
 	        batch.setShader(shaderProgram);
-	        shaderProgram.setUniformf("u_lightPosition",new Vector2(0.5f,0.5f));
 	        shaderProgram.setUniformf("u_lightColor", .0f,.0f,.0f,1.0f);
 	        shaderProgram.setUniformf("u_lightRange",time);
 	        super.draw(batch, parentAlpha);

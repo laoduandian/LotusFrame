@@ -34,6 +34,19 @@ public class GameInfo {
     public String app_ad_id ="ca-app-pub-2887861689802805~7729061775";
     public String game_Address = "1175680497";
 
+    public void setAndroid_Test_Ads(){
+        String app_ad_id ="ca-app-pub-3940256099942544~3347511713";
+        String banner_ad_id = "ca-app-pub-3940256099942544/6300978111";
+        String interstitial_ad_id = "ca-app-pub-3940256099942544/1033173712";
+        String rewardedVideo_ad_id = "ca-app-pub-3940256099942544/5224354917";
+    }
+    public void seIOS_Test_Ads(){
+        String app_ad_id ="ca-app-pub-3940256099942544~1458002511";
+        String banner_ad_id = "ca-app-pub-3940256099942544/2934735716";
+        String interstitial_ad_id = "ca-app-pub-3940256099942544/4411468910";
+        String rewardedVideo_ad_id = "ca-app-pub-3940256099942544/1712485313";
+    }
+
 
     public void setScreenSize(short w, short h){
         this.GAME_WIDTH = w;

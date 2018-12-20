@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.RadioGroup.LayoutParams;
 import com.badlogic.gdx.Gdx;
+import com.google.android.gms.ads.MobileAds;
+
 import lotus.net.center.android.VAndroidLauncher;
 
 public class AdCentre {
@@ -13,6 +15,7 @@ public class AdCentre {
 	private GoogleAd myAd;
 	public AdCentre(VAndroidLauncher activity) {
 		this.activity = activity;
+		MobileAds.initialize(activity, this.activity.game.info.app_ad_id);
 		init();
 	}
 	private void init(){
@@ -41,7 +44,6 @@ public class AdCentre {
     }
 	public void addBanners(){
 		bannerRelativeLayout.setVisibility(View.VISIBLE);
-		Gdx.app.log("ad__Banners:","addBanners");
 	}
 	public void removeRanners(){
 		bannerRelativeLayout.setVisibility(View.GONE);

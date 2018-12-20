@@ -21,7 +21,6 @@ public class GoogleAd implements LotusAd,RewardedVideoAdListener{
 	private VAndroidLauncher activity;
 	public GoogleAd(VAndroidLauncher activity){
 		this.activity = activity;
-		MobileAds.initialize(activity, this.activity.game.info.app_ad_id);
 	}
 	@Override
 	public void initInterstitialAd() {
@@ -41,7 +40,7 @@ public class GoogleAd implements LotusAd,RewardedVideoAdListener{
 	public void loadInsertscreen() {
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				.addTestDevice(this.activity.game.info.interstitial_ad_id).build();
+				.addTestDevice("8B55DAD18BEF299E261C4D2E8ED751B0").build();
 		interstitialAd.loadAd(adRequest);
 	}
 
@@ -50,7 +49,7 @@ public class GoogleAd implements LotusAd,RewardedVideoAdListener{
 		if (interstitialAd.isLoaded()) {
 			interstitialAd.show();
 		}else{
-			loadRewardedVideo();
+			loadInsertscreen();
 		}
 	}
 
@@ -64,7 +63,7 @@ public class GoogleAd implements LotusAd,RewardedVideoAdListener{
 	@Override
 	public void loadRewardedVideo() {
 		mRewardedVideoAd.loadAd(this.activity.game.info.rewardedVideo_ad_id,
-				new AdRequest.Builder().build());
+				new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("8B55DAD18BEF299E261C4D2E8ED751B0").build());
 	}
 
 
@@ -76,7 +75,7 @@ public class GoogleAd implements LotusAd,RewardedVideoAdListener{
 		LayoutParams adParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		bannerRelativeLayout.addView(adView, adParams);
-		adView.loadAd(new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build());
+		adView.loadAd(new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("8B55DAD18BEF299E261C4D2E8ED751B0").build());
 	}
 	@Override
 	public void dispose() {
@@ -129,6 +128,8 @@ public class GoogleAd implements LotusAd,RewardedVideoAdListener{
 		movie_index = id;
 		if (mRewardedVideoAd.isLoaded()) {
 			mRewardedVideoAd.show();
+		}else{
+			loadRewardedVideo();
 		}
 	}
 }
