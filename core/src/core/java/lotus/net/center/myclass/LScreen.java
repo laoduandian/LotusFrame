@@ -113,6 +113,7 @@ public abstract class LScreen implements Screen{
 		LotusStudio lotusStudioApp = game.lotusStudioApp;
 		if(lotusStudioApp == null)
 			return;
+		game.info.is_Add_New = false;
 		loadAdsGroup(randomAppItem(lotusStudioApp));
 	}
 	private AppItem randomAppItem(LotusStudio lotusStudioApp) {

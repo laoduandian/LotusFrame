@@ -14,7 +14,8 @@ public class DesktopLauncher extends VDesktopLauncher {
 		launcher.setGame(game);
 		config.width = game.info.GAME_WIDTH;
 		config.height = game.info.GAME_HEIGHT;
-		game.info.is_Add_New = true;
+//		game.info.is_Add_New = true;
+		game.info.game_Address = "1375561039";
 		game.info.game_Address = "1175680497";
 
 		new LwjglApplication(game, config);

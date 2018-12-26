@@ -86,8 +86,10 @@ public class LLogonScreen extends LScreen {
 		game.per.flush();
 	}
 	private void setInfo(){
-		if(game.lotusStudioApp == null)
+		game.info.is_Add_New = false;
+		if(game.lotusStudioApp == null){
 			return;
+		}
 		Array<AppRestricted> appRestricteds = game.lotusStudioApp.getAppRestricteds();
 		if(appRestricteds == null)
 			return;
@@ -100,7 +102,6 @@ public class LLogonScreen extends LScreen {
 		}
 		if(appRestricted != null){
 			game.info.is_Add_New = appRestricted.isAddNew();
-
 			//广告
 			if(appRestricted.getApp_ad_id()!=null)
 				game.info.app_ad_id = appRestricted.getApp_ad_id();
