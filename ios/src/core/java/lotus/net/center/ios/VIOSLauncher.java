@@ -255,6 +255,7 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
                         @Override
                         public void playerLoginCompleted() {
                             // TODO Auto-generated method stub
+                            gcManager.loadLeaderboards();
 
                         }
 
@@ -279,6 +280,7 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
 
 
                     });
+            gcManager.login();
         }
         return gcManager;
     }
