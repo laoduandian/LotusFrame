@@ -114,7 +114,14 @@ public abstract class LScreen implements Screen{
 		if(lotusStudioApp == null)
 			return;
 		game.info.is_Add_New = false;
-		loadAdsGroup(randomAppItem(lotusStudioApp));
+		loadAdsGroup(getDifferentApp(lotusStudioApp));
+	}
+	private AppItem getDifferentApp(LotusStudio lotusStudioApp){
+		AppItem appItem = randomAppItem(lotusStudioApp);
+		while (appItem.getAppAddress().equals(game.info.game_Address)){
+			appItem = randomAppItem(lotusStudioApp);
+		}
+		return appItem;
 	}
 	private AppItem randomAppItem(LotusStudio lotusStudioApp) {
 		float random = MathUtils.random(1f);
