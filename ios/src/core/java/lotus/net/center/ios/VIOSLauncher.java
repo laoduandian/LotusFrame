@@ -174,7 +174,11 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
     public void moreGame() {
         Gdx.net.openURI("http://www.lotusstudio.top");
     }
-
+    @Override
+    public void didBecomeActive(UIApplication application) {
+        super.didBecomeActive(application);
+        getGcManager();
+    }
     /**
      * Initialise gamecenter manager.
      *
@@ -182,7 +186,6 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
      */
     public GameCenterManager getGcManager() {
         if (null == gcManager) {
-
             gcManager = new GameCenterManager(UIApplication.getSharedApplication().getKeyWindow(),
                     new GameCenterListener(){
 
