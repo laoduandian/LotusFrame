@@ -134,17 +134,20 @@ public abstract class LScreen implements Screen{
 		}
 		return random > sum;
 	}
+	String addName="";
 	private void loadAdsGroup(AppItem appItem){
 		this.appItem = appItem;
 		adsGroup = new Group();
-		FileHandle png = Gdx.files.absolute(Gdx.files.getExternalStoragePath()+"data/"+appItem.getAppAdImageName());
+		if(game.info.GAME_WIDTH>game.info.GAME_HEIGHT)
+			addName = "heng/";
+		FileHandle png = Gdx.files.absolute(Gdx.files.getExternalStoragePath()+"data/"+addName+appItem.getAppAdImageName());
 		if(png.exists()){
 			texture = new Texture(png);
 			addAdsGroup(texture);
 		}else{
 			String httpMethod = Net.HttpMethods.GET;
 			httpRequest = new HttpRequest(httpMethod);
-			httpRequest.setUrl("http://www.lotusstudio.top/games/"+appItem.getAppAdImageName());
+			httpRequest.setUrl("http://www.lotusstudio.top/games/"+addName+appItem.getAppAdImageName());
 			Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
 				@Override
 				public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -158,11 +161,11 @@ public abstract class LScreen implements Screen{
 						}
 					});
 					try {
-						File sf=new File(Gdx.files.getExternalStoragePath()+"data");
+						File sf=new File(Gdx.files.getExternalStoragePath()+"data/"+addName);
 						if(!sf.exists()){
 							sf.mkdirs();
 						}
-						OutputStream os = new FileOutputStream(Gdx.files.getExternalStoragePath()+"data/"+LScreen.this.appItem.getAppAdImageName());
+						OutputStream os = new FileOutputStream(Gdx.files.getExternalStoragePath()+"data/"+addName+LScreen.this.appItem.getAppAdImageName());
 						os.write(rawImageBytes, 0, rawImageBytes.length);
 						os.close();
 					}catch (IOException e) {
@@ -190,9 +193,11 @@ public abstract class LScreen implements Screen{
 
 		image.setSize(game.info.GAME_WIDTH, game.info.GAME_HEIGHT);
 		image.setColor(0,0,0,0.7f);
-		float math = Math.max(480,800);
-		float scale = game.info.GAME_HEIGHT/math;//480，800
-		adsImage.setSize(427*scale, 600*scale);
+		float scale = Math.max(game.info.GAME_WIDTH,game.info.GAME_HEIGHT)/800f;//480，800
+		if(game.info.GAME_WIDTH < game.info.GAME_HEIGHT)
+			adsImage.setSize(400*scale, 600*scale);
+		else
+			adsImage.setSize(600*scale, 400*scale);
 		adsImage.setPosition(game.info.GAME_WIDTH/2 - adsImage.getWidth()/2, game.info.GAME_HEIGHT/2- adsImage.getHeight()/2);
 		chaImage.setPosition(game.info.GAME_WIDTH/2 - adsImage.getWidth()/2, game.info.GAME_HEIGHT/2- adsImage.getHeight()/2);
 		gImage.setPosition(game.info.GAME_WIDTH/2 + adsImage.getWidth()/2 - gImage.getWidth(), game.info.GAME_HEIGHT/2- adsImage.getHeight()/2);

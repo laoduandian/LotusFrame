@@ -86,7 +86,6 @@ public class LLogonScreen extends LScreen {
 		game.per.flush();
 	}
 	private void setInfo(){
-		game.info.is_Add_New = false;
 		if(game.lotusStudioApp == null){
 			return;
 		}

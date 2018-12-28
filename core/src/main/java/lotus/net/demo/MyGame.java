@@ -47,7 +47,9 @@ public class MyGame extends LGame{
     public void setGameInfo(){
         info = new GameInfo();
         this.info.setScreenSize((short) 720,(short)1280);
+//        this.info.setScreenSize((short) 480,(short)800);
 //        this.info.setScreenSize((short) 1280,(short)720);
+//        this.info.setScreenSize((short) 800,(short)480);
         this.info.game_name = "demo";
     }
 
