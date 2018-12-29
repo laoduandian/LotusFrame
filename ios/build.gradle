@@ -16,7 +16,7 @@ targetCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
-    mainClassName = "var3d.net.demo.IOSLauncher"
+    mainClassName = "com.lotus.game.demo.IOSLauncher"
 }
 
 launchIPhoneSimulator.dependsOn build

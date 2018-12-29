@@ -37,6 +37,7 @@ import org.robovm.pods.google.mobileads.GADBannerView;
 import org.robovm.pods.google.mobileads.GADBannerViewDelegateAdapter;
 import org.robovm.pods.google.mobileads.GADInterstitial;
 import org.robovm.pods.google.mobileads.GADInterstitialDelegate;
+import org.robovm.pods.google.mobileads.GADInterstitialDelegateAdapter;
 import org.robovm.pods.google.mobileads.GADMobileAds;
 import org.robovm.pods.google.mobileads.GADRequest;
 import org.robovm.pods.google.mobileads.GADRequestError;
@@ -56,7 +57,7 @@ import lotus.net.center.myclass.LGame;
  * The type Vios launcher.
  */
 public class VIOSLauncher extends IOSApplication.Delegate implements
-        App ,GADRewardBasedVideoAdDelegate,GADInterstitialDelegate {
+        App ,GADRewardBasedVideoAdDelegate {
     private GameCenterManager gcManager;
     private LGame game;
     /**
@@ -287,36 +288,7 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
         }
         return gcManager;
     }
-    @Override
-    public void didReceiveAd(GADInterstitial ad) {
-        log.debug("GADInterstitial: didReceiveAd");
-    }
 
-    @Override
-    public void didFailToReceiveAd(GADInterstitial ad, GADRequestError error) {
-        log.debug("GADInterstitial: didFailToReceiveAd");
-    }
-
-    @Override
-    public void willPresentScreen(GADInterstitial ad) {
-        log.debug("GADInterstitial: willPresentScreen");
-    }
-
-    @Override
-    public void didFailToPresentScreen(GADInterstitial ad) {
-        log.debug("GADInterstitial: didFailToPresentScreen");
-    }
-
-    @Override
-    public void willDismissScreen(GADInterstitial ad) {
-        log.debug("GADInterstitial: willDismissScreen");
-    }
-
-
-    @Override
-    public void willLeaveApplication(GADInterstitial ad) {
-        log.debug("GADInterstitial: willLeaveApplication");
-    }
 
     @Override
     public void didReceiveAd(GADRewardBasedVideoAd rewardBasedVideoAd) {
@@ -397,7 +369,7 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
     /**
      * The Request.
      */
-    GADRequest request = new GADRequest();
+//    GADRequest request = new GADRequest();
 
 
     private GADInterstitial interstitial;
@@ -425,7 +397,7 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
                 log.debug("didFailToReceiveAd:" + error);
             }
         });
-        bannerView.loadRequest(request);
+        bannerView.loadRequest(new GADRequest());
         log.debug("Initalizing ads complete.");
     }
 
@@ -434,19 +406,60 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
      */
     public void initializeRewardVideoAd() {
         gadRewardBasedVideoAd = GADRewardBasedVideoAd.getSharedInstance();
-        gadRewardBasedVideoAd.loadRequest(request, this.getGame().info.rewardedVideo_ad_id);
+        gadRewardBasedVideoAd.loadRequest(new GADRequest(), this.getGame().info.rewardedVideo_ad_id);
         gadRewardBasedVideoAd.setDelegate(this);
     }
-
     /**
      * Intialize interstitial.
      */
     public void intializeInterstitial() {
         interstitial = new GADInterstitial(this.getGame().info.interstitial_ad_id);
-        interstitial.setDelegate(this);
-        loadInsertscreen();
+        interstitial.setDelegate(new GADInterstitialDelegateAdapter(){
+            @Override
+            public void didDismissScreen(GADInterstitial ad) {
+                log.debug("GADInterstitial: didDismissScreen");
+                intializeInterstitial();
+                window.setHidden(true);
+            }
+            @Override
+            public void didFailToReceiveAd(GADInterstitial ad, GADRequestError error) {
+                log.debug("GADInterstitial: didFailToReceiveAd");
+            }
+            @Override
+            public void didReceiveAd(GADInterstitial ad) {
+                log.debug("GADInterstitial: didReceiveAd");
+            }
+            @Override
+            public void willPresentScreen(GADInterstitial ad) {
+                log.debug("GADInterstitial: willPresentScreen");
+            }
+            @Override
+            public void didFailToPresentScreen(GADInterstitial ad) {
+                log.debug("GADInterstitial: didFailToPresentScreen");
+            }
+            @Override
+            public void willDismissScreen(GADInterstitial ad) {
+                log.debug("GADInterstitial: willDismissScreen");
+            }
+            @Override
+            public void willLeaveApplication(GADInterstitial ad) {
+                log.debug("GADInterstitial: willLeaveApplication");
+            }
+        });
     }
-
+    @Override
+    public void showInterstitialAd() {
+        if(interstitial.isReady()) {
+            window.makeKeyAndVisible();
+            interstitial.present(rootViewController);
+        }else{
+            loadInsertscreen();
+        }
+    }
+    @Override
+    public void loadInsertscreen() {
+        interstitial.loadRequest(new GADRequest());
+    }
     @Override
     public void pinfen() {
         String url =  String.format("https://itunes.apple.com/cn/app/duel-of-clans/id%s?mt=8", this.getGame().info.game_Address);
@@ -478,19 +491,6 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
         float bannerWidth = (float) screenWidth;
         float bannerHeight = (float) (bannerWidth / adWidth * adHeight);
         bannerView.setFrame(new CGRect(0, -bannerWidth, adWidth, adHeight));
-    }
-
-
-    @Override
-    public void showInterstitialAd() {
-        if(interstitial.isReady()) {
-            window.makeKeyAndVisible();
-            interstitial.present(rootViewController);
-        }
-    }
-    @Override
-    public void loadInsertscreen() {
-        interstitial.loadRequest(request);
     }
 
     @Override
@@ -528,21 +528,16 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
             getGame().pause();
         }
     }
-    @Override
-    public void didDismissScreen(GADInterstitial ad) {
-        log.debug("GADInterstitial: didDismissScreen");
-        intializeInterstitial();
-        window.setHidden(true);
-    }
+
     @Override
     public void didFailToLoad(GADRewardBasedVideoAd rewardBasedVideoAd, NSError error) {
         log.debug("GADRewardBasedVideoAd: didFailToLoad:"+error);
-        gadRewardBasedVideoAd.loadRequest(request, this.getGame().info.rewardedVideo_ad_id);
+        gadRewardBasedVideoAd.loadRequest(new GADRequest(), this.getGame().info.rewardedVideo_ad_id);
     }
     @Override
     public void didClose(GADRewardBasedVideoAd rewardBasedVideoAd) {
         log.debug("GADRewardBasedVideoAd: didClose");
-        gadRewardBasedVideoAd.loadRequest(request, this.getGame().info.rewardedVideo_ad_id);
+        gadRewardBasedVideoAd.loadRequest(new GADRequest(), this.getGame().info.rewardedVideo_ad_id);
         window.setHidden(true);
         getGame().resume();
     }

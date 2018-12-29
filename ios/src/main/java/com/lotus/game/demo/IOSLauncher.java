@@ -1,11 +1,11 @@
-package lotus.net.demo;
+package com.lotus.game.demo;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import org.robovm.apple.foundation.NSAutoreleasePool;
-import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.uikit.UIApplication;
 import lotus.net.center.ios.VIOSLauncher;
+import lotus.net.demo.MyGame;
 
 
 public class IOSLauncher extends VIOSLauncher {

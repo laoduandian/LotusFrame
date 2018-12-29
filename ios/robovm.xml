@@ -33,7 +33,8 @@
     <pattern>org.apache.harmony.security.provider.crypto.CryptoProvider</pattern>
   </forceLinkClasses>
   <libs>
-      <lib>z</lib>   
+      <lib>z</lib>
+    <path>libs</path>
   </libs>
   <frameworks>
     <framework>UIKit</framework>
@@ -43,5 +44,6 @@
     <framework>OpenAL</framework>
     <framework>AudioToolbox</framework>
     <framework>AVFoundation</framework>
+    <framework>GoogleMobileAds</framework>
   </frameworks>
 </config>
