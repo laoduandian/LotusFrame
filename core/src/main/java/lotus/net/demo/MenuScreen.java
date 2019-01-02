@@ -30,8 +30,20 @@ public class MenuScreen extends LScreen{
         if(game.info.is_Add_New)
             add();
     }
+    boolean isHead = true;
     private  void init(){
-
+        TextButtonActor removeBanner = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
+        removeBanner.setColor(Color.PINK);
+        removeBanner.setPosition(200,300);
+        removeBanner.setSize(200,50);
+        removeBanner.add(game.font.getLabel("移除广告条"));
+        this.getStage().addActor(removeBanner);
+        removeBanner.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                MenuScreen.this.game.app.removeRanners();
+            }
+        });
         TextButtonActor addBanner = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
         addBanner.setColor(Color.PINK);
         addBanner.setPosition(200,400);
@@ -41,7 +53,8 @@ public class MenuScreen extends LScreen{
         addBanner.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                MenuScreen.this.game.app.addBanners();
+                MenuScreen.this.game.app.addBanners(isHead);
+                isHead = !isHead;
             }
         });
 
@@ -81,7 +94,7 @@ public class MenuScreen extends LScreen{
         showMovie.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                MenuScreen.this.game.app.showMovie(0);
+                MenuScreen.this.game.app.showMovie(51);
             }
         });
 

@@ -43,6 +43,8 @@ import org.robovm.pods.google.mobileads.GADRequest;
 import org.robovm.pods.google.mobileads.GADRequestError;
 import org.robovm.pods.google.mobileads.GADRewardBasedVideoAd;
 import org.robovm.pods.google.mobileads.GADRewardBasedVideoAdDelegate;
+import org.robovm.pods.google.mobileads.GADRewardBasedVideoAdDelegateAdapter;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,8 +58,7 @@ import lotus.net.center.myclass.LGame;
 /**
  * The type Vios launcher.
  */
-public class VIOSLauncher extends IOSApplication.Delegate implements
-        App ,GADRewardBasedVideoAdDelegate {
+public abstract class VIOSLauncher extends IOSApplication.Delegate implements App {
     private GameCenterManager gcManager;
     private LGame game;
     /**
@@ -290,26 +291,7 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
     }
 
 
-    @Override
-    public void didReceiveAd(GADRewardBasedVideoAd rewardBasedVideoAd) {
-        log.debug("GADRewardBasedVideoAd: didReceiveAd");
-    }
 
-    @Override
-    public void didOpen(GADRewardBasedVideoAd rewardBasedVideoAd) {
-        log.debug("GADRewardBasedVideoAd: didOpen");
-    }
-
-    @Override
-    public void didStartPlaying(GADRewardBasedVideoAd rewardBasedVideoAd) {
-        log.debug("GADRewardBasedVideoAd: didStartPlaying");
-    }
-
-    @Override
-    public void rewardBasedVideoAdDidCompletePlaying(GADRewardBasedVideoAd rewardBasedVideoAd) {
-        log.debug("GADRewardBasedVideoAd: rewardBasedVideoAdDidCompletePlaying");
-
-    }
 
     @Override
     public void showSomething(String a) {
@@ -407,7 +389,49 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
     public void initializeRewardVideoAd() {
         gadRewardBasedVideoAd = GADRewardBasedVideoAd.getSharedInstance();
         gadRewardBasedVideoAd.loadRequest(new GADRequest(), this.getGame().info.rewardedVideo_ad_id);
-        gadRewardBasedVideoAd.setDelegate(this);
+        gadRewardBasedVideoAd.setDelegate(new GADRewardBasedVideoAdDelegateAdapter(){
+            @Override
+            public void didReceiveAd(GADRewardBasedVideoAd rewardBasedVideoAd) {
+                log.debug("GADRewardBasedVideoAd: didReceiveAd");
+            }
+
+            @Override
+            public void didOpen(GADRewardBasedVideoAd rewardBasedVideoAd) {
+                log.debug("GADRewardBasedVideoAd: didOpen");
+            }
+
+            @Override
+            public void didStartPlaying(GADRewardBasedVideoAd rewardBasedVideoAd) {
+                log.debug("GADRewardBasedVideoAd: didStartPlaying");
+            }
+
+            @Override
+            public void rewardBasedVideoAdDidCompletePlaying(GADRewardBasedVideoAd rewardBasedVideoAd) {
+                log.debug("GADRewardBasedVideoAd: rewardBasedVideoAdDidCompletePlaying");
+
+            }
+            @Override
+            public void didFailToLoad(GADRewardBasedVideoAd rewardBasedVideoAd, NSError error) {
+                log.debug("GADRewardBasedVideoAd: didFailToLoad:"+error);
+//                gadRewardBasedVideoAd.loadRequest(new GADRequest(), VIOSLauncher.this.getGame().info.rewardedVideo_ad_id);
+            }
+            @Override
+            public void didClose(GADRewardBasedVideoAd rewardBasedVideoAd) {
+                log.debug("GADRewardBasedVideoAd: didClose");
+                gadRewardBasedVideoAd.loadRequest(new GADRequest(), VIOSLauncher.this.getGame().info.rewardedVideo_ad_id);
+                window.setHidden(true);
+            }
+
+            @Override
+            public void willLeaveApplication(GADRewardBasedVideoAd rewardBasedVideoAd) {
+                log.debug("GADRewardBasedVideoAd: willLeaveApplication");
+            }
+            @Override
+            public void didRewardUser(GADRewardBasedVideoAd rewardBasedVideoAd, GADAdReward reward) {
+                log.debug("GADRewardBasedVideoAd:---------didRewardUser");
+                getGame().showMovie_return(movie_index);
+            }
+        });
     }
     /**
      * Intialize interstitial.
@@ -466,7 +490,7 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
         Gdx.net.openURI(url);
     }
     @Override
-    public void addBanners() {
+    public void addBanners(boolean isHead) {
         final CGSize screenSize = UIScreen.getMainScreen().getBounds().getSize();
         double screenWidth = screenSize.getWidth();
         double  screenHeight= screenSize.getHeight();
@@ -476,26 +500,22 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
         log.debug(String.format("Showing ad. size[%s, %s]", adWidth, adHeight));
         double adX = (screenWidth / 2) - (adWidth / 2);
         double adY = screenHeight - adHeight;
-        bannerView.setFrame(new CGRect(adX, adY, adWidth, adHeight));
+        if(isHead)
+            bannerView.setFrame(new CGRect(adX, 0, adWidth, adHeight));
+        else
+            bannerView.setFrame(new CGRect(adX, adY, adWidth, adHeight));
     }
 
     @Override
     public void removeRanners() {
         final CGSize screenSize = UIScreen.getMainScreen().getBounds().getSize();
         double screenWidth = screenSize.getWidth();
-        double  screenHeight= screenSize.getHeight();
         final CGSize adSize = bannerView.getBounds().getSize();
         double adWidth = adSize.getWidth();
         double adHeight = adSize.getHeight();
         log.debug(String.format("Hidding ad. size[%s, %s]", adWidth, adHeight));
         float bannerWidth = (float) screenWidth;
-        float bannerHeight = (float) (bannerWidth / adWidth * adHeight);
         bannerView.setFrame(new CGRect(0, -bannerWidth, adWidth, adHeight));
-    }
-
-    @Override
-    protected IOSApplication createApplication() {
-        return null;
     }
 
     @Override
@@ -525,34 +545,9 @@ public class VIOSLauncher extends IOSApplication.Delegate implements
         if(gadRewardBasedVideoAd.isReady()) {
             window.makeKeyAndVisible();
             gadRewardBasedVideoAd.present(rootViewController);
-            getGame().pause();
+        }else{
+            gadRewardBasedVideoAd.loadRequest(new GADRequest(), this.getGame().info.rewardedVideo_ad_id);
         }
     }
-
-    @Override
-    public void didFailToLoad(GADRewardBasedVideoAd rewardBasedVideoAd, NSError error) {
-        log.debug("GADRewardBasedVideoAd: didFailToLoad:"+error);
-        gadRewardBasedVideoAd.loadRequest(new GADRequest(), this.getGame().info.rewardedVideo_ad_id);
-    }
-    @Override
-    public void didClose(GADRewardBasedVideoAd rewardBasedVideoAd) {
-        log.debug("GADRewardBasedVideoAd: didClose");
-        gadRewardBasedVideoAd.loadRequest(new GADRequest(), this.getGame().info.rewardedVideo_ad_id);
-        window.setHidden(true);
-        getGame().resume();
-    }
-
-    @Override
-    public void willLeaveApplication(GADRewardBasedVideoAd rewardBasedVideoAd) {
-        log.debug("GADRewardBasedVideoAd: willLeaveApplication");
-    }
-
-    @Override
-    public void didRewardUser(GADRewardBasedVideoAd rewardBasedVideoAd, GADAdReward reward) {
-        log.debug("GADRewardBasedVideoAd: didRewardUser");
-        getGame().resume();
-        getGame().showMovie_return(movie_index);
-    }
-
 }
 

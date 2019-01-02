@@ -26,6 +26,7 @@ public class LLogonScreen extends LScreen {
 		super.show();
         init();
         game.app.initAD();
+        game.app.removeRanners();
 	}
 	private void init() {
 		time = 0;

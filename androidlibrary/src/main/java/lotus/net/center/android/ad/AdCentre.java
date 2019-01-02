@@ -1,17 +1,11 @@
 package lotus.net.center.android.ad;
 
 
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.RadioGroup.LayoutParams;
-import com.badlogic.gdx.Gdx;
 import com.google.android.gms.ads.MobileAds;
-
 import lotus.net.center.android.VAndroidLauncher;
 
 public class AdCentre {
 	private VAndroidLauncher activity;
-	private RelativeLayout bannerRelativeLayout;
 	private GoogleAd myAd;
 	public AdCentre(VAndroidLauncher activity) {
 		this.activity = activity;
@@ -19,15 +13,10 @@ public class AdCentre {
 		init();
 	}
 	private void init(){
-		bannerRelativeLayout = new RelativeLayout(activity);
-		RelativeLayout.LayoutParams adParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		activity.relativeLayout.addView(bannerRelativeLayout,adParams);
 		myAd = new GoogleAd(activity);
 		initInterstitialAd();
 		myAd.initRewardedVideo();
         initBannerAd();
-        loadInsertscreen();
 	}
 	/** 插屏 **/
 	private void initInterstitialAd() {
@@ -40,13 +29,15 @@ public class AdCentre {
 		myAd.loadInsertscreen();
     }
     public void initBannerAd() {
-    	myAd.initBannerAd(bannerRelativeLayout);
+    	myAd.initBannerAd(activity.relativeLayout);
     }
-	public void addBanners(){
-		bannerRelativeLayout.setVisibility(View.VISIBLE);
+	public void addBanners(boolean isHead){
+		myAd.addBanners(isHead);
 	}
+
 	public void removeRanners(){
-		bannerRelativeLayout.setVisibility(View.GONE);
+		myAd.removeRanners();
+
 	}
 	public void dispose() {
 		myAd.dispose();

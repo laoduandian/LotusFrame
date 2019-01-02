@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.foundation.NSErrorUserInfo;
-import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.gamekit.GKAchievement;
 import org.robovm.apple.gamekit.GKAchievementViewController;
 import org.robovm.apple.gamekit.GKAchievementViewControllerDelegateAdapter;
@@ -23,7 +22,6 @@ import org.robovm.apple.uikit.UIViewController;
 import org.robovm.apple.uikit.UIWindow;
 import org.robovm.objc.block.VoidBlock1;
 import org.robovm.objc.block.VoidBlock2;
-import org.robovm.objc.block.VoidBlock3;
 
 @SuppressWarnings("deprecation")
 public class GameCenterManager {

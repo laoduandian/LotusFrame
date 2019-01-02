@@ -14,7 +14,7 @@ public class AndroidLauncher extends VAndroidLauncher {
         MyGame game = new MyGame(this);
         game.info.game_Address = this.getAppProcessName(this);
         game.info.is_Add_New = true;
-
+//        game.info.setAndroid_Test_Ads();
         //广告
         game.info.app_ad_id = "ca-app-pub-2887861689802805~5485762576";
         game.info.banner_ad_id = "ca-app-pub-9276668028949645/9537230211";

@@ -229,11 +229,11 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
     }
 
     @Override
-    public void addBanners() {
+    public void addBanners(final boolean isHead) {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                adCentre.addBanners();
+                adCentre.addBanners(isHead);
             }
         });
     }

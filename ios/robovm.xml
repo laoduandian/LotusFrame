@@ -20,8 +20,8 @@
   <forceLinkClasses>
     <pattern>com.badlogic.gdx.scenes.scene2d.ui.*</pattern>
     <pattern>com.badlogic.gdx.graphics.g3d.particles.**</pattern>
-    <pattern>com.android.okhttp.Httplhandler</pattern>
-    <pattern>com.android.okhttp.Httpslhandler</pattern>
+    <pattern>com.android.okhttp.HttpHandler</pattern>
+    <pattern>com.android.okhttp.HttpsHandler</pattern>
     <pattern>com.android.org.conscrypt.**</pattern>
     <pattern>com.android.org.bouncycastle.jce.provider.BouncyCastleProvider</pattern>
     <pattern>com.android.org.bouncycastle.jcajce.provider.keystore.BC$Mappings</pattern>
@@ -32,10 +32,10 @@
     <pattern>org.apache.harmony.security.provider.cert.DRLCertFactory</pattern>
     <pattern>org.apache.harmony.security.provider.crypto.CryptoProvider</pattern>
   </forceLinkClasses>
-  <libs>
-      <lib>z</lib>
+  <frameworkPaths>
+    <lib>z</lib>
     <path>libs</path>
-  </libs>
+  </frameworkPaths>
   <frameworks>
     <framework>UIKit</framework>
     <framework>OpenGLES</framework>
@@ -45,5 +45,10 @@
     <framework>AudioToolbox</framework>
     <framework>AVFoundation</framework>
     <framework>GoogleMobileAds</framework>
+    <framework>GLKit</framework>
+    <framework>CoreVideo</framework>
+    <framework>CoreBluetooth</framework>
+    <framework>CoreMotion</framework>
+    <framework>SafariServices</framework>
   </frameworks>
 </config>

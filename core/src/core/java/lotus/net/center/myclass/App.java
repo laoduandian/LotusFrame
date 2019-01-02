@@ -10,8 +10,8 @@ public interface App extends FreeListener {
 	public void paihang();
 	public void shangchuan(String name,int a);
 	public void shangchuan(String name,float a);
-	void addBanners();
-	void removeRanners();
+	public void addBanners(boolean isHead);
+	public void removeRanners();
 	public void moreGame();
 	public void showInterstitialAd();
 	public void share();

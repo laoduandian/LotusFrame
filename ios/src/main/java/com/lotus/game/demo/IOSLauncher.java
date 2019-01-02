@@ -16,6 +16,7 @@ public class IOSLauncher extends VIOSLauncher {
         this.getGame().info.game_Address = "1175680497";
         this.getGame().info.is_Add_New = true;
 
+        this.getGame().info.seIOS_Test_Ads();
         //广告
         this.getGame().info.app_ad_id ="ca-app-pub-2887861689802805~7729061775";
         this.getGame().info.banner_ad_id = "ca-app-pub-2887861689802805/9205794970";
@@ -31,6 +32,5 @@ public class IOSLauncher extends VIOSLauncher {
         UIApplication.main(argv, null, IOSLauncher.class);
         pool.close();
     }
-
 
 }

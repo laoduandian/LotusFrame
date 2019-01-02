@@ -152,7 +152,7 @@ public abstract class VDesktopLauncher implements App {
     }
 
     @Override
-    public void addBanners() {
+    public void addBanners(boolean isHead) {
         Gdx.app.log(getClass().getName(),String.format("%s_%s_%s","显示广告条",this.game.info.app_ad_id,this.game.info.banner_ad_id));
     }
 
