@@ -20,18 +20,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import lotus.net.center.myclass.helper.BasicButton;
 import lotus.net.center.net.AppItem;
 import lotus.net.center.net.LotusStudio;
 
 public abstract class LScreen implements Screen{
-	public LGame game;
+	protected static LGame game;
 	private Stage stage;
 	private TextureAtlas modeAtlas;
 	private TextureAtlas publicAtlas;
-	public LScreen(LGame game) {
-		this.game = game;
+
+	protected static void setGame(LGame game) {
+		LScreen.game = game;
 	}
 	@Override
 	public void show() {

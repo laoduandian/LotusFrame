@@ -12,11 +12,16 @@ import lotus.net.center.screen.LLogonScreen;
 
 public class MyGame extends LGame{
     LLogonScreen logonScreen;
-    public MyGame(App lhandler) {
-        super(lhandler);
+    public MyGame(){
         setGameInfo();
     }
-
+    private static  MyGame game;
+    public static MyGame getInstance() {
+        if(game == null){
+            game = new MyGame();
+        }
+        return game;
+    }
     @Override
     public void create() {
         super.create();
@@ -38,8 +43,8 @@ public class MyGame extends LGame{
                 return super.keyUp(keycode);
             }
         };
-        logonScreen = new LLogonScreen(this);
-        logonScreen.setNextScreen(getScreen(MenuScreen.class));
+        logonScreen = LLogonScreen.getInstance(this);
+        logonScreen.setNextScreen(MenuScreen.getInstance());
         assetManager = new LAssetManager(this);
         setScreenshots(logonScreen);
         doSkip(null);

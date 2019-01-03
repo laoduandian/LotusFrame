@@ -40,8 +40,9 @@ public class LGame extends Game {
 	public LoadingScreen loadingScreen;
 	public LotusStudio lotusStudioApp;
 	public HashMap<String,LScreen> screenPool = new HashMap<>();
-	public LGame(App lhandler) {
-		this.app = lhandler;
+
+	public void setApp(App app) {
+		this.app = app;
 	}
 
 	@Override
@@ -118,41 +119,6 @@ public class LGame extends Game {
 		return new Pixmap(Gdx.files.internal(name));
 	}
 
-	public <T> LScreen getScreen(Class<T> type){
-		LScreen screen = screenPool.get(type.getName());
-		if(screen != null){
-			return screen;
-		}
-		try {
-			screen = (LScreen)type.getConstructor(LGame.class).newInstance(this);
-			screenPool.put(type.getName(),screen);
-			return screen;
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 	private Texture fullTextrue;
 	/**

@@ -330,6 +330,7 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements Ap
      */
     public void setGame(LGame game) {
         this.game = game;
+        this.game.setApp(this);
     }
 
     /**

@@ -1,6 +1,5 @@
 package lotus.net.center.myclass;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import com.badlogic.gdx.audio.Music;
@@ -10,7 +9,6 @@ public class SoundManager {
 	private LGame game;
 	public Music music;
 	public Map<Long,Sound> soundMap = new HashMap<Long, Sound>();
-	public ArrayList<Long> indexs = new ArrayList<Long>();
 	public SoundManager(LGame game){
 		this.game = game;
 	}
@@ -52,15 +50,6 @@ public class SoundManager {
 			return;
 		Sound sound = getSound(soundName);
 		sound.play(volume);
-//		indexs.add(a);
-//		soundMap.put(a, sound);
-//		if(indexs.size()>7){
-//			long r = indexs.get(0);
-//			Sound rSound = soundMap.get(r);
-//			rSound.stop(r);
-//			soundMap.remove(r);
-//			indexs.remove(0);
-//		}
 	}
 	public long getAndPlaySound(String soundName,boolean isLoop){
 		if(!game.info.SOUND_ON_OFF)
@@ -71,7 +60,7 @@ public class SoundManager {
 		return a;
 	}
 	private Sound getSound(String soundName){
-		Sound sound = game.assetManager.get(  soundName, Sound.class);
+		Sound sound = game.assetManager.get( soundName, Sound.class);
 		return sound;
 	}
 	public void setMusicOnOrOff(boolean on){

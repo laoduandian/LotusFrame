@@ -7,8 +7,12 @@ import lotus.net.center.myclass.LGame;
 import lotus.net.center.myclass.LScreen;
 
 public class OverScreen extends LScreen{
-    public OverScreen(LGame game) {
-        super(game);
+    private static OverScreen overScreen;
+    public static OverScreen getInstance(){
+        if(overScreen == null){
+            overScreen = new OverScreen();
+        }
+        return overScreen;
     }
     @Override
     public void show() {
@@ -29,6 +33,6 @@ public class OverScreen extends LScreen{
 
     @Override
     public void dobackJob() {
-        game.setScreenshots(game.getScreen(GameScreen.class));
+        game.setScreenshots(GameScreen.getInstance());
     }
 }

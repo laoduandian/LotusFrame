@@ -27,6 +27,8 @@ public class GameInfo {
 
     public boolean MUSIC_ON_OFF = true;
     public boolean SOUND_ON_OFF = true;
+    public final String MUSIC_NAME = "music";
+    public final String SOUND_NAME = "sound";
 
     public String rewardedVideo_ad_id = "ca-app-pub-2887861689802805/1682047996";
     public String banner_ad_id = "ca-app-pub-2887861689802805/9205794970";

@@ -1,28 +1,22 @@
 package lotus.net.demo;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
-import lotus.net.center.myclass.LGame;
 import lotus.net.center.myclass.LScreen;
-import lotus.net.center.uieditor.project.widget.ButtonActor;
 import lotus.net.center.uieditor.project.widget.TextButtonActor;
 
 public class MenuScreen extends LScreen{
-    public MenuScreen(LGame game) {
-        super(game);
+    private static MenuScreen menuScreen;
+    public static MenuScreen getInstance() {
+        if(menuScreen == null){
+            menuScreen = new MenuScreen();
+        }
+        return menuScreen;
     }
-
     @Override
     public void show() {
         super.show();
@@ -36,12 +30,12 @@ public class MenuScreen extends LScreen{
         removeBanner.setColor(Color.PINK);
         removeBanner.setPosition(200,300);
         removeBanner.setSize(200,50);
-        removeBanner.add(game.font.getLabel("移除广告条"));
+        removeBanner.add(MyGame.getInstance().font.getLabel("移除广告条"));
         this.getStage().addActor(removeBanner);
         removeBanner.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                MenuScreen.this.game.app.removeRanners();
+                MyGame.getInstance().app.removeRanners();
             }
         });
         TextButtonActor addBanner = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
@@ -145,7 +139,7 @@ public class MenuScreen extends LScreen{
         gameScreen.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreenshots(game.getScreen(GameScreen.class));
+                game.setScreenshots(GameScreen.getInstance());
             }
         });
 

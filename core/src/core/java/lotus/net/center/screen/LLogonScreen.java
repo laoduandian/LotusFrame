@@ -15,11 +15,17 @@ import lotus.net.center.myclass.LScreen;
 import lotus.net.center.myclass.Tools;
 import lotus.net.center.net.AppRestricted;
 import lotus.net.center.net.LotusStudio;
+import lotus.net.demo.GameScreen;
 
 
 public class LLogonScreen extends LScreen {
-	public LLogonScreen(LGame game) {
-		super(game);
+	private static LLogonScreen logonScreen;
+	public static LLogonScreen getInstance(LGame game){
+		if(logonScreen == null){
+			logonScreen = new LLogonScreen();
+			logonScreen.setGame(game);
+		}
+		return logonScreen;
 	}
 	@Override
 	public void show() {

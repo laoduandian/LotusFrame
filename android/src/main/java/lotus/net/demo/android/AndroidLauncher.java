@@ -11,7 +11,7 @@ public class AndroidLauncher extends VAndroidLauncher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MyGame game = new MyGame(this);
+        MyGame game = MyGame.getInstance();
         game.info.game_Address = this.getAppProcessName(this);
         game.info.is_Add_New = true;
 //        game.info.setAndroid_Test_Ads();
@@ -21,8 +21,8 @@ public class AndroidLauncher extends VAndroidLauncher {
         game.info.interstitial_ad_id = "ca-app-pub-2887861689802805/6437458573";
         game.info.rewardedVideo_ad_id = "ca-app-pub-2887861689802805/3587152459";
         game.info.interstitial_ad_condition_num = 4;
-
         init(game);
+
     }
 
 }

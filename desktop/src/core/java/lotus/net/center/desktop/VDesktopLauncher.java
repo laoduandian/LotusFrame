@@ -26,7 +26,7 @@ import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.LGame;
 
 public abstract class VDesktopLauncher implements App {
-    LGame game;
+    protected static LGame game;
 
     public Pixmap getFontPixmap(String txt, FreePaint vpaint) {
         Font font = getFont(vpaint);
@@ -126,6 +126,7 @@ public abstract class VDesktopLauncher implements App {
 
     public void setGame(LGame game) {
         this.game = game;
+        game.setApp(this);
     }
 
     private java.awt.Color getColor(Color libColor) {

@@ -14,10 +14,13 @@ import lotus.net.center.uieditor.project.widget.ButtonActor;
 import lotus.net.center.uieditor.project.widget.TextButtonActor;
 
 public class GameScreen extends LScreen{
-    public GameScreen(LGame game) {
-        super(game);
+    private static GameScreen gameScreen;
+    public static GameScreen getInstance(){
+        if(gameScreen == null){
+            gameScreen = new GameScreen();
+        }
+        return gameScreen;
     }
-
     @Override
     public void show() {
         super.show();
@@ -32,7 +35,7 @@ public class GameScreen extends LScreen{
         overscreen.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreenshots(game.getScreen(OverScreen.class));
+                game.setScreenshots(OverScreen.getInstance());
             }
         });
     }
@@ -49,6 +52,6 @@ public class GameScreen extends LScreen{
 
     @Override
     public void dobackJob() {
-        game.setScreenshots(game.getScreen(MenuScreen.class));
+        game.setScreenshots(MenuScreen.getInstance());
     }
 }

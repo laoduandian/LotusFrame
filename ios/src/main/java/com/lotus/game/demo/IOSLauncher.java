@@ -12,7 +12,7 @@ public class IOSLauncher extends VIOSLauncher {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        this.setGame(new MyGame(this));
+        this.setGame(MyGame.getInstance());
         this.getGame().info.game_Address = "1175680497";
         this.getGame().info.is_Add_New = true;
 

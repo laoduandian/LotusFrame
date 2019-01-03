@@ -10,8 +10,7 @@ public class DesktopLauncher extends VDesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		DesktopLauncher launcher = new DesktopLauncher();
-		MyGame game = new MyGame(launcher);
-		launcher.setGame(game);
+		launcher.setGame(MyGame.getInstance());
 		config.width = game.info.GAME_WIDTH;
 		config.height = game.info.GAME_HEIGHT;
 //		game.info.is_Add_New = true;
