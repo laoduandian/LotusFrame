@@ -1,6 +1,5 @@
 package lotus.net.center.myclass;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -10,14 +9,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-
 import lotus.net.center.freefont.FreeFont;
 import lotus.net.center.net.LotusStudio;
 import lotus.net.center.screen.LoadingScreen;
@@ -39,7 +33,6 @@ public class LGame extends Game {
 	public Json json;
 	public LoadingScreen loadingScreen;
 	public LotusStudio lotusStudioApp;
-	public HashMap<String,LScreen> screenPool = new HashMap<>();
 
 	public void setApp(App app) {
 		this.app = app;
@@ -48,7 +41,6 @@ public class LGame extends Game {
 	@Override
 	public void create() {
 		json = new Json();
-		setGameInfo();
 		per = Gdx.app.getPreferences(info.game_name);
 		lotusStudioApp = json.fromJson(LotusStudio.class,per.getString("lotusStudioApp"));
 		into = new EditorInto(this);
@@ -59,14 +51,6 @@ public class LGame extends Game {
 		soundManager = new SoundManager(this);
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
-	}
-	private void setGameInfo(){
-		if(Gdx.app.getType()== Application.ApplicationType.Android){
-			info.app_ad_id = "ca-app-pub-2887861689802805~5485762576";
-			info.banner_ad_id = "ca-app-pub-9276668028949645/9537230211";
-			info.interstitial_ad_id = "ca-app-pub-2887861689802805/6437458573";
-			info.rewardedVideo_ad_id = "ca-app-pub-2887861689802805/3587152459";
-		}
 	}
 
 	@Override

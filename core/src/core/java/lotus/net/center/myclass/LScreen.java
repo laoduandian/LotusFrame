@@ -37,6 +37,7 @@ public abstract class LScreen implements Screen{
 	public void show() {
 		stage = new Stage();
 		stage.setViewport(new StretchViewport(game.info.GAME_WIDTH, game.info.GAME_HEIGHT));
+		game.multiplexer.clear();
         game.multiplexer.addProcessor(stage);
         Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(game.multiplexer);

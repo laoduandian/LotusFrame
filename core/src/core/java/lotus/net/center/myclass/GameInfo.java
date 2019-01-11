@@ -1,5 +1,8 @@
 package lotus.net.center.myclass;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
+
 /**
  * 游戏的基础信息，
  *  #屏幕尺寸；
@@ -36,17 +39,26 @@ public class GameInfo {
     public String app_ad_id ="ca-app-pub-2887861689802805~7729061775";
     public String game_Address = "1175680497";
 
+    public void setAd_id(){
+        if(!app_ad_id.equals("ca-app-pub-2887861689802805~7729061775"))
+            return;
+        app_ad_id = "ca-app-pub-2887861689802805~5485762576";
+        banner_ad_id = "ca-app-pub-9276668028949645/9537230211";
+        interstitial_ad_id = "ca-app-pub-2887861689802805/6437458573";
+        rewardedVideo_ad_id = "ca-app-pub-2887861689802805/3587152459";
+    }
+
     public void setAndroid_Test_Ads(){
-        String app_ad_id ="ca-app-pub-3940256099942544~3347511713";
-        String banner_ad_id = "ca-app-pub-3940256099942544/6300978111";
-        String interstitial_ad_id = "ca-app-pub-3940256099942544/1033173712";
-        String rewardedVideo_ad_id = "ca-app-pub-3940256099942544/5224354917";
+        app_ad_id ="ca-app-pub-3940256099942544~3347511713";
+        banner_ad_id = "ca-app-pub-3940256099942544/6300978111";
+        interstitial_ad_id = "ca-app-pub-3940256099942544/1033173712";
+        rewardedVideo_ad_id = "ca-app-pub-3940256099942544/5224354917";
     }
     public void seIOS_Test_Ads(){
-        String app_ad_id ="ca-app-pub-3940256099942544~1458002511";
-        String banner_ad_id = "ca-app-pub-3940256099942544/2934735716";
-        String interstitial_ad_id = "ca-app-pub-3940256099942544/4411468910";
-        String rewardedVideo_ad_id = "ca-app-pub-3940256099942544/1712485313";
+        app_ad_id ="ca-app-pub-3940256099942544~1458002511";
+        banner_ad_id = "ca-app-pub-3940256099942544/2934735716";
+        interstitial_ad_id = "ca-app-pub-3940256099942544/4411468910";
+        rewardedVideo_ad_id = "ca-app-pub-3940256099942544/1712485313";
     }
 
 
