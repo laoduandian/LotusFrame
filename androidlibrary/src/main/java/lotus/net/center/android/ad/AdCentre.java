@@ -2,6 +2,8 @@ package lotus.net.center.android.ad;
 
 
 import com.google.android.gms.ads.MobileAds;
+import com.unity3d.ads.metadata.MetaData;
+
 import lotus.net.center.android.VAndroidLauncher;
 
 public class AdCentre {
@@ -9,6 +11,9 @@ public class AdCentre {
 	private GoogleAd myAd;
 	public AdCentre(VAndroidLauncher activity) {
 		this.activity = activity;
+		MetaData gdprMetaData = new MetaData(activity);
+		gdprMetaData.set("gdpr.consent", true);
+		gdprMetaData.commit();
 		MobileAds.initialize(activity, this.activity.game.info.app_ad_id);
 		init();
 	}

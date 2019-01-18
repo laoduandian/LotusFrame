@@ -14,7 +14,7 @@ buildscript {
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
 
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5' // Add this line
-        
+
 
     }
 }
@@ -53,6 +53,7 @@ allprojects {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        jcenter()
         maven { url 'https://jitpack.io' }
     }
 }

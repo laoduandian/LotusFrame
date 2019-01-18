@@ -44,7 +44,7 @@ public class GameInfo {
             return;
         app_ad_id = "ca-app-pub-2887861689802805~5485762576";
         banner_ad_id = "ca-app-pub-9276668028949645/9537230211";
-        interstitial_ad_id = "ca-app-pub-2887861689802805/6437458573";
+        interstitial_ad_id = "ca-app-pub-2887861689802805/9390924976";
         rewardedVideo_ad_id = "ca-app-pub-2887861689802805/3587152459";
     }
 

@@ -1,6 +1,7 @@
 package lotus.net.center.android.ad;
 
 import com.badlogic.gdx.Gdx;
+import com.google.ads.mediation.unity.UnityAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -10,6 +11,9 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.unity3d.ads.IUnityAdsListener;
+import com.unity3d.ads.UnityAds;
+import com.unity3d.ads.metadata.MetaData;
 
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -120,7 +124,7 @@ public class GoogleAd implements LotusAd{
 
 			@Override
 			public void onRewardedVideoAdFailedToLoad(int i) {
-				Gdx.app.log("RewardedVideo：","onRewardedVideoAdFailedToLoad");
+				Gdx.app.log("RewardedVideo：","onRewardedVideoAdFailedToLoad：：：："+i);
 			}
 		});
 		loadRewardedVideo();
@@ -129,9 +133,12 @@ public class GoogleAd implements LotusAd{
 	@Override
 	public void loadRewardedVideo() {
 		mRewardedVideoAd.loadAd(this.activity.game.info.rewardedVideo_ad_id,
-				new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				new AdRequest.Builder()
+						.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
 						.addTestDevice("8A9C319A8D182EACC3170C7BA897D0A5")
 						.addTestDevice("8B55DAD18BEF299E261C4D2E8ED751B0").build());
+
+
 	}
 
 	AdView adView;
@@ -154,13 +161,10 @@ public class GoogleAd implements LotusAd{
 	private int movie_index = 0;
 	public void showMovie(int id) {
 		movie_index = id;
-		System.out.println("==============");
 		if (mRewardedVideoAd.isLoaded()) {
 			mRewardedVideoAd.show();
-			System.out.println("showMovie");
 		}else{
 			loadRewardedVideo();
-			System.out.println("loadRewardedVideo");
 		}
 	}
 
@@ -180,4 +184,7 @@ public class GoogleAd implements LotusAd{
 	public void removeRanners() {
 		adView.setVisibility(View.GONE);
 	}
+
+
+
 }

@@ -47,5 +47,11 @@ dependencies {
     compile "com.google.android.gms:play-services-auth:${gms_library_version}"
     compile 'com.android.support:multidex:1.0.1'//添加这行
 
+
+    compile 'com.unity3d.ads:unity-ads:3.0.0'
+    compile 'com.google.ads.mediation:unity:3.0.0.0'
+
+
+
 }
 
