@@ -124,7 +124,7 @@ public class MenuScreen extends LScreen{
             }
         });
 
-        MenuScreen.getInstance().setModeAtlas(L.data.pack.menu);
+
         TextButtonActor paihang = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
         paihang.setColor(Color.PINK);
         paihang.setPosition(200,1000);
