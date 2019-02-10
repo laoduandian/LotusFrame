@@ -16,7 +16,7 @@ public class FreeFont {
 	public FreeFont(LGame game) {
 		this.game = game;
 		FreeBitmapFont font = new FreeBitmapFont(this.game, new FreePaint(getDefaultFontSize()));
-		fonts.put("font", font);
+		fonts.put("30", font);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class FreeFont {
 	 * font
 	 */
 	public FreeBitmapFont getFont() {
-		return fonts.get("font");
+		return fonts.get("30");
 	}
 
 	/**

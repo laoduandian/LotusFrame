@@ -31,14 +31,14 @@ GAD_ASSUME_NONNULL_BEGIN
 /// reports SDK related exceptions and calls the recorded original exception handler.
 + (void)disableSDKCrashReporting;
 
-/// The application's audio volume. Affects audio volumes of all ads relative to other audio output.
-/// Valid ad volume values range from 0.0 (silent) to 1.0 (current device volume). Use this method
-/// only if your application has its own volume controls (e.g., custom music or sound effect
-/// volumes). Defaults to 1.0.
+/// The application's audio soundVolume. Affects audio soundVolumes of all ads relative to other audio output.
+/// Valid ad soundVolume values range from 0.0 (silent) to 1.0 (current device soundVolume). Use this method
+/// only if your application has its own soundVolume controls (e.g., custom music or sound effect
+/// soundVolumes). Defaults to 1.0.
 @property(nonatomic, assign) float applicationVolume;
 
 /// Indicates if the application's audio is muted. Affects initial mute state for all ads. Use this
-/// method only if your application has its own volume controls (e.g., custom music or sound effect
+/// method only if your application has its own soundVolume controls (e.g., custom music or sound effect
 /// muting). Defaults to NO.
 @property(nonatomic, assign) BOOL applicationMuted;
 

@@ -24,7 +24,7 @@ public class GameScreen extends LScreen{
     @Override
     public void show() {
         super.show();
-        Image image = new Image(game.assetManager.get("data/bg/1.jpg",Texture.class));
+        Image image = new Image(game.assetManager.get(L.data.bg.image.addName_2,Texture.class));
         this.getStage().addActor(image);
         TextButtonActor overscreen = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
         overscreen.setColor(Color.PINK);
@@ -42,7 +42,7 @@ public class GameScreen extends LScreen{
 
     @Override
     public void resume() {
-        this.game.assetManager.load("data/bg/1.jpg", Texture.class);
+       
     }
 
     @Override

@@ -1,53 +1,49 @@
 package lotus.net.center.myclass;
 
-import java.util.HashMap;
-import java.util.Map;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Pool;
 
-public class LParticleEffect extends Actor{
-	private Map<String , ParticleEffectPool> particleEffectPoolMap = new HashMap<String, ParticleEffectPool>(); //粒子池map
-	public ParticleEffect tem;
-	
-	public void loadParticle(String name,float x,float y){
-		tem = getParticleEffectPool(name).obtain();
-		tem.setPosition(x,y);
-	}
-	public void dispose() {
-		if (tem != null)
-			tem.dispose();
+public class LParticleEffect extends Pool<LParticleEffect.ParticleEffectActor> {
+	private ParticleEffect rootEffect;
+
+	public LParticleEffect(LGame game,String assetsPath){
+		this.rootEffect = game.assetManager.get(assetsPath);
 	}
 
 	@Override
-	public void draw(Batch batch, float arg1) {
-		if(tem != null){
-			tem.draw(batch, Gdx.graphics.getDeltaTime());
-		}
+	protected ParticleEffectActor newObject() {
+		return new ParticleEffectActor(this.rootEffect);
 	}
-	
-	@Override
-	public void act(float delta) {
-		if(tem.isComplete()){
-			this.getParent().removeActor(this);
+
+	public class  ParticleEffectActor extends Actor{
+		private ParticleEffect effect;
+		public ParticleEffectActor(ParticleEffect rootEffect) {
+			effect = new ParticleEffect(rootEffect);
+			effect.reset();
 		}
-	}
-	
-	/**
-	 *  获取粒子的缓冲区
-	 * @param name 粒子名称
-	 * @return ParticleEffectPool
-	 */
-	public ParticleEffectPool getParticleEffectPool(String name) {
-		ParticleEffectPool pool = particleEffectPoolMap.get(name);
-		if(pool == null){
-			ParticleEffect p = new ParticleEffect();
-			p.load(Gdx.files.internal("data/" + name + ".p"), Gdx.files.internal("data/"));
-			pool = new ParticleEffectPool(p, 1, 1);
-			particleEffectPoolMap.put(name, pool);
+
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			super.draw(batch, parentAlpha);
+			batch.setColor(getColor());
+			effect.setPosition(getX(),getY());
+			effect.draw(batch);
+
 		}
-		return pool;
+		@Override
+		public void act(float delta) {
+			super.act(delta);
+			effect.update(delta);
+			if(effect.isComplete()){
+				free();
+			}
+		}
+		public void free(){
+			LParticleEffect.this.free(this);
+			this.remove();
+			effect.reset();
+		}
 	}
 }

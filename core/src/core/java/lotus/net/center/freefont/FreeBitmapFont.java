@@ -1,10 +1,5 @@
 package lotus.net.center.freefont;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Filter;
@@ -16,8 +11,12 @@ import com.badlogic.gdx.graphics.g2d.PixmapPacker.Page;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import lotus.net.center.myclass.LGame;
+
 
 /**
  * 自由文本类1.1版本 此自由文本方案基于libgdx 1.6编写，需libgdx 1.6或以上版本支持

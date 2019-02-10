@@ -195,7 +195,7 @@ public abstract class LScreen implements Screen{
 	}
 	private void addAdsGroup(Texture texture){
 		Image adsImage = new Image(Tools.setTextureFilter(texture));
-		Image image = new Image(new Texture(Gdx.files.internal("data/0.jpg")));
+		Image image = new Image(texture);
 		Image chaImage = new Image(new Texture(Gdx.files.internal("data/cha.png")));
 		Image gImage = new Image(new Texture(Gdx.files.internal("data/g.png")));
 

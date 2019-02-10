@@ -1,11 +1,14 @@
 package lotus.net.demo;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
+import lotus.net.center.myclass.LParticleEffect;
 import lotus.net.center.myclass.LScreen;
 import lotus.net.center.uieditor.project.widget.TextButtonActor;
 
@@ -24,8 +27,13 @@ public class MenuScreen extends LScreen{
         if(game.info.is_Add_New)
             add();
     }
+
     boolean isHead = true;
     private  void init(){
+        Image bgImage = new Image(game.texture);
+        bgImage.setColor(Color.YELLOW);
+        bgImage.setSize(game.info.GAME_WIDTH,game.info.GAME_HEIGHT);
+        this.getStage().addActor(bgImage);
         TextButtonActor removeBanner = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
         removeBanner.setColor(Color.PINK);
         removeBanner.setPosition(200,300);
@@ -116,7 +124,6 @@ public class MenuScreen extends LScreen{
                 MenuScreen.this.game.app.pinfen();
             }
         });
-
         TextButtonActor paihang = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
         paihang.setColor(Color.PINK);
         paihang.setPosition(200,1000);
@@ -127,6 +134,12 @@ public class MenuScreen extends LScreen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 MenuScreen.this.game.app.paihang();
+                LParticleEffect lParticleEffect = new LParticleEffect(game,L.data.particle.fangkuaiexplode);
+                LParticleEffect.ParticleEffectActor actor1= lParticleEffect.obtain();
+                actor1.setPosition(200 ,1000);
+                MenuScreen.this.getStage().addActor(actor1);
+
+
             }
         });
 
@@ -143,12 +156,12 @@ public class MenuScreen extends LScreen{
             }
         });
 
-    }
 
+    }
 
     @Override
     public void resume() {
-        this.game.assetManager.load("data/g.png", Texture.class);
+        game.loadFolder(L.data.class);
     }
 
     @Override

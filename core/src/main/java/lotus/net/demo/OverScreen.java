@@ -17,13 +17,12 @@ public class OverScreen extends LScreen{
     @Override
     public void show() {
         super.show();
-        Image image = new Image(game.assetManager.get("data/bg/2.jpg",Texture.class));
+        Image image = new Image(game.assetManager.get(L.data.bg.image.addName_1,Texture.class));
         this.getStage().addActor(image);
 
     }
     @Override
     public void resume() {
-        this.game.assetManager.load("data/bg/2.jpg", Texture.class);
     }
 
     @Override

@@ -3,16 +3,14 @@ package lotus.net.demo;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 
-import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.GameInfo;
 import lotus.net.center.myclass.LGame;
-import lotus.net.center.myclass.LAssetManager;
 import lotus.net.center.myclass.LScreen;
 import lotus.net.center.screen.LLogonScreen;
 
 public class MyGame extends LGame{
     LLogonScreen logonScreen;
-    public MyGame(){
+     protected MyGame(){
         setGameInfo();
     }
     private static  MyGame game;
@@ -45,7 +43,6 @@ public class MyGame extends LGame{
         };
         logonScreen = LLogonScreen.getInstance(this);
         logonScreen.setNextScreen(MenuScreen.getInstance());
-        assetManager = new LAssetManager(this);
         setScreenshots(logonScreen);
         doSkip(null);
     }
@@ -73,4 +70,7 @@ public class MyGame extends LGame{
             screen.dobackJob();
         }
     }
+
+
+
 }

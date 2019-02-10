@@ -24,7 +24,7 @@
 /// of the returned UIViewController .
 - (UIViewController *)viewControllerForPresentingModalView;
 
-/// Returns the preferred ad volume as a fraction of system volume (0.0 to 1.0).
+/// Returns the preferred ad soundVolume as a fraction of system soundVolume (0.0 to 1.0).
 - (float)adVolume;
 
 /// Returns whether the ad should be muted.

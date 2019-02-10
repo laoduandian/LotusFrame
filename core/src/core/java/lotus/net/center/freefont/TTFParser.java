@@ -17,7 +17,7 @@ public class TTFParser {
 	/**
 	 * 获取ttf font name
 	 * 
-	 * @return FontName
+	 * @return
 	 */
 	public String getFontName() {
 		if (fontProperties.containsKey(FULL_FONT_NAME)) {
@@ -32,7 +32,7 @@ public class TTFParser {
 	/**
 	 * 获取ttf font ps name
 	 * 
-	 * @return  FontPSName
+	 * @return
 	 */
 	public String getFontPSName() {
 		return getFontPropertie(POSTSCRIPT_NAME);

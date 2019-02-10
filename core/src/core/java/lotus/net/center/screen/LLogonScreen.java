@@ -9,13 +9,11 @@ import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
-
 import lotus.net.center.myclass.LGame;
 import lotus.net.center.myclass.LScreen;
 import lotus.net.center.myclass.Tools;
 import lotus.net.center.net.AppRestricted;
 import lotus.net.center.net.LotusStudio;
-import lotus.net.demo.GameScreen;
 
 
 public class LLogonScreen extends LScreen {

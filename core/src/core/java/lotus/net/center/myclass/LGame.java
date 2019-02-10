@@ -5,13 +5,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
+import java.lang.reflect.Field;
 import lotus.net.center.freefont.FreeFont;
 import lotus.net.center.net.LotusStudio;
 import lotus.net.center.screen.LoadingScreen;
@@ -21,7 +28,7 @@ import lotus.net.center.uieditor.EditorInto;
 public class LGame extends Game {
 	public Screen nextScreen;
 	public InputMultiplexer multiplexer;
-	public LAssetManager assetManager;
+	public AssetManager assetManager;
 	public SoundManager soundManager;
 	private boolean isScreenshots;// 截图
 	public App app;
@@ -48,6 +55,7 @@ public class LGame extends Game {
 		creatTexture();
 		isScreenshots = false;
 		font = new FreeFont(this);
+		assetManager = new AssetManager();
 		soundManager = new SoundManager(this);
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
@@ -120,6 +128,57 @@ public class LGame extends Game {
 		region.flip(false, true);
 		pixmap.dispose();
 		return region;
+	}
+	/**
+	 * 加载一类资源
+	 */
+	public <T> void load(Class<T> type,String... paths){
+		for (String path: paths) {
+			assetManager.load(path,type);
+		}
+	}
+
+	/**
+	 * 加载文件夹下的资源
+	 * @param L_Classs
+	 */
+	public void loadFolder(Class<?>... L_Classs) {
+		for (Class<?> lClass : L_Classs) {
+			Class innerClazz[] = lClass.getDeclaredClasses();
+			if (innerClazz.length > 0)loadFolder(innerClazz);
+			Field[] fields = lClass.getDeclaredFields();
+			for (Field field : fields) {
+				loadField(lClass,field);
+			}
+		}
+	}
+	private void loadField(Class<?> lClass,Field field){
+		String class_name = lClass.getSimpleName();
+		try {
+			String path= (String) field.get(lClass);
+			switch (class_name){
+				case "image":
+					this.load(Texture.class,path);
+					break;
+				case "Music":
+					this.load(Music.class,path);
+					break;
+				case "Sound":
+					this.load(Sound.class,path);
+					break;
+				case "particle":
+					this.load(ParticleEffect.class,path);
+					break;
+				case "pack":
+					this.load(TextureAtlas.class,path);
+					break;
+				case "font":
+					this.load(BitmapFont.class,path);
+					break;
+			}
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

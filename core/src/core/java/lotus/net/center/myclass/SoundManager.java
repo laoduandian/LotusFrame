@@ -1,18 +1,17 @@
 package lotus.net.center.myclass;
 
-import java.util.HashMap;
-import java.util.Map;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 public class SoundManager {
 	private LGame game;
 	public Music music;
-	public Map<Long,Sound> soundMap = new HashMap<Long, Sound>();
 	public SoundManager(LGame game){
 		this.game = game;
+		setSoundVolume(1);
 	}
-	public void getAndPlayMusic(String musicName,float volume){
+	private float soundVolume;
+	public void getAndPlayMusic(String musicName,float soundVolume){
 		if(music ==null){
 			music = game.assetManager.get( musicName  , Music.class);
 			music.play();
@@ -28,38 +27,28 @@ public class SoundManager {
 				music.setLooping(true);
 			}
 		}
-		music.setVolume(volume);
+		music.setVolume(soundVolume);
 		setMusicOnOrOff(game.info.MUSIC_ON_OFF);
 	}
-	public void getAndPlaySound(String soundName){
-		if(!game.info.SOUND_ON_OFF)
-			return;
-		getSound(soundName).play();
+	public long getAndPlaySound(String soundName){
+		return getAndPlaySound(soundName,soundVolume,false);
 	}
-	/**
-	 * 全拼
-	 * @param soundName
-	 */
-	public void getAndPlaySound_All(String soundName){
-		if(!game.info.SOUND_ON_OFF)
-			return;
-		game.assetManager.get(soundName, Sound.class).play();
-	}
-	public void getAndPlaySound(String soundName,float volume){
-		if(!game.info.SOUND_ON_OFF)
-			return;
-		Sound sound = getSound(soundName);
-		sound.play(volume);
+	public long getAndPlaySound(String soundName,float soundVolume){
+		return getAndPlaySound(soundName,soundVolume,false);
 	}
 	public long getAndPlaySound(String soundName,boolean isLoop){
+		return getAndPlaySound(soundName,soundVolume,isLoop);
+	}
+	public long getAndPlaySound(String soundName,float soundVolume,boolean isLoop){
 		if(!game.info.SOUND_ON_OFF)
 			return 0;
 		Sound sound = getSound(soundName);
-		long a = sound.loop();
-		soundMap.put(a, sound);
-		return a;
+		if(isLoop)
+			return sound.loop(soundVolume);
+		else
+			return sound.play();
 	}
-	private Sound getSound(String soundName){
+	public Sound getSound(String soundName){
 		Sound sound = game.assetManager.get( soundName, Sound.class);
 		return sound;
 	}
@@ -76,5 +65,9 @@ public class SoundManager {
 	}
 	public void setSoundOnOrOff(boolean on){
 		game.info.SOUND_ON_OFF = on;
+	}
+
+	public void setSoundVolume(float soundVolume) {
+		this.soundVolume = soundVolume;
 	}
 }

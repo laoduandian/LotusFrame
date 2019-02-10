@@ -124,13 +124,13 @@ public abstract class VDesktopLauncher implements App {
         return font;
     }
 
+    private java.awt.Color getColor(Color libColor) {
+        return new java.awt.Color(libColor.r, libColor.g, libColor.b, libColor.a);
+    }
+
     public void setGame(LGame game) {
         this.game = game;
         game.setApp(this);
-    }
-
-    private java.awt.Color getColor(Color libColor) {
-        return new java.awt.Color(libColor.r, libColor.g, libColor.b, libColor.a);
     }
 
     @Override

@@ -166,7 +166,6 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements Ap
             return getFontPixmap(" ", vpaint);
         }
     }
-
     @Override
     public void newgame(String address) {
         Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",address));
