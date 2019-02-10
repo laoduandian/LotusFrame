@@ -1,7 +1,6 @@
 package lotus.net.demo;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -124,6 +123,8 @@ public class MenuScreen extends LScreen{
                 MenuScreen.this.game.app.pinfen();
             }
         });
+
+        MenuScreen.getInstance().setModeAtlas(L.data.pack.menu);
         TextButtonActor paihang = new TextButtonActor(new TextureRegionDrawable(new TextureRegion(game.texture)));
         paihang.setColor(Color.PINK);
         paihang.setPosition(200,1000);
@@ -134,10 +135,11 @@ public class MenuScreen extends LScreen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 MenuScreen.this.game.app.paihang();
-                LParticleEffect lParticleEffect = new LParticleEffect(game,L.data.particle.fangkuaiexplode);
+                LParticleEffect lParticleEffect = new LParticleEffect(game,L.data.particle.fangkuaiexplode,L.data.image.fangkuai);
                 LParticleEffect.ParticleEffectActor actor1= lParticleEffect.obtain();
                 actor1.setPosition(200 ,1000);
                 MenuScreen.this.getStage().addActor(actor1);
+//                System.out.println(game.assetManager.isLoaded("data/fangkuai.png"));
 
 
             }
@@ -155,8 +157,6 @@ public class MenuScreen extends LScreen{
                 game.setScreenshots(GameScreen.getInstance());
             }
         });
-
-
     }
 
     @Override

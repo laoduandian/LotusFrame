@@ -5,11 +5,16 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
 
+
 public class LParticleEffect extends Pool<LParticleEffect.ParticleEffectActor> {
 	private ParticleEffect rootEffect;
 
-	public LParticleEffect(LGame game,String assetsPath){
-		this.rootEffect = game.assetManager.get(assetsPath);
+
+	public LParticleEffect(LGame game, String effectPath, String imagesDir){
+		rootEffect = game.getParticleEffect(effectPath,imagesDir);
+	}
+	public LParticleEffect(LGame game, String effectPath){
+		rootEffect = game.getParticleEffect(effectPath);
 	}
 
 	@Override

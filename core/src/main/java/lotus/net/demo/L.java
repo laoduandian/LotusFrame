@@ -14,6 +14,9 @@ public class L {
 		public static class particle {
 		    public final static String fangkuaiexplode = "data/fangkuaiexplode.p";
 		}
+		public static class pack {
+		    public final static String menu = "data/menu.pack";
+		}
 		public static class image {
 		    public final static String cha = "data/cha.png";
 		    public final static String fangkuai = "data/fangkuai.png";

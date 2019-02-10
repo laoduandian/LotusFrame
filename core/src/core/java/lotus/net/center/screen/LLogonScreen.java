@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import lotus.net.center.myclass.LGame;
 import lotus.net.center.myclass.LScreen;
-import lotus.net.center.myclass.Tools;
 import lotus.net.center.net.AppRestricted;
 import lotus.net.center.net.LotusStudio;
 
@@ -34,8 +33,7 @@ public class LLogonScreen extends LScreen {
 	}
 	private void init() {
 		time = 0;
-		Texture texture = game.assetManager.get("data/logobg.jpg");
-		Image bgImage = new Image(Tools.setTextureFilter(texture));
+		Image bgImage = new Image(game.getTexture("data/logobg.jpg"));
 		
 		bgImage.setSize(game.info.GAME_WIDTH, bgImage.getHeight()* game.info.GAME_WIDTH/bgImage.getWidth());
 		bgImage.setPosition(game.info.GAME_WIDTH/2 - bgImage.getWidth()/2, game.info.GAME_HEIGHT/2 -bgImage.getHeight()/2);
@@ -122,7 +120,7 @@ public class LLogonScreen extends LScreen {
 	}
 	@Override
 	public void resume() {
-		this.game.assetManager.load("data/logobg.jpg", Texture.class);
+		this.game.assetManager.load("data/logobg.jpg",Texture.class, game.textureParameter);
 	}
 	boolean isTiaozhuan = false;
 	@Override

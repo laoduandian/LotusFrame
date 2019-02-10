@@ -27,8 +27,6 @@ import lotus.net.center.net.LotusStudio;
 public abstract class LScreen implements Screen{
 	protected static LGame game;
 	private Stage stage;
-	private TextureAtlas modeAtlas;
-	private TextureAtlas publicAtlas;
 
 	protected static void setGame(LGame game) {
 		LScreen.game = game;
@@ -74,34 +72,6 @@ public abstract class LScreen implements Screen{
 	public abstract void dispose();
 	public Stage getStage() {
 		return stage;
-	}
-	public TextureRegion getModeTextureRegion(String regionName){
-		return modeAtlas.findRegion(regionName);
-	}
-	public void setModeAtlas(TextureAtlas modeAtlas) {
-		this.modeAtlas = modeAtlas;
-	}
-	public void setModeAtlas(String string) {
-		this.modeAtlas = game.assetManager.get(string);
-		for (Texture texture : modeAtlas.getTextures()) {
-			Tools.setTextureFilter(texture);
-		}
-	}
-	public TextureAtlas getModeAtlas() {
-		return modeAtlas;
-	}
-	
-	public TextureRegion getPublicTextureRegion(String regionName){
-		return publicAtlas.findRegion(regionName);
-	}
-	public void setPublicAtlas(String string) {
-		this.publicAtlas = game.assetManager.get(string);
-		for (Texture texture : publicAtlas.getTextures()) {
-			Tools.setTextureFilter(texture);
-		}
-	}
-	public TextureAtlas getPublicAtlas() {
-		return publicAtlas;
 	}
 	public abstract void dobackJob();
 
