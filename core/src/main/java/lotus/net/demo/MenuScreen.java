@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import lotus.net.center.myclass.LParticleEffect;
+import lotus.net.center.myclass.LParticleEffectPool;
 import lotus.net.center.myclass.LScreen;
 import lotus.net.center.uieditor.project.widget.TextButtonActor;
 
@@ -130,17 +130,13 @@ public class MenuScreen extends LScreen{
         paihang.setSize(200,50);
         paihang.add(game.font.getLabel("排行"));
         this.getStage().addActor(paihang);
+        final  LParticleEffectPool lParticleEffectPool = new LParticleEffectPool(game,L.data.particle.fangkuaiexplode,L.data.image.fangkuai);
         paihang.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 MenuScreen.this.game.app.paihang();
-                LParticleEffect lParticleEffect = new LParticleEffect(game,L.data.particle.fangkuaiexplode,L.data.image.fangkuai);
-                LParticleEffect.ParticleEffectActor actor1= lParticleEffect.obtain();
-                actor1.setPosition(200 ,1000);
-                MenuScreen.this.getStage().addActor(actor1);
-//                System.out.println(game.assetManager.isLoaded("data/fangkuai.png"));
-
-
+                LParticleEffectPool.ParticleActor particleActor = lParticleEffectPool.obtain(200,1000);
+                MenuScreen.this.getStage().addActor(particleActor);
             }
         });
 

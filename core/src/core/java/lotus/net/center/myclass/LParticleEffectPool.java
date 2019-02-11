@@ -6,25 +6,31 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
 
 
-public class LParticleEffect extends Pool<LParticleEffect.ParticleEffectActor> {
+public class LParticleEffectPool extends Pool<LParticleEffectPool.ParticleActor> {
 	private ParticleEffect rootEffect;
 
 
-	public LParticleEffect(LGame game, String effectPath, String imagesDir){
+	public LParticleEffectPool(LGame game, String effectPath, String imagesDir){
 		rootEffect = game.getParticleEffect(effectPath,imagesDir);
 	}
-	public LParticleEffect(LGame game, String effectPath){
+	public LParticleEffectPool(LGame game, String effectPath){
 		rootEffect = game.getParticleEffect(effectPath);
 	}
 
-	@Override
-	protected ParticleEffectActor newObject() {
-		return new ParticleEffectActor(this.rootEffect);
+	public ParticleActor obtain(float x ,float y) {
+		ParticleActor actor = super.obtain();
+		actor.setPosition(x, y);
+		return actor;
 	}
 
-	public class  ParticleEffectActor extends Actor{
+	@Override
+	protected ParticleActor newObject() {
+		return new ParticleActor(this.rootEffect);
+	}
+
+	public class  ParticleActor extends Actor{
 		private ParticleEffect effect;
-		public ParticleEffectActor(ParticleEffect rootEffect) {
+		public ParticleActor(ParticleEffect rootEffect) {
 			effect = new ParticleEffect(rootEffect);
 			effect.reset();
 		}
@@ -41,12 +47,11 @@ public class LParticleEffect extends Pool<LParticleEffect.ParticleEffectActor> {
 		public void act(float delta) {
 			super.act(delta);
 			effect.update(delta);
-			if(effect.isComplete()){
+			if(effect.isComplete())
 				free();
-			}
 		}
 		public void free(){
-			LParticleEffect.this.free(this);
+			LParticleEffectPool.this.free(this);
 			this.remove();
 			effect.reset();
 		}
