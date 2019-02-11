@@ -130,7 +130,7 @@ public class MenuScreen extends LScreen{
         paihang.setSize(200,50);
         paihang.add(game.font.getLabel("排行"));
         this.getStage().addActor(paihang);
-        final  LParticleEffectPool lParticleEffectPool = new LParticleEffectPool(game,L.data.particle.fangkuaiexplode,L.data.image.fangkuai);
+        final  LParticleEffectPool lParticleEffectPool = new LParticleEffectPool(game,L.data.particle.fangkuaiexplode,"data/fangkuai.png");
         paihang.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

@@ -19,7 +19,7 @@ public class L {
 		}
 		public static class image {
 		    public final static String cha = "data/cha.png";
-		    public final static String fangkuai = "data/fangkuai.png";
+//		    public final static String fangkuai = "data/fangkuai.png";
 		    public final static String logobg = "data/logobg.jpg";
 		    public final static String g = "data/g.png";
 		}

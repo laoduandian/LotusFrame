@@ -245,9 +245,7 @@ public class LGame extends Game {
 		}
 		TextureAtlas addAtlas = this.assetManager.get(atlasPath);
 		for (TextureAtlas.AtlasRegion region :addAtlas.getRegions()){
-			if(getAtlas().findRegion(region.name)!=null)
-				Gdx.app.error(this.getClass().getName(),"重复资源名称："+region.name);
-			getAtlas().addRegion(region.name,region);
+			addRegionToAtlas(region,region.name,getAtlas());
 		}
 		return atlas;
 	}
@@ -257,14 +255,13 @@ public class LGame extends Game {
             Gdx.app.error(this.getClass().getName(),"没有加载："+imagesDir);
             assetManager.finishLoading();
 			add_Assets_Path.add(imagesDir);
-            addAtlas(imagesDir);
         }
         String imageName = new File(imagesDir.replace('\\', '/')).getName();
         int lastDotIndex = imageName.lastIndexOf('.');
         if (lastDotIndex != -1) imageName = imageName.substring(0, lastDotIndex);
         if(getAtlas().findRegion(imageName)==null){
             TextureRegion region = new TextureRegion(assetManager.get(imagesDir,Texture.class));
-            getAtlas().addRegion(imageName,region);
+			addRegionToAtlas(region,imageName,getAtlas());
         }
         ParticleEffect effect = new ParticleEffect();
         effect.load(new FileHandle(effectPath),getAtlas());
@@ -287,4 +284,9 @@ public class LGame extends Game {
         effect.loadEmitterImages(getAtlas());
         return  effect;
     }
+    private void addRegionToAtlas(TextureRegion region ,String name,TextureAtlas atlas){
+		if(atlas.findRegion(name)!=null)
+			Gdx.app.error(this.getClass().getName(),"重复资源名称："+atlas);
+		atlas.addRegion(name,region);
+	}
 }
