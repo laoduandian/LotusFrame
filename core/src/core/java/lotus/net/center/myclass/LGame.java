@@ -52,7 +52,8 @@ public class LGame extends Game {
 	public LotusStudio lotusStudioApp;
 	private TextureAtlas atlas;
 	public TextureLoader.TextureParameter textureParameter = new TextureLoader.TextureParameter();
-	public void setApp(App app) {
+	private Array<String> add_Assets_Path = new Array<>();//临时资源地址
+ 	public void setApp(App app) {
 		this.app = app;
 	}
 
@@ -85,11 +86,19 @@ public class LGame extends Game {
 
 	public void doSkip(TextureRegion fullTextrueRegion) {
 		getScreen().dispose();
+		resetAtlas();
 		nextScreen.resume();
 		loadingScreen.setFullTextrueRegion(fullTextrueRegion);
 		setScreen(loadingScreen);
 		multiplexer.clear();
 		isScreenshots = false;
+	}
+	private void resetAtlas(){
+		atlas = new TextureAtlas();
+		for (String path: add_Assets_Path ) {
+			assetManager.unload(path);
+		}
+		add_Assets_Path.clear();
 	}
 
 	private void doBackjob() {
@@ -232,6 +241,7 @@ public class LGame extends Game {
 			load(TextureAtlas.class,atlasPath);
 			Gdx.app.error(this.getClass().getName(),"没有加载："+atlasPath);
 			assetManager.finishLoading();
+            add_Assets_Path.add(atlasPath);
 		}
 		TextureAtlas addAtlas = this.assetManager.get(atlasPath);
 		for (TextureAtlas.AtlasRegion region :addAtlas.getRegions()){
@@ -246,6 +256,8 @@ public class LGame extends Game {
             load(Texture.class,textureParameter,imagesDir);
             Gdx.app.error(this.getClass().getName(),"没有加载："+imagesDir);
             assetManager.finishLoading();
+			add_Assets_Path.add(imagesDir);
+            addAtlas(imagesDir);
         }
         String imageName = new File(imagesDir.replace('\\', '/')).getName();
         int lastDotIndex = imageName.lastIndexOf('.');
