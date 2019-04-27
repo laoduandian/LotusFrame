@@ -289,4 +289,15 @@ public class LGame extends Game {
 			Gdx.app.error(this.getClass().getName(),"重复资源名称："+atlas);
 		atlas.addRegion(name,region);
 	}
+	private int interstitial_num;
+	public void showInterstitialAd(){
+		interstitial_num--;
+		if(interstitial_num == 1){
+			app.loadInsertscreen();
+		}
+		if(interstitial_num <= 0){
+			app.showInterstitialAd();
+			interstitial_num = info.interstitial_ad_condition_num;
+		}
+	}
 }
