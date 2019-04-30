@@ -80,7 +80,7 @@ public class MenuScreen extends LScreen{
         showInterstitialAd.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                MenuScreen.this.game.app.showInterstitialAd();
+                MenuScreen.this.game.showInterstitialAd();
             }
         });
 
@@ -156,7 +156,8 @@ public class MenuScreen extends LScreen{
 
     @Override
     public void resume() {
-        game.loadFolder(L.data.class);
+//        game.loadFolder(L.data.image.class);
+//        System.out.println(L.data.image.cha);
     }
 
     @Override

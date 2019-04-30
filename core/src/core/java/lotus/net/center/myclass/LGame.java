@@ -33,6 +33,7 @@ import lotus.net.center.freefont.FreeFont;
 import lotus.net.center.net.LotusStudio;
 import lotus.net.center.screen.LoadingScreen;
 import lotus.net.center.uieditor.EditorInto;
+import lotus.net.demo.L;
 
 
 public class LGame extends Game {
@@ -175,6 +176,7 @@ public class LGame extends Game {
 	 */
 	public void loadFolder(Class<?>... L_Classs) {
 		for (Class<?> lClass : L_Classs) {
+			System.out.println(lClass.getName());
 			Class innerClazz[] = lClass.getDeclaredClasses();
 			if (innerClazz.length > 0)loadFolder(innerClazz);
 			Field[] fields = lClass.getDeclaredFields();
@@ -264,7 +266,7 @@ public class LGame extends Game {
 			addRegionToAtlas(region,imageName,getAtlas());
         }
         ParticleEffect effect = new ParticleEffect();
-        effect.load(new FileHandle(effectPath),getAtlas());
+        effect.load(Gdx.files.internal(effectPath),getAtlas());
         return  effect;
     }
     public ParticleEffect getParticleEffect(String effectPath){
@@ -289,7 +291,7 @@ public class LGame extends Game {
 			Gdx.app.error(this.getClass().getName(),"重复资源名称："+atlas);
 		atlas.addRegion(name,region);
 	}
-	private int interstitial_num;
+	private int interstitial_num = 4;
 	public void showInterstitialAd(){
 		interstitial_num--;
 		if(interstitial_num == 1){
