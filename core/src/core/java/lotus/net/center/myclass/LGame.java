@@ -288,7 +288,7 @@ public class LGame extends Game {
     }
     private void addRegionToAtlas(TextureRegion region ,String name,TextureAtlas atlas){
 		if(atlas.findRegion(name)!=null)
-			Gdx.app.error(this.getClass().getName(),"重复资源名称："+atlas);
+			Gdx.app.error(this.getClass().getName(),"重复资源名称："+name);
 		atlas.addRegion(name,region);
 	}
 	private int interstitial_num = 4;
