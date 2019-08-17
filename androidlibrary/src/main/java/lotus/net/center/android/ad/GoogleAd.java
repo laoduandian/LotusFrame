@@ -1,7 +1,6 @@
 package lotus.net.center.android.ad;
 
 import com.badlogic.gdx.Gdx;
-import com.google.ads.mediation.unity.UnityAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -11,9 +10,6 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-import com.unity3d.ads.IUnityAdsListener;
-import com.unity3d.ads.UnityAds;
-import com.unity3d.ads.metadata.MetaData;
 
 import android.view.View;
 import android.widget.RelativeLayout;
