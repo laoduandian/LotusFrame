@@ -128,7 +128,7 @@ subprojects {
 
 
 
-    def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses", ":android:compileCoreReleaseJavaWithJavac"];
+    def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses"];
 
     packJar.dependsOn preCompile
 
