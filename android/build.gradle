@@ -1,28 +1,15 @@
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.laoduandian'
-
+group = 'com.github.laoduandian'
 android {
     buildToolsVersion "27.0.3"
     compileSdkVersion 27
-    productFlavors {
-        main
-        core
-    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src/main/java', "src/core/java"]
-            aidl.srcDirs = ['src/main/java', "src/core/java"]
-            renderscript.srcDirs = ['src/main/java', "src/core/java"]
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-            jniLibs.srcDirs = ['libs']
-        }
-        core {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src/core/java']
-            aidl.srcDirs = ['src/core/java']
-            renderscript.srcDirs = ['src/core/java']
+            java.srcDirs = ['src/main/java']
+            aidl.srcDirs = ['src/main/java']
+            renderscript.srcDirs = ['src/main/java']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
@@ -33,19 +20,57 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "lotus.net.demo.android"
+        applicationId 'lotus.net.demo.android'
         minSdkVersion 15
         targetSdkVersion 27
+        versionName '1.0.0'
+        versionCode 1
     }
+
+    signingConfigs {
+        googleplay {
+            debug {
+                keyAlias 'android'
+                keyPassword 'android'
+                storeFile file('/Users/luoyi/Downloads/androidtafang.keystore')
+                storePassword 'android'
+            }
+            keyAlias 'android'
+            keyPassword 'android'
+            storeFile file('/Users/luoyi/Downloads/androidtafang.keystore')
+            storePassword 'android'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+        debug {
+//            // 显示Log buildConfigField "boolean", "LOG_DEBUG", "true"
+//          versionNameSuffix "-debug"
+            minifyEnabled false  //开启混淆
+            zipAlignEnabled false   //开启Zipalign优化
+            shrinkResources false    //移除无用的resource文件，此项只有在开启混淆时才生效
+            signingConfig signingConfigs.debug   //使用release证书签名
         }
     }
+//    flavorDimensions "default"
+    productFlavors {
+        googleplay{
+            applicationId 'lotus.net.demo.android'
+        }
+        taptap {
+//            dimension "default"
+            applicationId 'lotus.net.demo.android'
+        }
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
 }
-
-
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
 // so they get packed with the APK.
@@ -58,12 +83,12 @@ task copyAndroidNatives() {
 
     configurations.natives.files.each { jar ->
         def outputDir = null
-        if(jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
-        if(jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
-        if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
-        if(jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
-        if(jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
-        if(outputDir != null) {
+        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
+        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
+        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
+        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
+        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
+        if (outputDir != null) {
             copy {
                 from zipTree(jar)
                 into outputDir
@@ -71,4 +96,14 @@ task copyAndroidNatives() {
             }
         }
     }
+}
+configurations { natives }
+repositories{
+    flatDir{
+        dirs project(':androidtaptaplibrary').file('libs')
+    }
+}
+dependencies {
+    googleplayCompile project(':androidlibrary')
+    taptapCompile project(':androidtaptaplibrary')
 }

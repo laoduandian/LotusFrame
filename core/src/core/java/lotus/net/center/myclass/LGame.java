@@ -64,7 +64,8 @@ public class LGame extends Game {
         textureParameter.magFilter = Texture.TextureFilter.Linear;
 		json = new Json();
 		per = Gdx.app.getPreferences(info.game_name);
-		lotusStudioApp = json.fromJson(LotusStudio.class,per.getString("lotusStudioApp"));
+		lotusStudioApp = json.fromJson(LotusStudio.class,per.getString("lotusStudio"));
+		info.setLotusStudioAppMessage(lotusStudioApp);
 		into = new EditorInto(this);
 		Gdx.app.setLogLevel(Logger.DEBUG);
 		creatTexture();

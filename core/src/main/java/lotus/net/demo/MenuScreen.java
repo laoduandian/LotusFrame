@@ -6,8 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Base64Coder;
+
 import lotus.net.center.myclass.LParticleEffectPool;
 import lotus.net.center.myclass.LScreen;
+import lotus.net.center.myclass.Tools;
+import lotus.net.center.net.AdsValue;
+import lotus.net.center.net.DataSaveSecurity;
 import lotus.net.center.uieditor.project.widget.TextButtonActor;
 
 public class MenuScreen extends LScreen{
@@ -152,6 +157,7 @@ public class MenuScreen extends LScreen{
                 game.setScreenshots(GameScreen.getInstance());
             }
         });
+//        Tools.creatEncodeFile("/Users/luoyi/android/lotusadsfile/ads01.text");
     }
 
     @Override

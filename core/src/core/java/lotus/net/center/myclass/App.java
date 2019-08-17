@@ -2,6 +2,7 @@ package lotus.net.center.myclass;
 
 
 import lotus.net.center.freefont.FreeListener;
+import lotus.net.center.net.AppItem;
 
 public interface App extends FreeListener {
 	public void outGame();
@@ -17,7 +18,7 @@ public interface App extends FreeListener {
 	public void share();
 	public void loadInsertscreen();
 	public void showMovie(int id);
-	public void newgame(String address);
+	public void newgame(AppItem appItem);
 	public void initAD();
 }
  

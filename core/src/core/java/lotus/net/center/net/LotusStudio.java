@@ -1,29 +1,32 @@
 package lotus.net.center.net;
 
-import com.badlogic.gdx.utils.Array;
 
 public class LotusStudio {
-	public int index;
-	private Array<AppRestricted> appRestricteds;
-	private Array<AppItem> apps;
-	public Array<AppItem> getApps() {
-		return apps;
-	}
-	public void setApps(Array<AppItem> apps) {
-		this.apps = apps;
-	}
-	public int getIndex() {
-		return index;
-	}
-	public void setIndex(int index) {
-		this.index = index;
+	private AddNew addNew;
+	private AppRestricted appRestricted;
+	private AdsId adsId;
+
+	public AddNew getAddNew() {
+		return addNew;
 	}
 
-    public Array<AppRestricted> getAppRestricteds() {
-        return appRestricteds;
-    }
+	public void setAddNew(AddNew addNew) {
+		this.addNew = addNew;
+	}
 
-    public void setAppRestricteds(Array<AppRestricted> appRestricteds) {
-        this.appRestricteds = appRestricteds;
-    }
+	public AppRestricted getAppRestricted() {
+		return appRestricted;
+	}
+
+	public void setAppRestricted(AppRestricted appRestricted) {
+		this.appRestricted = appRestricted;
+	}
+
+	public AdsId getAdsId() {
+		return adsId;
+	}
+
+	public void setAdsId(AdsId adsId) {
+		this.adsId = adsId;
+	}
 }

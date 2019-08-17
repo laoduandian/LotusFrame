@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -82,7 +83,7 @@ public abstract class LScreen implements Screen{
 
 	public void add(){
 		LotusStudio lotusStudioApp = game.lotusStudioApp;
-		if(lotusStudioApp == null)
+		if(lotusStudioApp == null||lotusStudioApp.getAddNew() == null)
 			return;
 		game.info.is_Add_New = false;
 		loadAdsGroup(getDifferentApp(lotusStudioApp));
@@ -97,18 +98,18 @@ public abstract class LScreen implements Screen{
 	private AppItem randomAppItem(LotusStudio lotusStudioApp) {
 		float random = MathUtils.random(1f);
 		int index = 0;
-		for (int i = 0; i < lotusStudioApp.getApps().size; i++) {
+		for (int i = 0; i < lotusStudioApp.getAddNew().getApps().size; i++) {
 			if(getId(random, lotusStudioApp, i))
 				index = i;
 			else
 				break;
 		}
-		return lotusStudioApp.getApps().get(index);
+		return lotusStudioApp.getAddNew().getApps().get(index);
 	}
 	private boolean getId(float random,LotusStudio lotusStudioApp,int index) {
 		float sum = 0;
 		for (int i = 0; i < index; i++) {
-			sum += lotusStudioApp.getApps().get(i).getAppProportion();
+			sum += lotusStudioApp.getAddNew().getApps().get(i).getAppProportion();
 		}
 		return random > sum;
 	}
@@ -118,14 +119,16 @@ public abstract class LScreen implements Screen{
 		adsGroup = new Group();
 		if(game.info.GAME_WIDTH>game.info.GAME_HEIGHT)
 			addName = "heng/";
-		FileHandle png = Gdx.files.absolute(Gdx.files.getExternalStoragePath()+"data/"+addName+appItem.getAppAdImageName());
+		final FileHandle png = Gdx.files.local("data/"+addName+appItem.getAppAdImageName());
 		if(png.exists()){
 			texture = new Texture(png);
 			addAdsGroup(texture);
 		}else{
+//			game.app.showSomething("下载图片");
 			String httpMethod = Net.HttpMethods.GET;
 			httpRequest = new HttpRequest(httpMethod);
 			httpRequest.setUrl("http://www.lotusstudio.top/games/"+addName+appItem.getAppAdImageName());
+//			httpRequest.setUrl("http://b270.photo.store.qq.com/psb?/82a3c959-5cd6-427e-8453-7b23acdd781f/2Ekgg5*N0RsRj1qc.SLT6r7BPXvUzGSyOYlVsAGHJRY!/b/dNdt.aC8FgAA&bo=WAIgA9ACwAMBGFc!&rf=viewer_4");
 			Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
 				@Override
 				public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -138,27 +141,17 @@ public abstract class LScreen implements Screen{
 							addAdsGroup(texture);
 						}
 					});
-					try {
-						File sf=new File(Gdx.files.getExternalStoragePath()+"data/"+addName);
-						if(!sf.exists()){
-							sf.mkdirs();
-						}
-						OutputStream os = new FileOutputStream(Gdx.files.getExternalStoragePath()+"data/"+addName+LScreen.this.appItem.getAppAdImageName());
-						os.write(rawImageBytes, 0, rawImageBytes.length);
-						os.close();
-					}catch (IOException e) {
-						e.printStackTrace();
-					}
+					png.writeBytes(rawImageBytes,false);
 				}
 
 				@Override
 				public void failed(Throwable t) {
-
+					game.app.showSomething("下载失败"+t.getMessage());
 				}
 
 				@Override
 				public void cancelled() {
-
+					game.app.showSomething("下载取消");
 				}
 			});
 		}
@@ -167,7 +160,7 @@ public abstract class LScreen implements Screen{
 		Image adsImage = new Image(Tools.setTextureFilter(texture));
 		Image image = new Image(texture);
 		Image chaImage = new Image(new Texture(Gdx.files.internal("data/cha.png")));
-		Image gImage = new Image(new Texture(Gdx.files.internal("data/g.png")));
+		final Image gImage = new Image(new Texture(Gdx.files.internal("data/g.png")));
 
 		image.setSize(game.info.GAME_WIDTH, game.info.GAME_HEIGHT);
 		image.setColor(0,0,0,0.7f);
@@ -191,7 +184,10 @@ public abstract class LScreen implements Screen{
 								int pointer, int button) {
 				if(pointer!=0||!isTouch())
 					return;
-				game.app.newgame(appItem.getAppAddress());
+//				if(game.info.isInland()&&appItem.getInlandAddress()!=null)
+//					Gdx.net.openURI("https://"+appItem.getInlandAddress());
+//				else
+				game.app.newgame(appItem);
 				adsGroup.remove();
 				super.touchUp(event, x, y, pointer, button);
 			}
@@ -202,7 +198,10 @@ public abstract class LScreen implements Screen{
 								int pointer, int button) {
 				if(pointer!=0||!isTouch())
 					return;
-				game.app.newgame(appItem.getAppAddress());
+				if(game.info.isInland()&&appItem.getInlandAddress()!=null)
+					Gdx.net.openURI("https://"+appItem.getInlandAddress());
+				else
+					game.app.newgame(appItem);
 				adsGroup.remove();
 				super.touchUp(event, x, y, pointer, button);
 			}

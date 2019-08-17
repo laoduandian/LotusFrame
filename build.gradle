@@ -76,10 +76,6 @@ project(":android") {
     apply plugin: "android"
     configurations { natives }
 
-    dependencies {
-        compile project(":core")
-        compile project(":androidlibrary")
-    }
 }
 
 
@@ -156,7 +152,7 @@ subprojects {
     }
 
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
-    if(project.name != "androidlibrary") {
+    if(project.name != "androidlibrary"&&project.name != "androidtaptaplibrary"&&project.name != "cleanlibrary") {
         artifacts {//人工产品
             archives packJar
             archives packDoc

@@ -24,6 +24,7 @@ import lotus.net.center.freefont.FreePaint;
 
 import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.LGame;
+import lotus.net.center.net.AppItem;
 
 public abstract class VDesktopLauncher implements App {
     protected static LGame game;
@@ -134,8 +135,11 @@ public abstract class VDesktopLauncher implements App {
     }
 
     @Override
-    public void newgame(String address) {
-        Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",address));
+    public void newgame(AppItem appItem) {
+        if (game.info.isInland())
+            Gdx.net.openURI("https://"+appItem.getInlandAddress());
+        else
+            Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",appItem.getAppAddress()));
     }
 
     @Override
@@ -145,7 +149,10 @@ public abstract class VDesktopLauncher implements App {
 
     @Override
     public void pinfen() {
-        Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",game.info.game_Address));
+        if (game.info.isInland())
+            Gdx.net.openURI("https://"+game.info.getInlandAddress());
+        else
+            Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",game.info.game_Address));
     }
     @Override
     public void paihang() {

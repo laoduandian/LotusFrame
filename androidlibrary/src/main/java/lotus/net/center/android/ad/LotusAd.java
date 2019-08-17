@@ -10,4 +10,7 @@ public interface LotusAd {
 	public void loadRewardedVideo();
 	public void initBannerAd(RelativeLayout bannerRelativeLayout);
 	public void dispose();
+	void addBanners(boolean isHead);
+	void removeRanners();
+	void showMovie(int id);
 }

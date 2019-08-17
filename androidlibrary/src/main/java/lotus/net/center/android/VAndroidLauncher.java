@@ -1,16 +1,20 @@
 package lotus.net.center.android;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.DialogInterface.OnCancelListener;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -43,12 +47,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import lotus.net.center.android.ad.AdCentre;
 import lotus.net.center.freefont.FreePaint;
 import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.LGame;
+import lotus.net.center.net.AppChannel;
+import lotus.net.center.net.AppItem;
 
 
 public abstract class VAndroidLauncher extends AndroidApplication implements App {
@@ -64,14 +71,16 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
     }
     protected void init(LGame game){
         this.game = game;
-        this.game.info.setAd_id();
         this.game.setApp(this);
+        this.game.info.setAppChannel(AppChannel.google);
         handler = new Handler();
         relativeLayout = new RelativeLayout(this);
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         View gameView = initializeForView(game, cfg);
         relativeLayout.addView(gameView);
-        adCentre = new AdCentre(this);
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            checkAndRequestPermission();
+//        }
         setContentView(relativeLayout);
         // Create the client used to sign in to Google services.
         mGoogleSignInClient = GoogleSignIn.getClient(this,
@@ -187,11 +196,11 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
         });
     }
     @Override
-    public void newgame(final String address) {
+    public void newgame(final AppItem appItem) {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s%s","market://details?id=",address)));
+                Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s%s","market://details?id=",appItem.getAppAddress())));
                 VAndroidLauncher.this.startActivity(it);
             }
         });
@@ -267,6 +276,7 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
                 Toast.makeText(VAndroidLauncher.this,  a,Toast.LENGTH_LONG).show();
             }
         });
+        Gdx.app.debug("android",a);
     }
     @Override
     public void pinfen() {
@@ -328,7 +338,12 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
 
     @Override
     public void initAD() {
-
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adCentre = new AdCentre(VAndroidLauncher.this);
+            }
+        });
     }
     @Override
     public void outGame() {
@@ -459,6 +474,34 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
                         .setNeutralButton(android.R.string.ok, null)
                         .show();
             }
+        }
+    }
+    /**
+     *
+     * ----------非常重要----------
+     *
+     * Android6.0以上的权限适配简单示例：
+     *
+     * 如果targetSDKVersion >= 23，那么必须要申请到所需要的权限，再调用广点通SDK，否则广点通SDK不会工作。
+     *
+     * Demo代码里是一个基本的权限申请示例，请开发者根据自己的场景合理地编写这部分代码来实现权限申请。
+     * 注意：下面的`checkSelfPermission`和`requestPermissions`方法都是在Android6.0的SDK中增加的API，如果您的App还没有适配到Android6.0以上，则不需要调用这些方法，直接调用广点通SDK即可。
+     */
+    @TargetApi(Build.VERSION_CODES.M)
+    private void checkAndRequestPermission() {
+        List<String> lackedPermission = new ArrayList<String>();
+        if (!(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
+            lackedPermission.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        // 权限都已经有了，那么直接调用SDK
+        if (lackedPermission.size() == 0) {
+//            fetchSplashAD(this, container, skipView, Constants.APPID, getPosId(), this, 0);
+        } else {
+            // 请求所缺少的权限，在onRequestPermissionsResult中再看是否获得权限，如果获得权限就可以调用SDK，否则不要调用SDK。
+            String[] requestPermissions = new String[lackedPermission.size()];
+            lackedPermission.toArray(requestPermissions);
+            requestPermissions(requestPermissions, 1024);
         }
     }
 }

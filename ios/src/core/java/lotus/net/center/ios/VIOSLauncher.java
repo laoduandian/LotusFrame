@@ -54,6 +54,7 @@ import lotus.net.center.ios.gamecenter.GameCenterListener;
 import lotus.net.center.ios.gamecenter.GameCenterManager;
 import lotus.net.center.myclass.App;
 import lotus.net.center.myclass.LGame;
+import lotus.net.center.net.AppItem;
 
 /**
  * The type Vios launcher.
@@ -167,8 +168,8 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements Ap
         }
     }
     @Override
-    public void newgame(String address) {
-        Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",address));
+    public void newgame(AppItem appItem) {
+        Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",appItem.getAppAddress()));
     }
 
     @Override

@@ -1,6 +1,10 @@
 package lotus.net.demo.android;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.badlogic.gdx.Gdx;
 import lotus.net.center.android.VAndroidLauncher;
 import lotus.net.demo.MyGame;
@@ -9,22 +13,33 @@ public class AndroidLauncher extends VAndroidLauncher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         MyGame game = MyGame.getInstance();
-        game.info.game_Address = this.getAppProcessName(this);
-        game.info.is_Add_New = true;
-        //广告
-        game.info.app_ad_id = "ca-app-pub-2887861689802805~5485762576";
-        game.info.banner_ad_id = "ca-app-pub-2887861689802805/6437458573";
-        game.info.interstitial_ad_id = "ca-app-pub-2887861689802805/9390924976";
-        game.info.rewardedVideo_ad_id = "ca-app-pub-2887861689802805/3587152459";
-        game.info.interstitial_ad_condition_num = 4;
+
+        new AndroidAppInfo(game,this);
+
 //        game.info.setAndroid_Test_Ads();
         init(game);
+        showSomething("主：：：："+getAppProcessName(this)+"————————————"+getChannel());
+
     }
 
-    @Override
-    public void addBanners(boolean isHead) {
-        super.addBanners(isHead);
-        Gdx.app.log(getClass().getName(),String.format("%s_%s_%s","显示广告条",this.game.info.app_ad_id,this.game.info.banner_ad_id));
+
+    private String getChannel(){
+        String channel = null;
+        try {
+            ApplicationInfo appInfo = getPackageManager()
+                    .getApplicationInfo(getPackageName(),
+                            PackageManager.GET_META_DATA);
+
+            channel = appInfo.metaData.getString("UMENG_CHANNEL");
+
+            Log.i("TAG","UMENG_CHANNEL_VALUE=" + channel);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return channel;
     }
+
 }

@@ -10,7 +10,7 @@ import lotus.net.center.screen.LLogonScreen;
 
 public class MyGame extends LGame{
     LLogonScreen logonScreen;
-     protected MyGame(){
+    protected MyGame(){
         setGameInfo();
     }
     private static  MyGame game;

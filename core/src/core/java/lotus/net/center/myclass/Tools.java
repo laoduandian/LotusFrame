@@ -3,6 +3,7 @@ package lotus.net.center.myclass;
 import java.nio.ByteBuffer;
 import java.util.Stack;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -15,12 +16,14 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Base64Coder;
 
 public class Tools
 {
 	
 	public final static Color color = new Color(253f/255,227f/255,90f/255,1);
     private final static String digths = "0123456789~!c^&d@$%*(bh)-wai=jk_+rs{}t#u[]ef;op':<mv>gl?nq/";
+    private final static int key = 21;
     
     public static TextureRegion setRegionFilter(TextureRegion textureRegion)
     {
@@ -239,7 +242,7 @@ public class Tools
 			group.addActor(image);
 		}
 	}
-	public static void addNumberRegionForLeft(Group group,TextureRegion region,int number, int x, int y,float scale,boolean isAdd0){
+	public  void addNumberRegionForLeft(Group group,TextureRegion region,int number, int x, int y,float scale,boolean isAdd0){
 		TextureRegion regions[] = region.split((int)region.getRegionWidth()/10, (int)region.getRegionHeight())[0];
 		char[] numberChars = ((number>=10?"":(isAdd0?"0":""))+String.valueOf(number)).toCharArray();
 		for (int i = 0; i < numberChars.length; i++) {
@@ -249,5 +252,32 @@ public class Tools
 			image.setPosition(x + i * regions[a].getRegionWidth()*scale,y);
 			group.addActor(image);
 		}
+	}
+
+	//加密
+	public static String encodeString(String content){
+		//获取用户输入
+		//讲获取的字符串转成字符数组
+		char[] c = content.toCharArray();
+		//使用for循环给字符数组加密
+		for(int i=0;i<c.length;i++){
+			c[i] = (char)(c[i]^key);
+		}
+		return Base64Coder.encodeString(new String(c),false);
+	}
+
+	//解密
+	public static String decodeString(String content){
+		content = Base64Coder.decodeString(content,false);
+		char[] c = content.toCharArray();
+		for(int i=0;i<c.length;i++){
+			c[i] = (char)(c[i]^key);
+		}
+		return new String(c);
+	}
+	public static void creatEncodeFile(String address){
+		FileHandle original_file = Gdx.files.absolute(address);
+		FileHandle encode_file = Gdx.files.absolute("/Users/luoyi/android/libgdx/Github/laoduandian.github.io/ad/ads/"+original_file.name());
+		encode_file.writeString(encodeString(original_file.readString()),false);
 	}
 }

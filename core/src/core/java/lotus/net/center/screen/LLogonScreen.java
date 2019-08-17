@@ -8,9 +8,12 @@ import com.badlogic.gdx.Net.HttpResponse;
 import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Array;
 import lotus.net.center.myclass.LGame;
 import lotus.net.center.myclass.LScreen;
+import lotus.net.center.myclass.Tools;
+import lotus.net.center.net.AddNew;
+import lotus.net.center.net.AdsId;
+import lotus.net.center.net.AppChannel;
 import lotus.net.center.net.AppRestricted;
 import lotus.net.center.net.LotusStudio;
 
@@ -24,6 +27,7 @@ public class LLogonScreen extends LScreen {
 		}
 		return logonScreen;
 	}
+	private LotusStudio lotusStudio;
 	@Override
 	public void show() {
 		super.show();
@@ -39,27 +43,44 @@ public class LLogonScreen extends LScreen {
 		bgImage.setPosition(game.info.GAME_WIDTH/2 - bgImage.getWidth()/2, game.info.GAME_HEIGHT/2 -bgImage.getHeight()/2);
 		
 		getStage().addActor(bgImage);
-
+		//1:add;2:app;3:ads;
+		lotusStudio = new LotusStudio();
+		if(game.lotusStudioApp!=null){
+			lotusStudio.setAdsId(game.lotusStudioApp.getAdsId());
+			lotusStudio.setAppRestricted(game.lotusStudioApp.getAppRestricted());
+			lotusStudio.setAddNew(game.lotusStudioApp.getAddNew());
+		}
+		getAddFromWap();//add
+		getAppFromWap();//app
+	}
+	private void getAddFromWap(){
 		HttpRequest request = new HttpRequest(HttpMethods.GET);
 		ApplicationType appType =  Gdx.app.getType();
-		String url = "http://www.lotusstudio.top/";
+		String url = "http://www.lotusstudio.top/ad/add/";
 		if(appType == ApplicationType.Desktop)
-			url = "https://www.lotusstudio.top/";
-		if(appType == ApplicationType.Android)
-			url = String.format("%s%s",url,"android.text");
+			url = "https://www.lotusstudio.top/ad/add/";
+		if(appType == ApplicationType.Android){
+			if(game.info.isInland())
+				url = String.format("%s%s",url,"inlandandroid.text");
+			else
+				url = String.format("%s%s",url,"android.text");
+		}
 		else
 			url = String.format("%s%s",url,"ios.text");
 		request.setUrl(url);
-		setInfo();
 		Gdx.net.sendHttpRequest(request, new HttpResponseListener() {
 			@Override
 			public void handleHttpResponse (HttpResponse httpResponse) {
-				LotusStudio lotusStudio = game.json.fromJson(LotusStudio.class, httpResponse.getResultAsString());
-				if(game.lotusStudioApp == null){
-					addNewAppFile(lotusStudio);
+				String a = httpResponse.getResultAsString();
+				AddNew addNew = game.json.fromJson(AddNew.class, a);
+				if(lotusStudio.getAddNew() == null){
+					lotusStudio.setAddNew(addNew);
+					addNewAppFile();
 				}else {
-					if(lotusStudio.getIndex() > game.lotusStudioApp.getIndex())
-						addNewAppFile(lotusStudio);
+					if(addNew.getIndex() > lotusStudio.getAddNew().getIndex()){
+						lotusStudio.setAddNew(addNew);
+						addNewAppFile();
+					}
 				}
 			}
 			@Override
@@ -72,6 +93,71 @@ public class LLogonScreen extends LScreen {
 			}
 		});
 	}
+	private void getAppFromWap(){
+		HttpRequest request = new HttpRequest(HttpMethods.GET);
+		ApplicationType appType =  Gdx.app.getType();
+		String url = "http://www.lotusstudio.top/ad/app/";
+		if(appType == ApplicationType.Desktop)
+			url = "https://www.lotusstudio.top/ad/app/";
+		url = String.format("%s%s%s",url,game.info.game_name,".text");
+		request.setUrl(url);
+		Gdx.net.sendHttpRequest(request, new HttpResponseListener() {
+			@Override
+			public void handleHttpResponse (HttpResponse httpResponse) {
+				String a = httpResponse.getResultAsString();
+				AppRestricted appRestricted = game.json.fromJson(AppRestricted.class, a);
+				if(lotusStudio.getAppRestricted() == null){
+					lotusStudio.setAppRestricted(appRestricted);
+					addNewAppFile();
+					getAdsFromWap();
+				}else {
+					if(appRestricted.getIndex() > lotusStudio.getAppRestricted().getIndex()){
+						lotusStudio.setAppRestricted(appRestricted);
+						addNewAppFile();
+						getAdsFromWap();
+					}
+				}
+			}
+			@Override
+			public void failed (Throwable t) {
+				Gdx.app.error("HttpRequestExample", "something went wrong", t);
+			}
+			@Override
+			public void cancelled () {
+				Gdx.app.log("HttpRequestExample", "cancelled");
+			}
+		});
+	}
+	private void getAdsFromWap(){
+		HttpRequest request = new HttpRequest(HttpMethods.GET);
+		ApplicationType appType =  Gdx.app.getType();
+		String url = "http://www.lotusstudio.top/ad/ads/";
+		if(appType == ApplicationType.Desktop)
+			url = "https://www.lotusstudio.top/ad/ads/";
+		if(game.info.getAppChannel() == AppChannel.ios)
+			url = String.format("%s%s",url,lotusStudio.getAppRestricted().getAdsFileIos());
+		else
+	    url = String.format("%s%s",url,lotusStudio.getAppRestricted().getAdsFile());
+		request.setUrl(url);
+		Gdx.net.sendHttpRequest(request, new HttpResponseListener() {
+			@Override
+			public void handleHttpResponse (HttpResponse httpResponse) {
+				String a = httpResponse.getResultAsString();
+				AdsId adsId = game.json.fromJson(AdsId.class, Tools.decodeString(a));
+				lotusStudio.setAdsId(adsId);
+				addNewAppFile();
+			}
+			@Override
+			public void failed (Throwable t) {
+				Gdx.app.error("HttpRequestExample", "something went wrong", t);
+			}
+			@Override
+			public void cancelled () {
+				Gdx.app.log("HttpRequestExample", "cancelled");
+			}
+		});
+	}
+
 	private float time;
 	@Override
 	public void render(float delta) {
@@ -82,41 +168,41 @@ public class LLogonScreen extends LScreen {
 			game.setScreenshots(this.nextScreen);
 		}
 	}
-	protected void addNewAppFile(LotusStudio lotusStudio) {
-		game.lotusStudioApp = lotusStudio;
+	//把网上下载的信息存储到本地
+	protected void addNewAppFile() {
 		setInfo();
-		game.per.putString("lotusStudioApp", game.json.toJson(lotusStudio));
+		game.per.putString("lotusStudio", game.json.toJson(lotusStudio));
 		game.per.flush();
 	}
 	private void setInfo(){
-		if(game.lotusStudioApp == null){
+		AppRestricted appRestricted = lotusStudio.getAppRestricted();
+		if(appRestricted == null)
 			return;
-		}
-		Array<AppRestricted> appRestricteds = game.lotusStudioApp.getAppRestricteds();
-		if(appRestricteds == null)
-			return;
-		AppRestricted appRestricted = null;
-		for (AppRestricted app : appRestricteds){
-			if(app.getAddress().equals(game.info.game_Address)){
-				appRestricted = app;
-				break;
-			}
-		}
 		if(appRestricted != null){
 			game.info.is_Add_New = appRestricted.isAddNew();
-			//广告
-			if(appRestricted.getApp_ad_id()!=null)
-				game.info.app_ad_id = appRestricted.getApp_ad_id();
-			if(appRestricted.getBanner_ad_id()!=null)
-				game.info.banner_ad_id = appRestricted.getBanner_ad_id();
-			if(appRestricted.getInterstitial_ad_id()!=null)
-				game.info.interstitial_ad_id = appRestricted.getInterstitial_ad_id();
-			if(appRestricted.getRewardedVideo_ad_id()!=null)
-				game.info.rewardedVideo_ad_id = appRestricted.getRewardedVideo_ad_id();
 			if(appRestricted.getShowTime()!= 0)
 				game.info.interstitial_ad_condition_num = appRestricted.getShowTime();
 
 		}
+	}
+	private void getWa(){
+		HttpRequest request = new HttpRequest(HttpMethods.GET);
+		request.setUrl( "https://www.lotusstudio.top/wa.text");
+		Gdx.net.sendHttpRequest(request, new HttpResponseListener() {
+			@Override
+			public void handleHttpResponse (HttpResponse httpResponse) {
+				String a = httpResponse.getResultAsString();
+				System.out.println(a);
+			}
+			@Override
+			public void failed (Throwable t) {
+				Gdx.app.error("HttpRequestExample", "something went wrong", t);
+			}
+			@Override
+			public void cancelled () {
+				Gdx.app.log("HttpRequestExample", "cancelled");
+			}
+		});
 	}
 	@Override
 	public void resume() {

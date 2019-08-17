@@ -2,6 +2,7 @@ package lotus.net.demo;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Align;
 
 import lotus.net.center.myclass.LGame;
 import lotus.net.center.myclass.LScreen;
@@ -18,6 +19,7 @@ public class OverScreen extends LScreen{
     public void show() {
         super.show();
         Image image = new Image(game.getTexture(L.data.bg.image.addName_1));
+        image.setOrigin(Align.bottom);
         this.getStage().addActor(image);
 
     }
