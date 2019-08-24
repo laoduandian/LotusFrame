@@ -29,6 +29,7 @@ public class AdCentre {
                 myAd = new GdtAd(activity);
                 break;
         }
+//        myAd = new GdtAd(activity);
     }
 
     public void showInsertscreen() {

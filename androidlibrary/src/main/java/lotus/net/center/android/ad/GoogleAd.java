@@ -122,6 +122,11 @@ public class GoogleAd implements LotusAd{
 			public void onRewardedVideoAdFailedToLoad(int i) {
 				Gdx.app.log("RewardedVideo：","onRewardedVideoAdFailedToLoad：：：："+i);
 			}
+
+			@Override
+			public void onRewardedVideoCompleted() {
+
+			}
 		});
 		loadRewardedVideo();
 	}

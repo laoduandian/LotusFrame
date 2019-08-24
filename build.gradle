@@ -8,14 +8,13 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.4-SNAPSHOT'
-
+        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.7'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5' // Add this line
-
-
+//        classpath 'com.kezong:fat-aar:1.2.5'
     }
 }
 
@@ -65,9 +64,9 @@ project(":desktop") {
 
 
     dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        implementation project(":core")
+        implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 
     }
 }
@@ -88,14 +87,14 @@ project(":ios") {
 
 
     dependencies {
-        compile project(":core")
-        compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
-        compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
-        compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+        implementation project(":core")
+        implementation "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+        implementation "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
+        implementation "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
         //add
-        compile "com.mobidevelop.robovm:robopods-google-mobile-ads-parent:$robopodsVersion"
-        compile "com.mobidevelop.robovm:robopods-google-mobile-ads-ios:$robopodsVersion"
+        implementation "com.mobidevelop.robovm:robopods-google-mobile-ads-parent:$robopodsVersion"
+        implementation "com.mobidevelop.robovm:robopods-google-mobile-ads-ios:$robopodsVersion"
     }
 }
 
@@ -105,7 +104,7 @@ project(":core") {
     targetCompatibility = 1.7
 
     dependencies {
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
 }
 
@@ -121,7 +120,7 @@ subprojects {
             if(project.name == "android"){
                 from fileTree(dir: "build/intermediates/classes/core/release/", includes: ["**/VAndroidLauncher.class"], exclude: "**/demo")
             }else{
-                from sourceSets.core.output.classesDir
+                from sourceSets.core.output.classesDirs
             }
         }
     }

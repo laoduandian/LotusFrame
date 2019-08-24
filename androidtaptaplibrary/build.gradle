@@ -1,23 +1,18 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.laoduandian'
+//apply plugin: 'com.kezong.fat-aar'
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
     repositories {
         jcenter()
     }
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 27
+        minSdkVersion 19
+        targetSdkVersion 28
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-    }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
     }
     buildTypes {
         release {
@@ -26,31 +21,57 @@ android {
         }
     }
 
+//    packagingOptions {
+//        exclude 'AndroidManifest.xml'
+//        exclude 'R.txt'
+//        exclude 'res/values/values.xml'
+//        exclude 'classes.jar'
+//    }
+
 }
-repositories{
-    flatDir{
+repositories {
+    flatDir {
         dirs 'libs'
     }
 }
 configurations { natives }
 dependencies {
-    compile(name: 'open_ad_sdk', ext: 'aar')
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
-    compile(name:'Baidu_MobAds_SDK-release',ext:'aar')
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    testCompile 'junit:junit:4.12'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.2', {
+    api 'com.android.support:appcompat-v7:28.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    compile project(":core")
-
-    compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+    api project(":core")
+    api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
+    implementation (name: 'open_ad_sdk', ext: 'aar')
+    api 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
+    implementation(name:'Baidu_MobAds_SDK-release',ext:'aar')
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.android.support:multidex:1.0.3'//添加这行
+
 }
+//apply plugin: 'maven'
+//uploadArchives {
+//    repositories.mavenDeployer {
+//        def mavenDirPath = file('/Users/luoyi/android/libgdx/AndroidStudioWorkSpace/TopTop') // 本地存放目录(自行选择)，可放在gradle.properties文件中引用
+//        repository(url:"file://${mavenDirPath.absolutePath}") // 必须双引号，单引号不会转义$
+//        pom.project {
+//            groupId "lotus.ads.center.android" // 可以随意取，一般取包名
+//            artifactId "taptap" // 可以随意取，一般取库的名字
+//            version "1.0.3" // 版本号
+//        }
+//    }
+//}
+////// 源代码一起打包
+////task androidSourcesJar(type: Jar) {
+////    classifier = 'sources'
+////    from android.sourceSets.main.java.sourceFiles
+////}
+////artifacts {
+////    archives androidSourcesJar
+////}

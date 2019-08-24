@@ -41,6 +41,9 @@ import lotus.net.center.net.AppChannel;
 import lotus.net.center.net.AppItem;
 
 
+/**
+ * cleanlibrary
+ */
 public abstract class VAndroidLauncher extends AndroidApplication implements App {
     public LGame game = null;
     public Handler handler;

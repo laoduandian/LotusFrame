@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -29,7 +28,6 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -57,7 +55,9 @@ import lotus.net.center.myclass.LGame;
 import lotus.net.center.net.AppChannel;
 import lotus.net.center.net.AppItem;
 
-
+/**
+ * androidlibrary
+ */
 public abstract class VAndroidLauncher extends AndroidApplication implements App {
     public LGame game = null;
     public Handler handler;
@@ -327,7 +327,7 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
                          })
                          .addOnFailureListener(new OnFailureListener() {
                                @Override
-                               public void onFailure(@NonNull Exception e) {
+                               public void onFailure( Exception e) {
 
 
                               }
@@ -395,7 +395,7 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
         mGoogleSignInClient.silentSignIn().addOnCompleteListener(this,
                 new OnCompleteListener<GoogleSignInAccount>() {
                     @Override
-                    public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                    public void onComplete( Task<GoogleSignInAccount> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInSilently(): success");
                             onConnected(task.getResult());
@@ -422,7 +422,7 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
         mPlayersClient.getCurrentPlayer()
                 .addOnCompleteListener(new OnCompleteListener<Player>() {
                     @Override
-                    public void onComplete(@NonNull Task<Player> task) {
+                    public void onComplete( Task<Player> task) {
                         String displayName;
                         if (task.isSuccessful()) {
                             displayName = task.getResult().getDisplayName();

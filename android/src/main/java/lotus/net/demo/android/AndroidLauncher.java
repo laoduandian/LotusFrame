@@ -5,7 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.badlogic.gdx.Gdx;
+import androidx.multidex.MultiDex;
 import lotus.net.center.android.VAndroidLauncher;
 import lotus.net.demo.MyGame;
 
@@ -13,7 +13,7 @@ public class AndroidLauncher extends VAndroidLauncher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        MultiDex.install(this);
         MyGame game = MyGame.getInstance();
 
         new AndroidAppInfo(game,this);

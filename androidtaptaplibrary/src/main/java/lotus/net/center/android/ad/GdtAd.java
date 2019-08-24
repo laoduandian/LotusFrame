@@ -2,16 +2,13 @@ package lotus.net.center.android.ad;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.qq.e.ads.banner2.UnifiedBannerADListener;
 import com.qq.e.ads.banner2.UnifiedBannerView;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
@@ -37,10 +34,10 @@ public class GdtAd implements LotusAd {
         this.activity = activity;
         dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        APPID = activity.game.info.app_ad_id;
-        BannerID = activity.game.info.banner_ad_id;
-        InterteristalID = activity.game.info.interstitial_ad_id;
-        RewardVideoADID = activity.game.info.rewardedVideo_ad_id;
+//        APPID = activity.game.info.app_ad_id;
+//        BannerID = activity.game.info.banner_ad_id;
+//        InterteristalID = activity.game.info.interstitial_ad_id;
+//        RewardVideoADID = activity.game.info.rewardedVideo_ad_id;
         initInterstitialAd();
         initBannerAd(activity.relativeLayout);
         initRewardedVideo();

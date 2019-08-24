@@ -2,7 +2,6 @@ package lotus.net.center.android.ad;
 
 import android.widget.RelativeLayout;
 
-import lotus.net.center.android.VAndroidLauncher;
 
 public interface LotusAd {
 	void initInterstitialAd();
