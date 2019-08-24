@@ -127,7 +127,7 @@ subprojects {
         }
     }
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
-    if(project.name != "androidlibrary"&&project.name != "androidtaptaplibrary"&&project.name != "cleanlibrary") {
+    if(project.name != "android"&&project.name != "androidlibrary"&&project.name != "androidtaptaplibrary"&&project.name != "cleanlibrary") {
         artifacts {//人工产品
             archives packJar
             archives packDoc
