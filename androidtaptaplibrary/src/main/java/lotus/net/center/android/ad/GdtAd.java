@@ -34,10 +34,10 @@ public class GdtAd implements LotusAd {
         this.activity = activity;
         dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        APPID = activity.game.info.app_ad_id;
-//        BannerID = activity.game.info.banner_ad_id;
-//        InterteristalID = activity.game.info.interstitial_ad_id;
-//        RewardVideoADID = activity.game.info.rewardedVideo_ad_id;
+        APPID = activity.game.info.app_ad_id;
+        BannerID = activity.game.info.banner_ad_id;
+        InterteristalID = activity.game.info.interstitial_ad_id;
+        RewardVideoADID = activity.game.info.rewardedVideo_ad_id;
         initInterstitialAd();
         initBannerAd(activity.relativeLayout);
         initRewardedVideo();

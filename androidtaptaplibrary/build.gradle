@@ -48,9 +48,9 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-    implementation (name: 'open_ad_sdk', ext: 'aar')
+    api (name: 'open_ad_sdk', ext: 'aar')
     api 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
-    implementation(name:'Baidu_MobAds_SDK-release',ext:'aar')
+    api(name:'Baidu_MobAds_SDK-release',ext:'aar')
     api fileTree(dir: 'libs', include: ['*.jar'])
     api 'com.android.support:multidex:1.0.3'//添加这行
 

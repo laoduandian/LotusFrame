@@ -31,8 +31,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import androidx.multidex.MultiDex;
 import lotus.net.center.android.ad.AdCentre;
 import lotus.net.center.freefont.FreePaint;
 import lotus.net.center.myclass.App;
