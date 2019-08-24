@@ -26,7 +26,7 @@ allprojects {
         targetCompatibility = 1.7
     }
 
-    version = '1.0'
+    version = '1.0.0'
     ext {
         appName = "LotusFrame"
         gdxVersion = '1.9.8'
@@ -34,10 +34,6 @@ allprojects {
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
-        //add
-        appcompat_library_version = '27.0.2'
-        support_library_version = '27.0.2'
-        gms_library_version = '11.6.2'
         robopodsVersion = '2.2.3-SNAPSHOT';
     }
 
@@ -46,13 +42,10 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-        //add
         maven {
             url 'https://maven.google.com/'
             name 'Google'
         }
-        jcenter()
-        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -112,9 +105,7 @@ tasks.eclipse.doLast {
 }
 
 subprojects {
-
     task packJar(type: Jar) {
-
         doFirst {
             if(project.name == "android"){
                 from fileTree(dir: "build/intermediates/classes/core/release/", includes: ["**/VAndroidLauncher.class"], exclude: "**/demo")
@@ -124,9 +115,7 @@ subprojects {
         }
     }
 
-
-
-    def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses"];
+    def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses", ":android:compileCoreReleaseJavaWithJavac"];
 
     packJar.dependsOn preCompile
 
@@ -135,9 +124,7 @@ subprojects {
         if (project.name == "core"){
             from project(":core").tasks["javadoc"].destinationDir
         }
-
     }
-
     task packSources(type: Jar) {
         classifier = "sources"
         doFirst {
@@ -148,7 +135,6 @@ subprojects {
             }
         }
     }
-
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
     if(project.name != "androidlibrary"&&project.name != "androidtaptaplibrary"&&project.name != "cleanlibrary") {
         artifacts {//人工产品
@@ -157,5 +143,4 @@ subprojects {
             archives packSources
         }
     }
-
 }
