@@ -110,7 +110,7 @@ tasks.eclipse.doLast {
 subprojects {
     task packJar(type: Jar) {
         doFirst {
-            from sourceSets.core.output.classesDirs
+            from sourceSets.core.output.classesDir
         }
     }
     def preCompile = [":core:coreClasses", ":desktop:coreClasses", ":ios:coreClasses"];
