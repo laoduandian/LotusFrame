@@ -16,8 +16,8 @@ public class AndroidAppInfo {
         game.info.setInland(true);
         game.info.setInlandAddress("www.baidu.com");
         game.info.interstitial_ad_condition_num = 4;
+        game.info.getOwnTypes().add(AdsType.gdt,AdsType.baidu,AdsType.csj);
         game.info.setAdsType(AdsType.gdt);
-        game.info.getOwnTypes().add(AdsType.gdt,AdsType.baidu);
     }
 }
 

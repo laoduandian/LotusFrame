@@ -11,4 +11,5 @@ public class AdsValue {
     static public final int gdtBaidu = gdt|baidu;//12
     static public final int gdtCsj = gdt|csj;//20
     static public final int csjBaidu = csj|baidu;//24
+    static public final int gdtCsjBaidu = gdt|csj|baidu;//28
 }

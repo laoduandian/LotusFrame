@@ -129,6 +129,8 @@ public class GameInfo {
     public void setLotusStudioAppMessage(LotusStudio app) {
         if (app == null)
             return;
+        if(app.getAdsId() == null)
+            return;
         AppRestricted appRestricted = app.getAppRestricted();
         if(appRestricted == null)
             return;
@@ -197,6 +199,9 @@ public class GameInfo {
             case AdsValue.csjBaidu:
                 randomType(adsId,AdsType.csj,AdsType.baidu);
                 break;
+            case AdsValue.gdtCsjBaidu:
+                randomType(adsId,AdsType.gdt,AdsType.csj,AdsType.baidu);
+                break;
             case 999:
                 this.adsOnOff = false;
                 break;
@@ -217,7 +222,6 @@ public class GameInfo {
             adsOnOff = false;
         }else{
             int random = MathUtils.random(notexists.size-1);
-            System.out.println(notexists);
             setAdsType(getAdsValue(notexists.get(random)),adsId);
         }
     }

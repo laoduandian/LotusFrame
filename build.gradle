@@ -45,6 +45,8 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "https://raw.githubusercontent.com/laoduandian/baiduads/master" }
+        maven { url "https://raw.githubusercontent.com/laoduandian/csjads/master" }
         maven {
             url 'https://maven.google.com/'
             name 'Google'
@@ -130,7 +132,7 @@ subprojects {
         }
     }
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
-    if(project.name != "android"&&project.name != "androidlibrary"&&project.name != "androidtaptaplibrary"&&project.name != "cleanlibrary") {
+    if(project.name != "android"&&project.name != "androidlibrary"&&project.name != "androidtaptaplibrary"&&project.name != "cleanlibrary"&&project.name != "lib_Baidu"&&project.name != "lib_csj") {
         artifacts {//人工产品
             archives packJar
             archives packDoc

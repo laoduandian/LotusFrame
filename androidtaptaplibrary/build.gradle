@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.laoduandian'
-//apply plugin: 'com.kezong.fat-aar'
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
@@ -37,9 +36,9 @@ repositories {
 }
 configurations { natives }
 dependencies {
-    compile(name: 'open_ad_sdk', ext: 'aar')
+//    compile (name: 'open_ad_sdk', ext: 'aar')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
-    compile(name:'Baidu_MobAds_SDK-release',ext:'aar')
+//    embedded(name:'Baidu_MobAds_SDK-release',ext:'aar')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${appcompat_library_version}"
     compile "com.android.support:support-v4:${support_library_version}"
@@ -47,7 +46,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
+    compile 'com.ads.baidu:baiduads:1.0.0@aar'
+    compile 'com.ads.csj:csjads:1.0.0@aar'
     compile project(":core")
 
     compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
@@ -65,7 +65,7 @@ dependencies {
 //        pom.project {
 //            groupId "lotus.ads.center.android" // 可以随意取，一般取包名
 //            artifactId "taptap" // 可以随意取，一般取库的名字
-//            version "1.0.6" // 版本号
+//            version "1.0.7" // 版本号
 //        }
 //    }
 //}
