@@ -38,10 +38,9 @@ configurations { natives }
 dependencies {
 //    compile (name: 'open_ad_sdk', ext: 'aar')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
-//    embedded(name:'Baidu_MobAds_SDK-release',ext:'aar')
+//    compile(name:'Baidu_MobAds_SDK-release',ext:'aar')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${appcompat_library_version}"
-    compile "com.android.support:support-v4:${support_library_version}"
     testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -49,7 +48,6 @@ dependencies {
     compile 'com.ads.baidu:baiduads:1.0.0@aar'
     compile 'com.ads.csj:csjads:1.0.0@aar'
     compile project(":core")
-
     compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"

@@ -71,7 +71,6 @@ project(":desktop") {
 project(":android") {
     apply plugin: "android"
     configurations { natives }
-
 }
 
 
@@ -81,8 +80,6 @@ project(":ios") {
     apply plugin: "robovm"
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
-
-
     dependencies {
         compile project(":core")
         compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"

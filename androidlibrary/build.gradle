@@ -11,6 +11,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 27
+        multiDexEnabled true//添加这行
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -30,15 +31,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(":core")
-
-    compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
-    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
-    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
-    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
-    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-
     //add
     compile "com.android.support:appcompat-v7:${appcompat_library_version}"
     compile "com.android.support:support-v4:${support_library_version}"
@@ -47,6 +39,12 @@ dependencies {
     compile "com.google.android.gms:play-services-auth:${gms_library_version}"
     compile 'com.android.support:multidex:1.0.1'//添加这行
 
-
+    compile project(":core")
+    compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
 }
 
