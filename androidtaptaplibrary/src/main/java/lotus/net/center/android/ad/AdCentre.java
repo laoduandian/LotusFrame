@@ -29,7 +29,7 @@ public class AdCentre {
                 myAd = new GdtAd(activity);
                 break;
         }
-        activity.game.app.showSomething(""+activity.game.info.getAdsType());
+        activity.game.app.showSomething(adsOnOff+":"+activity.game.info.getAdsType());
 //        myAd = new GdtAd(activity);
     }
 

@@ -10,8 +10,8 @@ public class AndroidAppInfo {
         game.info.is_Add_New = true;
         //广告
         game.info.app_ad_id = "1101152570";
-        game.info.banner_ad_id = "9079537218417626401";
-        game.info.interstitial_ad_id = "8575134060152130849";
+        game.info.banner_ad_id = "4080052898050840";
+        game.info.interstitial_ad_id = "3040652898151811";
         game.info.rewardedVideo_ad_id = "2090845242931421";
         game.info.setInland(true);
         game.info.setInlandAddress("www.baidu.com");
