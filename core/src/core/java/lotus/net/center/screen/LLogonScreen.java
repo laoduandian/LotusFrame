@@ -115,6 +115,9 @@ public class LLogonScreen extends LScreen {
 						lotusStudio.setAppRestricted(appRestricted);
 						addNewAppFile();
 						getAdsFromWap();
+					}else {
+						if(lotusStudio.getAdsId() == null)
+							getAdsFromWap();
 					}
 				}
 			}
