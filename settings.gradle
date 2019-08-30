@@ -1,2 +1,2 @@
-include ':cleanlibrary', ':lib_Baidu', ':lib_csj'
+include ':cleanlibrary', ':lib_Baidu', ':lib_csj', ':lib_qq', ':lib_qq'
 include 'desktop', 'android', 'ios', 'core',':androidlibrary', ':androidtaptaplibrary'

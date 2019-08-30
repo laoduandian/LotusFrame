@@ -56,7 +56,7 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
     protected void init(LGame game){
         this.game = game;
         this.game.setApp(this);
-        this.game.info.setAppChannel(AppChannel.taptap);
+        this.game.info.setAppChannel(AppChannel.clean);
         handler = new Handler();
         relativeLayout = new RelativeLayout(this);
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();

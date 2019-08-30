@@ -1,19 +1,29 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="lotus.net.center.android" >
-    <!-- SDK 相关声明 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />    <!-- 如果需要精确定位的话请加上此权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- targetSdkVersion >= 26 时需要配置此权限，否则无法进行安装app的动作 -->
-    <!-- 如果有视频相关的广告且使用textureView播放，请务必添加，否则黑屏 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- 下载时不提示通知栏 -->
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+    <!-- 百度 -->
+    <!-- targetSdkVersion >= 26 时需要配置此权限，否则无法进行安装app的动作 -->
+
+    <!-- 注意：在targetSdkVersion>=28时,在9.0设备中默认禁用http请求 -->
+    <!-- 需要设置usesCleartextTraffic="true"解除限制,否则会影响广告的请求 -->
+    <!--CSJ-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <!--最好能提供的权限-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- 如果有视频相关的广告且使用textureView播放，请务必添加，否则黑屏 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application>
+        <!-- QQ -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -23,28 +33,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/gdt_file_path" />
         </provider>
-        <!-- 声明SDK所需要的组件 -->
-        <service
-            android:name="com.qq.e.comm.DownloadService"
-            android:exported="false"/>
-        <!-- 请开发者注意字母的大小写，ADActivity，而不是AdActivity -->
-        <activity
-            android:name="com.qq.e.ads.ADActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"/>
-        <activity
-            android:name="com.qq.e.ads.PortraitADActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name="com.qq.e.ads.LandscapeADActivity"
-            android:screenOrientation="landscape"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
         <!-- 百度 -->
         <!-- 如果targetSdkVersion设置值>=24，则强烈建议添加以下provider，否则会影响app变现 -->
         <!-- android:authorities="${packageName}.bd.provider" authorities中${packageName}部分必须替换成app自己的包名 -->
         <provider
             android:name="com.baidu.mobads.openad.FileProvider"
-            android:authorities="${applicationId}.bd.provider"
+            android:authorities="com.baidu.mobads.demo.main.bd.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -55,12 +49,6 @@
             android:name="com.baidu.mobads.AppActivity"
             android:configChanges="screenSize|keyboard|keyboardHidden|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--如果使用激励视频功能，并且是jar包集成，需要主动在AndroidManifest.xml里面申明MobRewardVideoActivity-->
-        <activity
-            android:name="com.baidu.mobads.production.rewardvideo.MobRewardVideoActivity"
-            android:configChanges="screenSize|orientation|keyboardHidden"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <!--穿山甲 -->
         <provider
             android:name="com.bytedance.sdk.openadsdk.TTFileProvider"

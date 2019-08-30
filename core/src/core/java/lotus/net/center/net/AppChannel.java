@@ -1,6 +1,6 @@
 package lotus.net.center.net;
 
 public enum  AppChannel {
-    ios,google,taptap
+    ios,google,taptap,clean
 
 }

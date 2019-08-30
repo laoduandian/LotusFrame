@@ -147,6 +147,10 @@ public class GameInfo {
             case taptap:
                 setAdsType(appRestricted.getAdsChanneltap(),app.getAdsId());
                 break;
+            case clean:
+                is_Add_New = false;
+                adsOnOff = false;
+                break;
         }
     }
     private void setAdsType(int adsValue, AdsId adsId) {
