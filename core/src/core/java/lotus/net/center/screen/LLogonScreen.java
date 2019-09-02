@@ -140,7 +140,7 @@ public class LLogonScreen extends LScreen {
 		if(game.info.getAppChannel() == AppChannel.ios)
 			url = String.format("%s%s",url,lotusStudio.getAppRestricted().getAdsFileIos());
 		else
-	    url = String.format("%s%s",url,lotusStudio.getAppRestricted().getAdsFile());
+	        url = String.format("%s%s",url,lotusStudio.getAppRestricted().getAdsFile());
 		request.setUrl(url);
 		Gdx.net.sendHttpRequest(request, new HttpResponseListener() {
 			@Override

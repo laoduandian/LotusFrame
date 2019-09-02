@@ -48,6 +48,7 @@ allprojects {
         maven { url "https://raw.githubusercontent.com/laoduandian/baiduads/master" }
         maven { url "https://raw.githubusercontent.com/laoduandian/csjads/master" }
         maven { url "https://raw.githubusercontent.com/laoduandian/qqads/master" }
+        maven { url "https://raw.githubusercontent.com/laoduandian/uads/master" }
         maven {
             url 'https://maven.google.com/'
             name 'Google'
@@ -130,7 +131,7 @@ subprojects {
         }
     }
     task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
-    if(project.name != "android"&&project.name != "androidlibrary"&&project.name != "androidtaptaplibrary"&&project.name != "cleanlibrary"&&project.name != "lib_Baidu"&&project.name != "lib_csj"&&project.name != "lib_qq") {
+    if(project.name != "android"&&project.name != "androidlibrary"&&project.name != "androidtaptaplibrary"&&project.name != "cleanlibrary"&&project.name != "lib_Baidu"&&project.name != "lib_csj"&&project.name != "lib_qq"&&project.name != "lib_uad") {
         artifacts {//人工产品
             archives packJar
             archives packDoc

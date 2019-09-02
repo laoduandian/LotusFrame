@@ -108,6 +108,8 @@ public class GameInfo {
 
     public void setAdsType(AdsType adsType) {
         this.adsType = adsType;
+        if(!this.getOwnTypes().contains(adsType,false))
+            this.adsOnOff = false;
     }
 
     public boolean isAdsOnOff() {
@@ -214,12 +216,10 @@ public class GameInfo {
         }
     }
     private void randomType(AdsId adsId,AdsType...types ){
-        Array<AdsType> orderTypes = new Array<>();
-        orderTypes.addAll(types);
         Array<AdsType> exists = new Array<>();
-        exists.addAll(orderTypes);
         Array<AdsType> notexists = new Array<>();
-        notexists.addAll(orderTypes);
+        exists.addAll(types);
+        notexists.addAll(types);
         exists.removeAll(getOwnTypes(),false);//不同的
         notexists.removeAll(exists,false);//相同的
         if(notexists.size == 0){

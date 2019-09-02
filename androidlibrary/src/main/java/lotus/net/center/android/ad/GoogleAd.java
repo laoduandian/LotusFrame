@@ -18,16 +18,33 @@ import lotus.net.center.android.VAndroidLauncher;
 
 
 public class GoogleAd implements LotusAd{
+	private static String APPID = "ca-app-pub-3940256099942544~3347511713";
+	private static String BannerID = "ca-app-pub-3940256099942544/6300978111";
+	private static String InterteristalID = "ca-app-pub-3940256099942544/1033173712";
+	private static String RewardVideoADID = "ca-app-pub-3940256099942544/5224354917";//支持竖版出横版视频
 	private InterstitialAd interstitialAd;
 	private RewardedVideoAd mRewardedVideoAd;
 	private VAndroidLauncher activity;
+	private AdRequest adRequest;
 	public GoogleAd(VAndroidLauncher activity){
 		this.activity = activity;
+		APPID = activity.game.info.app_ad_id;
+		BannerID = activity.game.info.banner_ad_id;
+		InterteristalID = activity.game.info.interstitial_ad_id;
+		RewardVideoADID = activity.game.info.rewardedVideo_ad_id;
+		MobileAds.initialize(activity, APPID);
+		adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				.addTestDevice("8A9C319A8D182EACC3170C7BA897D0A5")
+				.addTestDevice("8B55DAD18BEF299E261C4D2E8ED751B0").build();
+		initInterstitialAd();
+		initRewardedVideo();
+		initBannerAd(activity.relativeLayout);
 	}
 	@Override
 	public void initInterstitialAd() {
 		interstitialAd = new InterstitialAd(activity);
-		interstitialAd.setAdUnitId(this.activity.game.info.interstitial_ad_id);
+		interstitialAd.setAdUnitId(InterteristalID);
 		interstitialAd.setAdListener(new AdListener() {
 			@Override
 			public void onAdLoaded() {
@@ -67,10 +84,7 @@ public class GoogleAd implements LotusAd{
 
 	@Override
 	public void loadInsertscreen() {
-		interstitialAd.loadAd(new AdRequest.Builder()
-				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				.addTestDevice("8A9C319A8D182EACC3170C7BA897D0A5")
-				.addTestDevice("8B55DAD18BEF299E261C4D2E8ED751B0").build());
+		interstitialAd.loadAd(adRequest);
 	}
 
 	@Override
@@ -128,11 +142,7 @@ public class GoogleAd implements LotusAd{
 
 	@Override
 	public void loadRewardedVideo() {
-		mRewardedVideoAd.loadAd(this.activity.game.info.rewardedVideo_ad_id,
-				new AdRequest.Builder()
-						.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-						.addTestDevice("8A9C319A8D182EACC3170C7BA897D0A5")
-						.addTestDevice("8B55DAD18BEF299E261C4D2E8ED751B0").build());
+		mRewardedVideoAd.loadAd(RewardVideoADID,adRequest);
 
 
 	}
@@ -142,12 +152,10 @@ public class GoogleAd implements LotusAd{
 	public void initBannerAd(RelativeLayout bannerRelativeLayout) {
 		adView = new AdView(activity);// a152f7167e68810//钢琴a152f8d3eeb4232
 		adView.setAdSize(AdSize.SMART_BANNER);
-		adView.setAdUnitId(this.activity.game.info.banner_ad_id);
+		adView.setAdUnitId(BannerID);
 		LayoutParams adParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		bannerRelativeLayout.addView(adView, adParams);
-		adView.loadAd(new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				.addTestDevice("8A9C319A8D182EACC3170C7BA897D0A5")
-				.addTestDevice("8B55DAD18BEF299E261C4D2E8ED751B0").build());
+		adView.loadAd(adRequest);
 	}
 	@Override
 	public void dispose() {

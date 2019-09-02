@@ -13,4 +13,5 @@ public interface LotusAd {
 	void addBanners(boolean isHead);
 	void removeRanners();
 	void showMovie(int id);
+
 }

@@ -107,6 +107,11 @@ tasks.whenTaskAdded { packageTask ->
         packageTask.dependsOn 'copyAndroidNatives'
     }
 }
+//repositories{
+//    flatDir{
+//        dirs project(':androidlibrary').file('libs')
+//    }
+//}
 configurations { natives }
 dependencies {
     googleplayCompile project(':androidlibrary')

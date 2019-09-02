@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Logger;
+
 import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.coregraphics.CGSize;
 import org.robovm.apple.foundation.NSBundle;
@@ -27,29 +28,18 @@ import org.robovm.apple.uikit.UIFont;
 import org.robovm.apple.uikit.UIGraphics;
 import org.robovm.apple.uikit.UIImage;
 import org.robovm.apple.uikit.UILabel;
-import org.robovm.apple.uikit.UIScreen;
-import org.robovm.apple.uikit.UIViewController;
-import org.robovm.apple.uikit.UIWindow;
 import org.robovm.pods.google.GGLContext;
-import org.robovm.pods.google.mobileads.GADAdReward;
-import org.robovm.pods.google.mobileads.GADAdSize;
-import org.robovm.pods.google.mobileads.GADBannerView;
-import org.robovm.pods.google.mobileads.GADBannerViewDelegateAdapter;
-import org.robovm.pods.google.mobileads.GADInterstitial;
-import org.robovm.pods.google.mobileads.GADInterstitialDelegate;
-import org.robovm.pods.google.mobileads.GADInterstitialDelegateAdapter;
-import org.robovm.pods.google.mobileads.GADMobileAds;
-import org.robovm.pods.google.mobileads.GADRequest;
-import org.robovm.pods.google.mobileads.GADRequestError;
-import org.robovm.pods.google.mobileads.GADRewardBasedVideoAd;
-import org.robovm.pods.google.mobileads.GADRewardBasedVideoAdDelegate;
-import org.robovm.pods.google.mobileads.GADRewardBasedVideoAdDelegateAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import lotus.net.center.freefont.FreePaint;
 import lotus.net.center.freefont.TTFParser;
+import lotus.net.center.ios.ad.AdCentre;
+import lotus.net.center.ios.ad.unityads.UnityAdsDelegate;
+import lotus.net.center.ios.ad.unityads.UnityAdsError;
+import lotus.net.center.ios.ad.unityads.UnityAdsFinishState;
 import lotus.net.center.ios.gamecenter.GameCenterListener;
 import lotus.net.center.ios.gamecenter.GameCenterManager;
 import lotus.net.center.myclass.App;
@@ -62,6 +52,7 @@ import lotus.net.center.net.AppItem;
 public abstract class VIOSLauncher extends IOSApplication.Delegate implements App {
     private GameCenterManager gcManager;
     private LGame game;
+    private AdCentre adCentre;
     /**
      * The Log.
      */
@@ -167,20 +158,23 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements Ap
             return getFontPixmap(" ", vpaint);
         }
     }
+
     @Override
     public void newgame(AppItem appItem) {
-        Gdx.net.openURI(String.format("%s%s","https://itunes.apple.com/cn/app/id",appItem.getAppAddress()));
+        Gdx.net.openURI(String.format("%s%s", "https://itunes.apple.com/cn/app/id", appItem.getAppAddress()));
     }
 
     @Override
     public void moreGame() {
         Gdx.net.openURI("http://www.lotusstudio.top");
     }
+
     @Override
     public void didBecomeActive(UIApplication application) {
         super.didBecomeActive(application);
         getGcManager();
     }
+
     /**
      * Initialise gamecenter manager.
      *
@@ -189,7 +183,7 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements Ap
     public GameCenterManager getGcManager() {
         if (null == gcManager) {
             gcManager = new GameCenterManager(UIApplication.getSharedApplication().getKeyWindow(),
-                    new GameCenterListener(){
+                    new GameCenterListener() {
 
                         @Override
                         public void achievementReportCompleted() {
@@ -291,11 +285,9 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements Ap
     }
 
 
-
-
     @Override
     public void showSomething(String a) {
-
+        log.debug(a);
     }
 
     @Override
@@ -312,6 +304,7 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements Ap
     public void shangchuan(String name, float a) {
 
     }
+
     @Override
     public void outGame() {
         Gdx.net.openURI("http://www.lotusstudio.top");
@@ -341,182 +334,36 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements Ap
     public LGame getGame() {
         return game;
     }
-    private GADBannerView bannerView;
 
-    /**
-     * The Gad reward based video ad.
-     */
-    GADRewardBasedVideoAd gadRewardBasedVideoAd;
-    private UIWindow window;
-    private UIViewController rootViewController;
-    /**
-     * The Request.
-     */
-//    GADRequest request = new GADRequest();
-
-
-    private GADInterstitial interstitial;
-
-    /**
-     * Initialize banner.
-     */
-    public void initializeBanner() {
-        log.debug("Initalizing ads...");
-        bannerView = new GADBannerView(GADAdSize.Banner());
-        bannerView.setAdUnitID(this.getGame().info.banner_ad_id); //put your secret key here
-        bannerView.setRootViewController( ((IOSApplication)Gdx.app).getUIViewController());
-        ((IOSApplication)Gdx.app).getUIViewController().getView().addSubview(bannerView);
-        bannerView.setDelegate(new GADBannerViewDelegateAdapter() {
-            @Override
-            public void didReceiveAd(GADBannerView view) {
-                super.didReceiveAd(view);
-                log.debug("didReceiveAd");
-            }
-
-            @Override
-            public void didFailToReceiveAd(GADBannerView view,
-                                           GADRequestError error) {
-                super.didFailToReceiveAd(view, error);
-                log.debug("didFailToReceiveAd:" + error);
-            }
-        });
-        bannerView.loadRequest(new GADRequest());
-        log.debug("Initalizing ads complete.");
-    }
-
-    /**
-     * Initialize reward video ad.
-     */
-    public void initializeRewardVideoAd() {
-        gadRewardBasedVideoAd = GADRewardBasedVideoAd.getSharedInstance();
-        gadRewardBasedVideoAd.loadRequest(new GADRequest(), this.getGame().info.rewardedVideo_ad_id);
-        gadRewardBasedVideoAd.setDelegate(new GADRewardBasedVideoAdDelegateAdapter(){
-            @Override
-            public void didReceiveAd(GADRewardBasedVideoAd rewardBasedVideoAd) {
-                log.debug("GADRewardBasedVideoAd: didReceiveAd");
-            }
-
-            @Override
-            public void didOpen(GADRewardBasedVideoAd rewardBasedVideoAd) {
-                log.debug("GADRewardBasedVideoAd: didOpen");
-            }
-
-            @Override
-            public void didStartPlaying(GADRewardBasedVideoAd rewardBasedVideoAd) {
-                log.debug("GADRewardBasedVideoAd: didStartPlaying");
-            }
-
-            @Override
-            public void rewardBasedVideoAdDidCompletePlaying(GADRewardBasedVideoAd rewardBasedVideoAd) {
-                log.debug("GADRewardBasedVideoAd: rewardBasedVideoAdDidCompletePlaying");
-
-            }
-            @Override
-            public void didFailToLoad(GADRewardBasedVideoAd rewardBasedVideoAd, NSError error) {
-                log.debug("GADRewardBasedVideoAd: didFailToLoad:"+error);
-//                gadRewardBasedVideoAd.loadRequest(new GADRequest(), VIOSLauncher.this.getGame().info.rewardedVideo_ad_id);
-            }
-            @Override
-            public void didClose(GADRewardBasedVideoAd rewardBasedVideoAd) {
-                log.debug("GADRewardBasedVideoAd: didClose");
-                gadRewardBasedVideoAd.loadRequest(new GADRequest(), VIOSLauncher.this.getGame().info.rewardedVideo_ad_id);
-                window.setHidden(true);
-            }
-
-            @Override
-            public void willLeaveApplication(GADRewardBasedVideoAd rewardBasedVideoAd) {
-                log.debug("GADRewardBasedVideoAd: willLeaveApplication");
-            }
-            @Override
-            public void didRewardUser(GADRewardBasedVideoAd rewardBasedVideoAd, GADAdReward reward) {
-                log.debug("GADRewardBasedVideoAd:---------didRewardUser");
-                getGame().showMovie_return(movie_index);
-            }
-        });
-    }
-    /**
-     * Intialize interstitial.
-     */
-    public void intializeInterstitial() {
-        interstitial = new GADInterstitial(this.getGame().info.interstitial_ad_id);
-        interstitial.setDelegate(new GADInterstitialDelegateAdapter(){
-            @Override
-            public void didDismissScreen(GADInterstitial ad) {
-                log.debug("GADInterstitial: didDismissScreen");
-                intializeInterstitial();
-                window.setHidden(true);
-            }
-            @Override
-            public void didFailToReceiveAd(GADInterstitial ad, GADRequestError error) {
-                log.debug("GADInterstitial: didFailToReceiveAd");
-            }
-            @Override
-            public void didReceiveAd(GADInterstitial ad) {
-                log.debug("GADInterstitial: didReceiveAd");
-            }
-            @Override
-            public void willPresentScreen(GADInterstitial ad) {
-                log.debug("GADInterstitial: willPresentScreen");
-            }
-            @Override
-            public void didFailToPresentScreen(GADInterstitial ad) {
-                log.debug("GADInterstitial: didFailToPresentScreen");
-            }
-            @Override
-            public void willDismissScreen(GADInterstitial ad) {
-                log.debug("GADInterstitial: willDismissScreen");
-            }
-            @Override
-            public void willLeaveApplication(GADInterstitial ad) {
-                log.debug("GADInterstitial: willLeaveApplication");
-            }
-        });
-    }
     @Override
     public void showInterstitialAd() {
-        if(interstitial.isReady()) {
-            window.makeKeyAndVisible();
-            interstitial.present(rootViewController);
-        }else{
-            loadInsertscreen();
-        }
+        if(adCentre!=null)
+            adCentre.showInsertscreen();
     }
+
+
     @Override
     public void loadInsertscreen() {
-        interstitial.loadRequest(new GADRequest());
+        if(adCentre!=null)
+            adCentre.loadInsertscreen();
     }
+
     @Override
     public void pinfen() {
-        String url =  String.format("https://itunes.apple.com/cn/app/duel-of-clans/id%s?mt=8", this.getGame().info.game_Address);
+        String url = String.format("https://itunes.apple.com/cn/app/duel-of-clans/id%s?mt=8", this.getGame().info.game_Address);
         Gdx.net.openURI(url);
     }
+
     @Override
     public void addBanners(boolean isHead) {
-        final CGSize screenSize = UIScreen.getMainScreen().getBounds().getSize();
-        double screenWidth = screenSize.getWidth();
-        double  screenHeight= screenSize.getHeight();
-        final CGSize adSize = bannerView.getBounds().getSize();
-        double adWidth = adSize.getWidth();
-        double adHeight = adSize.getHeight();
-        log.debug(String.format("Showing ad. size[%s, %s]", adWidth, adHeight));
-        double adX = (screenWidth / 2) - (adWidth / 2);
-        double adY = screenHeight - adHeight;
-        if(isHead)
-            bannerView.setFrame(new CGRect(adX, 0, adWidth, adHeight));
-        else
-            bannerView.setFrame(new CGRect(adX, adY, adWidth, adHeight));
+        if(adCentre!=null)
+            adCentre.addBanners(isHead);
     }
 
     @Override
     public void removeRanners() {
-        final CGSize screenSize = UIScreen.getMainScreen().getBounds().getSize();
-        double screenWidth = screenSize.getWidth();
-        final CGSize adSize = bannerView.getBounds().getSize();
-        double adWidth = adSize.getWidth();
-        double adHeight = adSize.getHeight();
-        log.debug(String.format("Hidding ad. size[%s, %s]", adWidth, adHeight));
-        float bannerWidth = (float) screenWidth;
-        bannerView.setFrame(new CGRect(0, -bannerWidth, adWidth, adHeight));
+        if(adCentre!=null)
+            adCentre.removeRanners();
     }
 
     @Override
@@ -528,27 +375,18 @@ public abstract class VIOSLauncher extends IOSApplication.Delegate implements Ap
         }
         return super.didFinishLaunching(application, launchOptions);
     }
+
     @Override
     public void initAD() {
-        rootViewController = new UIViewController();
-        window = new UIWindow(UIScreen.getMainScreen().getBounds());
-        window.setRootViewController(rootViewController);
-        GADMobileAds.configure(getGame().info.app_ad_id);
-        initializeBanner();
-        initializeRewardVideoAd();
-        intializeInterstitial();
+        adCentre = new AdCentre(this);
+//        UnityAds.initialize("2999604",this,true);
     }
-    private int movie_index = 0;
+
 
     @Override
     public void showMovie(int id) {
-        movie_index = id;
-        if(gadRewardBasedVideoAd.isReady()) {
-            window.makeKeyAndVisible();
-            gadRewardBasedVideoAd.present(rootViewController);
-        }else{
-            gadRewardBasedVideoAd.loadRequest(new GADRequest(), this.getGame().info.rewardedVideo_ad_id);
-        }
+        if(adCentre!=null)
+            adCentre.showMovie(id);
     }
 }
 

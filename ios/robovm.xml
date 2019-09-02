@@ -50,5 +50,6 @@
     <framework>CoreBluetooth</framework>
     <framework>CoreMotion</framework>
     <framework>SafariServices</framework>
+    <framework>UnityAds</framework>
   </frameworks>
 </config>

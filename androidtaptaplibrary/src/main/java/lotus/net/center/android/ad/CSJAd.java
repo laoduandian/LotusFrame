@@ -191,8 +191,9 @@ public class CSJAd implements LotusAd {
     private TTAdNative mTTAdNative;
     private TTAdDislike mTTAdDislike;
     private RelativeLayout bannerRelativeLayout;
-    private View bannerView;
     private boolean isLoad_banner;
+    private View bannerView;
+
 
     @Override
     public void initBannerAd(RelativeLayout bannerRelativeLayout) {

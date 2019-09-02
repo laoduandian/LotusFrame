@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import lotus.net.center.myclass.LParticleEffectPool;
 import lotus.net.center.myclass.LScreen;
+import lotus.net.center.myclass.Tools;
 import lotus.net.center.uieditor.project.widget.TextButtonActor;
 
 public class MenuScreen extends LScreen{
@@ -154,6 +155,7 @@ public class MenuScreen extends LScreen{
             }
         });
 //        Tools.creatEncodeFile("/Users/luoyi/android/lotusadsfile/ads01.text");
+//        Tools.creatEncodeFile("/Users/luoyi/android/lotusadsfile/ads02.text");
     }
 
     @Override

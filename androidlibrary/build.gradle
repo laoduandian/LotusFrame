@@ -24,6 +24,12 @@ android {
     }
 
 }
+
+//repositories {
+//    flatDir {
+//        dirs 'libs'
+//    }
+//}
 configurations { natives }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -31,13 +37,15 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+//    compile(name: 'unity-ads', ext: 'aar')
+    compile 'com.ads.u:uads:1.0.0@aar'
     //add
     compile "com.android.support:appcompat-v7:${appcompat_library_version}"
     compile "com.android.support:support-v4:${support_library_version}"
     compile "com.google.android.gms:play-services-ads:${gms_library_version}"
     compile "com.google.android.gms:play-services-games:${gms_library_version}"
     compile "com.google.android.gms:play-services-auth:${gms_library_version}"
-    compile 'com.android.support:multidex:1.0.1'//添加这行
+    compile 'com.android.support:multidex:1.0.2'//添加这行
 
     compile project(":core")
     compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
