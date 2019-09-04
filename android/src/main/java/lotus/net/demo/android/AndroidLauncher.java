@@ -1,5 +1,6 @@
 package lotus.net.demo.android;
 
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ public class AndroidLauncher extends VAndroidLauncher {
 
 //        game.info.setAndroid_Test_Ads();
         init(game);
-        showSomething("主：：：："+getAppProcessName(this)+"————————————"+getChannel());
+        showSomething("主：：：："+getFileProviderName(this)+"————————————"+getChannel());
 
     }
 
@@ -39,5 +40,7 @@ public class AndroidLauncher extends VAndroidLauncher {
         }
         return channel;
     }
-
+    public final static String getFileProviderName(Context context){
+        return context.getPackageName()+".fileprovider";
+    }
 }

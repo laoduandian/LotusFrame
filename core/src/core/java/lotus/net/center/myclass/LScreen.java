@@ -146,12 +146,12 @@ public abstract class LScreen implements Screen{
 
 				@Override
 				public void failed(Throwable t) {
-					game.app.showSomething("下载失败"+t.getMessage());
+//					game.app.showSomething("下载失败"+t.getMessage());
 				}
 
 				@Override
 				public void cancelled() {
-					game.app.showSomething("下载取消");
+//					game.app.showSomething("下载取消");
 				}
 			});
 		}

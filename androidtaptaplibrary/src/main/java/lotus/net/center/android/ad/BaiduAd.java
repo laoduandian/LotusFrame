@@ -196,6 +196,7 @@ public class BaiduAd implements LotusAd{
         Log.w("baiduBannerAd", h/3*20+":"+h);
         bannerRelativeLayout.addView(adView, adParams);
         adParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        adView.setVisibility(View.GONE);
     }
 
     @Override

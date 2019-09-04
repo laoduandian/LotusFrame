@@ -30,6 +30,7 @@ public class AdCentre {
                 break;
         }
 //        activity.game.app.showSomething(adsOnOff+":"+activity.game.info.getAdsType());
+//        myAd = new BaiduAd(activity);
 //        myAd = new GdtAd(activity);
     }
 

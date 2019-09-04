@@ -148,14 +148,62 @@ public class GoogleAd implements LotusAd{
 	}
 
 	AdView adView;
+	private  int loadRannerTime = 6;
 	@Override
 	public void initBannerAd(RelativeLayout bannerRelativeLayout) {
 		adView = new AdView(activity);// a152f7167e68810//钢琴a152f8d3eeb4232
+		adView.setAdListener(new AdListener(){
+			@Override
+			public void onAdClosed() {
+				super.onAdClosed();
+				Gdx.app.log("BannerAd：","onAdClosed");
+			}
+
+			@Override
+			public void onAdFailedToLoad(int i) {
+				super.onAdFailedToLoad(i);
+				Gdx.app.log("BannerAd：","onAdFailedToLoad:"+i);
+				loadRannerTime--;
+				if(loadRannerTime>0)
+					adView.loadAd(adRequest);
+			}
+
+			@Override
+			public void onAdLeftApplication() {
+				super.onAdLeftApplication();
+				Gdx.app.log("BannerAd：","onAdLeftApplication");
+			}
+
+			@Override
+			public void onAdOpened() {
+				super.onAdOpened();
+				Gdx.app.log("BannerAd：","onAdOpened");
+			}
+
+			@Override
+			public void onAdLoaded() {
+				super.onAdLoaded();
+				Gdx.app.log("BannerAd：","onAdLoaded");
+			}
+
+			@Override
+			public void onAdClicked() {
+				super.onAdClicked();
+				Gdx.app.log("BannerAd：","onAdClicked");
+			}
+
+			@Override
+			public void onAdImpression() {
+				super.onAdImpression();
+				Gdx.app.log("BannerAd：","onAdImpression");
+			}
+		});
 		adView.setAdSize(AdSize.SMART_BANNER);
 		adView.setAdUnitId(BannerID);
 		LayoutParams adParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		bannerRelativeLayout.addView(adView, adParams);
 		adView.loadAd(adRequest);
+		adView.setVisibility(View.GONE);
 	}
 	@Override
 	public void dispose() {

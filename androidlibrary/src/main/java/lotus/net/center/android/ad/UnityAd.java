@@ -167,7 +167,6 @@ public class UnityAd implements LotusAd , IUnityAdsListener {
 
     @Override
     public void onUnityAdsFinish(String placementId, UnityAds.FinishState finishState) {
-        activity.game.app.showSomething("onUnityAdsFinish:"+placementId);
         if(placementId.equals(RewardVideoADID)){
             if (finishState == UnityAds.FinishState.COMPLETED) {
                 activity.game.showMovie_return(movie_index);

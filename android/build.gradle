@@ -67,6 +67,7 @@ android {
         }
         clean {
             dimension "default"
+            applicationId 'lotus.net.demo.android'
         }
     }
     productFlavors.all {

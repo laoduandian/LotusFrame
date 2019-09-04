@@ -271,6 +271,7 @@ public class GdtAd implements LotusAd {
         RelativeLayout.LayoutParams adParams = new RelativeLayout.LayoutParams(h/3*20, h);
         bannerContainer.addView(bv, adParams);
         adParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        bv.setVisibility(View.GONE);
         return this.bv;
     }
 
