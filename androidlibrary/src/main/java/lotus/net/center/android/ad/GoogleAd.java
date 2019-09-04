@@ -221,6 +221,7 @@ public class GoogleAd implements LotusAd{
 	}
 
 	public void addBanners(boolean isHead) {
+		adView.loadAd(adRequest);
 		RelativeLayout.LayoutParams labelParams = (LayoutParams) adView.getLayoutParams();
 		if(isHead){
 			labelParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
