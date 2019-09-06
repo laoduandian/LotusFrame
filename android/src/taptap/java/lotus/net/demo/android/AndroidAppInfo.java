@@ -13,11 +13,16 @@ public class AndroidAppInfo {
         game.info.banner_ad_id = "8070080373269573";
         game.info.interstitial_ad_id = "2050881303361548";
         game.info.rewardedVideo_ad_id = "7060089343663673";
+
+        game.info.app_ad_id = "5029272";
+        game.info.banner_ad_id = "929272153";
+        game.info.interstitial_ad_id = "929272994";
+        game.info.rewardedVideo_ad_id = "929272070";
         game.info.setInland(true);
         game.info.setInlandAddress("www.baidu.com");
         game.info.interstitial_ad_condition_num = 4;
-        game.info.getOwnTypes().add(AdsType.gdt,AdsType.baidu,AdsType.csj);
-        game.info.setAdsType(AdsType.gdt);
+        game.info.getOwnTypes().add(AdsType.csj);
+        game.info.setAdsType(AdsType.csj);
     }
 }
 

@@ -9,17 +9,18 @@ import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTBannerAd;
-import com.bytedance.sdk.openadsdk.TTInteractionAd;
+import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
+
+import java.util.List;
 
 import lotus.net.center.android.VAndroidLauncher;
 
 public class CSJAd implements LotusAd {
     private VAndroidLauncher activity;
     private static String APPID = "5001121";
-    private static String BannerID = "901121895";
-    private static String InterteristalID = "901121417";
+    private static String BannerID = "901121246";
+    private static String InterteristalID = "901121133";
     private static String RewardVideoADID = "901121430";
     private DisplayMetrics dm;
 
@@ -42,58 +43,125 @@ public class CSJAd implements LotusAd {
     }
 
     private AdSlot interstitialAd_AdSlot;
+    private TTNativeExpressAd interstitialAd_TTAd;
 
     @Override
     public void initInterstitialAd() {
         float width = Math.min(getDisplayMetrics().widthPixels, getDisplayMetrics().heightPixels);
-        //step4:创建插屏广告请求参数AdSlot,具体参数含义参考文档
+        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         interstitialAd_AdSlot = new AdSlot.Builder()
-                .setCodeId(InterteristalID)
+                .setCodeId(InterteristalID) //广告位id
                 .setSupportDeepLink(true)
-                .setImageAcceptedSize((int) (width * 0.8f), (int) (width * 0.8f)) //根据广告平台选择的尺寸，传入同比例尺寸
+                .setAdCount(1) //请求广告数量为1到3条
+                .setExpressViewAcceptedSize(activity.px2dp(width), activity.px2dp(width)) //期望模板广告view的size,单位dp
+                .setImageAcceptedSize(640, 320)//这个参数设置即可，不影响模板广告的size
                 .build();
     }
 
+    boolean isLoad_interstitialAd = false;
+
     @Override
     public void loadInsertscreen() {
-
-    }
-
-    @Override
-    public void showInsertscreen() {
         //step5:请求广告，调用插屏广告异步请求接口
-        mTTAdNative.loadInteractionAd(interstitialAd_AdSlot, new TTAdNative.InteractionAdListener() {
+        mTTAdNative.loadInteractionExpressAd(interstitialAd_AdSlot, new TTAdNative.NativeExpressAdListener() {
             @Override
             public void onError(int code, String message) {
                 TToast.show(activity, "code: " + code + "  message: " + message);
             }
 
             @Override
-            public void onInteractionAdLoad(TTInteractionAd ttInteractionAd) {
-                TToast.show(activity, "type:  " + ttInteractionAd.getInteractionType());
-                ttInteractionAd.setAdInteractionListener(new TTInteractionAd.AdInteractionListener() {
+            public void onNativeExpressAdLoad(List<TTNativeExpressAd> ads) {
+                if (ads == null || ads.size() == 0) {
+                    return;
+                }
+                interstitialAd_TTAd = ads.get(0);
+                interstitialAd_TTAd.setExpressInteractionListener(new TTNativeExpressAd.AdInteractionListener() {
                     @Override
-                    public void onAdClicked() {
-                        Log.d("InteractionActivity", "被点击");
+                    public void onAdDismiss() {
+                        TToast.show(activity, "广告关闭");
+                    }
+
+                    @Override
+                    public void onAdClicked(View view, int type) {
                         TToast.show(activity, "广告被点击");
                     }
 
                     @Override
-                    public void onAdShow() {
-                        Log.d("InteractionActivity", "被展示");
-                        TToast.show(activity, "广告被展示");
+                    public void onAdShow(View view, int type) {
+                        TToast.show(activity, "广告展示");
                     }
 
                     @Override
-                    public void onAdDismiss() {
-                        Log.d("InteractionActivity", "插屏广告消失");
-                        TToast.show(activity, "广告消失");
+                    public void onRenderFail(View view, String msg, int code) {
+                        Log.e("ExpressView", "render fail:");
+                        TToast.show(activity, msg + " code:" + code);
+                    }
+
+                    @Override
+                    public void onRenderSuccess(View view, float width, float height) {
+                        Log.e("ExpressView", "render suc:");
+                        //返回view的宽高 单位 dp
+                        TToast.show(activity, "渲染成功");
+                        isLoad_interstitialAd = true;
                     }
                 });
-                //弹出插屏广告
-                ttInteractionAd.showInteractionAd(activity);
+                interstitialAd_TTAd.render();
             }
         });
+    }
+
+    @Override
+    public void showInsertscreen() {
+        if (isLoad_interstitialAd) {
+            interstitialAd_TTAd.showInteractionExpressAd(activity);
+            isLoad_interstitialAd = false;
+        } else {
+            mTTAdNative.loadInteractionExpressAd(interstitialAd_AdSlot, new TTAdNative.NativeExpressAdListener() {
+                @Override
+                public void onError(int code, String message) {
+                    TToast.show(activity, "code: " + code + "  message: " + message);
+                }
+
+                @Override
+                public void onNativeExpressAdLoad(List<TTNativeExpressAd> ads) {
+                    if (ads == null || ads.size() == 0) {
+                        return;
+                    }
+                    interstitialAd_TTAd = ads.get(0);
+                    interstitialAd_TTAd.setExpressInteractionListener(new TTNativeExpressAd.AdInteractionListener() {
+                        @Override
+                        public void onAdDismiss() {
+                            TToast.show(activity, "广告关闭");
+                        }
+
+                        @Override
+                        public void onAdClicked(View view, int type) {
+                            TToast.show(activity, "广告被点击");
+                        }
+
+                        @Override
+                        public void onAdShow(View view, int type) {
+                            TToast.show(activity, "广告展示");
+                        }
+
+                        @Override
+                        public void onRenderFail(View view, String msg, int code) {
+                            Log.e("ExpressView", "render fail:");
+                            TToast.show(activity, msg + " code:" + code);
+                        }
+
+                        @Override
+                        public void onRenderSuccess(View view, float width, float height) {
+                            Log.e("ExpressView", "render suc:");
+                            //返回view的宽高 单位 dp
+                            TToast.show(activity, "渲染成功");
+                            interstitialAd_TTAd.showInteractionExpressAd(activity);
+                        }
+                    });
+                    interstitialAd_TTAd.render();
+                }
+            });
+        }
     }
 
     private AdSlot rewardedVideo_AdSlot;
@@ -109,7 +177,7 @@ public class CSJAd implements LotusAd {
                 .setRewardAmount(3)  //奖励的数量
                 .setUserID("user123")//用户id,必传参数
                 .setMediaExtra("media_extra") //附加参数，可选
-                .setOrientation(getDisplayMetrics().widthPixels < getDisplayMetrics().heightPixels ? TTAdConstant.HORIZONTAL : TTAdConstant.VERTICAL) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
+                .setOrientation(getDisplayMetrics().widthPixels > getDisplayMetrics().heightPixels ? TTAdConstant.HORIZONTAL : TTAdConstant.VERTICAL) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
                 .build();
         loadRewardedVideo();
     }
@@ -189,7 +257,6 @@ public class CSJAd implements LotusAd {
     }
 
     private TTAdNative mTTAdNative;
-    private TTAdDislike mTTAdDislike;
     private RelativeLayout bannerRelativeLayout;
     private boolean isLoad_banner;
     private View bannerView;
@@ -208,6 +275,8 @@ public class CSJAd implements LotusAd {
 
     }
 
+    private TTNativeExpressAd mTTAd;
+
     @Override
     public void addBanners(final boolean isHead) {
         if (bannerView == null) {
@@ -215,47 +284,34 @@ public class CSJAd implements LotusAd {
                 return;
             isLoad_banner = true;
             int h = Math.min(Math.max(dm.heightPixels, dm.widthPixels) / 10, Math.min(dm.heightPixels, dm.widthPixels) / 7);
+            int width = h / 3 * 20;
             final RelativeLayout.LayoutParams adParams = new RelativeLayout.LayoutParams(h / 3 * 20, h);
             adParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
             //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-            //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-            int width = Math.min(getDisplayMetrics().widthPixels, getDisplayMetrics().heightPixels);
             AdSlot adSlot = new AdSlot.Builder()
                     .setCodeId(BannerID) //广告位id
                     .setSupportDeepLink(true)
-                    .setImageAcceptedSize(width, width / 6)
+                    .setAdCount(1) //请求广告数量为1到3条
+                    .setExpressViewAcceptedSize(activity.px2dp(width), activity.px2dp(h)) //期望模板广告view的size,单位dp
+                    .setImageAcceptedSize(600, 90)//这个参数设置即可，不影响模板广告的size
                     .build();
             //step5:请求广告，对请求回调的广告作渲染处理
-            mTTAdNative.loadBannerAd(adSlot, new TTAdNative.BannerAdListener() {
-
+            mTTAdNative.loadBannerExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
                 @Override
                 public void onError(int code, String message) {
                     TToast.show(activity, "load error : " + code + ", " + message);
                 }
 
                 @Override
-                public void onBannerAdLoad(final TTBannerAd ad) {
-                    if (ad == null) {
+                public void onNativeExpressAdLoad(List<TTNativeExpressAd> ads) {
+                    if (ads == null || ads.size() == 0) {
                         return;
                     }
-                    bannerView = ad.getBannerView();
-                    if (bannerView == null) {
-                        return;
-                    }
-                    //设置轮播的时间间隔  间隔在30s到120秒之间的值，不设置默认不轮播
-                    ad.setSlideIntervalTime(30 * 1000);
-                    CSJAd.this.bannerRelativeLayout.addView(bannerView, adParams);
-                    if (isHead) {
-                        adParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                        adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-                    } else {
-                        adParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-                        adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                    }
-                    bannerView.setLayoutParams(adParams);
-                    bannerView.setVisibility(View.VISIBLE);
-                    //设置广告互动监听回调
-                    ad.setBannerInteractionListener(new TTBannerAd.AdInteractionListener() {
+                    mTTAd = ads.get(0);
+                    final long startTime = System.currentTimeMillis();
+//                    bindAdListener(mTTAd);
+//                    startTime = System.currentTimeMillis();
+                    mTTAd.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
                         @Override
                         public void onAdClicked(View view, int type) {
                             TToast.show(activity, "广告被点击");
@@ -265,9 +321,40 @@ public class CSJAd implements LotusAd {
                         public void onAdShow(View view, int type) {
                             TToast.show(activity, "广告展示");
                         }
+
+                        @Override
+                        public void onRenderFail(View view, String msg, int code) {
+                            Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
+                            TToast.show(activity, msg + " code:" + code);
+                        }
+
+                        @Override
+                        public void onRenderSuccess(View view, float width, float height) {
+                            Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
+                            //返回view的宽高 单位 dp
+                            TToast.show(activity, "渲染成功");
+//                            mExpressContainer.removeAllViews();
+//                            mExpressContainer.addView(view);
+                            bannerView = view;
+                            if (bannerView == null) {
+                                return;
+                            }
+                            //设置轮播的时间间隔  间隔在30s到120秒之间的值，不设置默认不轮播
+                            mTTAd.setSlideIntervalTime(30 * 1000);
+                            CSJAd.this.bannerRelativeLayout.addView(bannerView, adParams);
+                            if (isHead) {
+                                adParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                                adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+                            } else {
+                                adParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+                                adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                            }
+                            bannerView.setLayoutParams(adParams);
+                            bannerView.setVisibility(View.VISIBLE);
+                        }
                     });
-                    //在banner中显示网盟提供的dislike icon，有助于广告投放精准度提升
-                    ad.setShowDislikeIcon(new TTAdDislike.DislikeInteractionCallback() {
+                    //使用默认模板中默认dislike弹出样式
+                    mTTAd.setDislikeCallback(activity, new TTAdDislike.DislikeInteractionCallback() {
                         @Override
                         public void onSelected(int position, String value) {
                             TToast.show(activity, "点击 " + value);
@@ -280,6 +367,8 @@ public class CSJAd implements LotusAd {
                             TToast.show(activity, "点击取消 ");
                         }
                     });
+
+                    mTTAd.render();
                 }
             });
         } else {

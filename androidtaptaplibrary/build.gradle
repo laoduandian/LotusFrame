@@ -31,7 +31,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.ads.baidu:baiduads:1.0.1@aar'
-    compile 'com.ads.csj:csjads:1.0.1@aar'
+    compile 'com.ads.csj:csjads:1.0.2@aar'
     compile 'com.ads.qq:qqads:1.0.0@aar'
     compile project(":core")
     compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"

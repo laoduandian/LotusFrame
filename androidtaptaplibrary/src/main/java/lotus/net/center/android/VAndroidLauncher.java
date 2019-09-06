@@ -374,4 +374,19 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
         if(adCentre!=null)
             adCentre.dispose();
     }
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public int dp2px(float dpValue) {
+        final float scale = this.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     */
+    public int px2dp(float pxValue) {
+        final float scale = this.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
 }

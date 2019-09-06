@@ -265,7 +265,6 @@ public class GdtAd implements LotusAd {
         });
         // 注意：如果开发者的banner不是始终展示在屏幕中的话，请关闭自动刷新，否则将导致曝光率过低。
         // 并且应该自行处理：当banner广告区域出现在屏幕后，再手动loadAD。
-
         bv.setRefresh(30);
         int h = Math.min(Math.max(dm.heightPixels,dm.widthPixels)/10,Math.min(dm.heightPixels,dm.widthPixels)/7);
         RelativeLayout.LayoutParams adParams = new RelativeLayout.LayoutParams(h/3*20, h);
