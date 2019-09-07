@@ -39,6 +39,8 @@ dependencies {
     })
 //    compile(name: 'unity-ads', ext: 'aar')
     compile 'com.ads.u:uads:1.0.0@aar'
+    compile  'com.umeng.umsdk:analytics:8.0.0'
+    compile  'com.umeng.umsdk:common:2.0.0'
     //add
     compile "com.android.support:appcompat-v7:${appcompat_library_version}"
     compile "com.android.support:support-v4:${support_library_version}"

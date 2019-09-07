@@ -33,6 +33,8 @@ dependencies {
     compile 'com.ads.baidu:baiduads:1.0.1@aar'
     compile 'com.ads.csj:csjads:1.0.2@aar'
     compile 'com.ads.qq:qqads:1.0.0@aar'
+    compile  'com.umeng.umsdk:analytics:8.0.0'
+    compile  'com.umeng.umsdk:common:2.0.0'
     compile project(":core")
     compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"

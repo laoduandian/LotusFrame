@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -27,6 +29,9 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +55,17 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
     //googleservices
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /**
+         * 注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调
+         * 用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，
+         * UMConfigure.init调用中appkey和channel参数请置为null）。
+         */
+        UMConfigure.init(this, getString(R.string.umeng_id), this.getChannel(), UMConfigure.DEVICE_TYPE_PHONE, null);
+        /**
+         * 设置组件化的Log开关
+         * 参数: boolean 默认为false，如需查看LOG设置为true
+         */
+        UMConfigure.setLogEnabled(false);
     }
     protected void init(LGame game){
         this.game = game;
@@ -330,7 +346,15 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
     /**
      *
      * ----------非常重要----------
@@ -389,4 +413,24 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
         final float scale = this.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
+    public String getChannel(){
+        String channel = null;
+        try {
+            ApplicationInfo appInfo = getPackageManager()
+                    .getApplicationInfo(getPackageName(),
+                            PackageManager.GET_META_DATA);
+
+            channel = appInfo.metaData.getString("UMENG_CHANNEL");
+
+            Log.i("TAG","UMENG_CHANNEL_VALUE=" + channel);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return channel;
+    }
+    public final static String getFileProviderName(Context context){
+        return context.getPackageName()+".fileprovider";
+    }
+
 }

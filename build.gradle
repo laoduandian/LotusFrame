@@ -3,6 +3,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         jcenter()
         maven {
             url 'https://maven.google.com/'
@@ -49,6 +50,7 @@ allprojects {
         maven { url "https://raw.githubusercontent.com/laoduandian/csjads/master" }
         maven { url "https://raw.githubusercontent.com/laoduandian/qqads/master" }
         maven { url "https://raw.githubusercontent.com/laoduandian/uads/master" }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         maven {
             url 'https://maven.google.com/'
             name 'Google'

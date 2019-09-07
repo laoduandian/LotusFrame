@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -43,6 +44,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -68,6 +71,17 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
     private GoogleSignInClient mGoogleSignInClient;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /**
+         * 注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调
+         * 用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，
+         * UMConfigure.init调用中appkey和channel参数请置为null）。
+         */
+        UMConfigure.init(this, getString(R.string.umeng_id), this.getChannel(), UMConfigure.DEVICE_TYPE_PHONE, null);
+        /**
+         * 设置组件化的Log开关
+         * 参数: boolean 默认为false，如需查看LOG设置为true
+         */
+        UMConfigure.setLogEnabled(false);
     }
     protected void init(LGame game){
         this.game = game;
@@ -449,8 +463,13 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
         super.onResume();
         Log.d(TAG, "onResume()");
         signInSilently();
+        MobclickAgent.onResume(this);
     }
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -503,5 +522,39 @@ public abstract class VAndroidLauncher extends AndroidApplication implements App
             lackedPermission.toArray(requestPermissions);
             requestPermissions(requestPermissions, 1024);
         }
+    }
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public int dp2px(float dpValue) {
+        final float scale = this.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     */
+    public int px2dp(float pxValue) {
+        final float scale = this.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
+    public String getChannel(){
+        String channel = null;
+        try {
+            ApplicationInfo appInfo = getPackageManager()
+                    .getApplicationInfo(getPackageName(),
+                            PackageManager.GET_META_DATA);
+
+            channel = appInfo.metaData.getString("UMENG_CHANNEL");
+
+            Log.i("TAG","UMENG_CHANNEL_VALUE=" + channel);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return channel;
+    }
+    public final static String getFileProviderName(Context context){
+        return context.getPackageName()+".fileprovider";
     }
 }

@@ -24,23 +24,5 @@ public class AndroidLauncher extends VAndroidLauncher {
     }
 
 
-    private String getChannel(){
-        String channel = null;
-        try {
-            ApplicationInfo appInfo = getPackageManager()
-                    .getApplicationInfo(getPackageName(),
-                            PackageManager.GET_META_DATA);
 
-            channel = appInfo.metaData.getString("UMENG_CHANNEL");
-
-            Log.i("TAG","UMENG_CHANNEL_VALUE=" + channel);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-
-        }
-        return channel;
-    }
-    public final static String getFileProviderName(Context context){
-        return context.getPackageName()+".fileprovider";
-    }
 }

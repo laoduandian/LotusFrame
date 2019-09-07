@@ -5,5 +5,6 @@
     <string name="Lotus_yes">YES</string>
     <string name="Lotus_no">NO</string>
     <string name="signin_other_error">There was an issue with sign in.  Please try again later.</string>
+    <string name="umeng_id" translatable="false">5d7310d90cafb2c7ab000f2c</string>
 
 </resources>

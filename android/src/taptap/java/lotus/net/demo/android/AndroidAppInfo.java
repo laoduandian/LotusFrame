@@ -23,6 +23,8 @@ public class AndroidAppInfo {
         game.info.interstitial_ad_condition_num = 4;
         game.info.getOwnTypes().add(AdsType.csj);
         game.info.setAdsType(AdsType.csj);
+
+
     }
 }
 
